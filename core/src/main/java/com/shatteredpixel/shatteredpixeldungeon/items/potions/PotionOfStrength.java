@@ -30,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 public class PotionOfStrength extends Potion {
 
 	{
-		initials = 10;
+		initials = 0;
 	}
 	
 	@Override

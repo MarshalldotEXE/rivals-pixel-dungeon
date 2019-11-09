@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCor
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfSnapFreeze;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfStormClouds;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -63,6 +64,8 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Shinestem;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Blighttrap;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -95,13 +98,15 @@ public class Potion extends Item {
 			PotionOfToxicGas.class,
 			PotionOfLiquidFlame.class,
 			PotionOfStrength.class,
-			PotionOfParalyticGas.class,
 			PotionOfLevitation.class,
 			PotionOfMindVision.class,
 			PotionOfPurity.class,
 			PotionOfInvisibility.class,
 			PotionOfHaste.class,
-			PotionOfFrost.class
+			PotionOfFrost.class,
+			PotionOfElectricity.class,
+			PotionOfCausticOoze.class,
+			PotionOfShielding.class
 	};
 
 	private static final HashMap<String, Integer> colors = new HashMap<String, Integer>() {
@@ -109,7 +114,9 @@ public class Potion extends Item {
 			put("crimson",ItemSpriteSheet.POTION_CRIMSON);
 			put("amber",ItemSpriteSheet.POTION_AMBER);
 			put("golden",ItemSpriteSheet.POTION_GOLDEN);
+			put("citrus",ItemSpriteSheet.POTION_CITRUS);
 			put("jade",ItemSpriteSheet.POTION_JADE);
+			put("celadon",ItemSpriteSheet.POTION_CELADON);
 			put("turquoise",ItemSpriteSheet.POTION_TURQUOISE);
 			put("azure",ItemSpriteSheet.POTION_AZURE);
 			put("indigo",ItemSpriteSheet.POTION_INDIGO);
@@ -125,8 +132,9 @@ public class Potion extends Item {
 	static{
 		mustThrowPots.add(PotionOfToxicGas.class);
 		mustThrowPots.add(PotionOfLiquidFlame.class);
-		mustThrowPots.add(PotionOfParalyticGas.class);
 		mustThrowPots.add(PotionOfFrost.class);
+		mustThrowPots.add(PotionOfElectricity.class);
+		mustThrowPots.add(PotionOfCausticOoze.class);
 		
 		//exotic
 		mustThrowPots.add(PotionOfCorrosiveGas.class);
@@ -138,11 +146,10 @@ public class Potion extends Item {
 	}
 	
 	private static final HashSet<Class<?extends Potion>> canThrowPots = new HashSet<>();
-	static{
-		canThrowPots.add(AlchemicalCatalyst.class);
-		
+	static{	
 		canThrowPots.add(PotionOfPurity.class);
 		canThrowPots.add(PotionOfLevitation.class);
+		canThrowPots.add(PotionOfRegrowth.class);
 		
 		//exotic
 		canThrowPots.add(PotionOfCleansing.class);
@@ -460,7 +467,7 @@ public class Potion extends Item {
 		static {
 			types.put(Blindweed.Seed.class,     PotionOfInvisibility.class);
 			types.put(Dreamfoil.Seed.class,     PotionOfPurity.class);
-			types.put(Earthroot.Seed.class,     PotionOfParalyticGas.class);
+			types.put(Earthroot.Seed.class,     PotionOfShielding.class);
 			types.put(Fadeleaf.Seed.class,      PotionOfMindVision.class);
 			types.put(Firebloom.Seed.class,     PotionOfLiquidFlame.class);
 			types.put(Icecap.Seed.class,        PotionOfFrost.class);
@@ -470,6 +477,8 @@ public class Potion extends Item {
 			types.put(Stormvine.Seed.class,     PotionOfLevitation.class);
 			types.put(Sungrass.Seed.class,      PotionOfHealing.class);
 			types.put(Swiftthistle.Seed.class,  PotionOfHaste.class);
+			types.put(Shinestem.Seed.class,     PotionOfElectricity.class);
+			types.put(Blighttrap.Seed.class,    PotionOfCausticOoze.class);
 		}
 		
 		@Override

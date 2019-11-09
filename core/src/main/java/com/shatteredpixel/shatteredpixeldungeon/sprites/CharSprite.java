@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -33,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TorchHalo;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -79,7 +83,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, SPECTRAL
 	}
 	
 	protected Animation idle;
@@ -98,6 +102,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter marked;
 	protected Emitter levitation;
 	protected Emitter healing;
+	protected Emitter spectral;
 	
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
@@ -339,6 +344,13 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					Sample.INSTANCE.play( Assets.SND_BURNING );
 				}
 				break;
+			case SPECTRAL:
+				spectral = emitter();
+				spectral.pour( ElmoParticle.FACTORY, 0.06f );
+				if (visible) {
+					Sample.INSTANCE.play( Assets.SND_BURNING );
+				}
+				break;
 			case LEVITATING:
 				levitation = emitter();
 				levitation.pour( Speck.factory( Speck.JET ), 0.02f );
@@ -390,6 +402,12 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				if (burning != null) {
 					burning.on = false;
 					burning = null;
+				}
+				break;
+			case SPECTRAL:
+				if (spectral != null) {
+					spectral.on = false;
+					spectral = null;
 				}
 				break;
 			case LEVITATING:
@@ -468,6 +486,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		
 		if (burning != null) {
 			burning.visible = visible;
+		}
+		if (spectral != null) {
+			spectral.visible = visible;
 		}
 		if (levitation != null) {
 			levitation.visible = visible;

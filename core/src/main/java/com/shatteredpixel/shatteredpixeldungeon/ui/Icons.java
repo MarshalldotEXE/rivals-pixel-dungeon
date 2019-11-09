@@ -70,6 +70,8 @@ public enum Icons {
 	
 	//misc icons
 	LIBGDX,
+	ABOUT,
+	EVAN,
 	WATA,
 	WARNING;
 
@@ -177,7 +179,7 @@ public enum Icons {
 			icon.frame( icon.texture.uvRect( 51, 64, 68, 79 ) );
 			break;
 		case SHPX:
-			icon.frame( icon.texture.uvRect( 68, 64, 84, 80 ) );
+			icon.frame( icon.texture.uvRect( 48, 81, 62, 94 ) );
 			break;
 		case GOLD:
 			icon.frame( icon.texture.uvRect( 85, 64, 102, 80 ) );
@@ -185,6 +187,12 @@ public enum Icons {
 		
 		case LIBGDX:
 			icon.frame( icon.texture.uvRect( 0, 81, 16, 94 ) );
+			break;
+		case ABOUT:
+			icon.frame( icon.texture.uvRect( 68, 64, 84, 80 ) );
+			break;
+		case EVAN:
+			icon.frame( icon.texture.uvRect( 62, 81, 78, 97 ) );
 			break;
 		case WATA:
 			icon.frame( icon.texture.uvRect( 17, 81, 34, 93 ) );

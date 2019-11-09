@@ -34,7 +34,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfPrismaticImage extends ExoticScroll {
 	
 	{
-		initials = 3;
+		initials = 5;
 	}
 	
 	@Override

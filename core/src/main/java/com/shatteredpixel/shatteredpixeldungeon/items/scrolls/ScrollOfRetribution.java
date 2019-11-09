@@ -34,7 +34,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfRetribution extends Scroll {
 
 	{
-		initials = 4;
+		initials = 10;
 	}
 	
 	@Override

@@ -115,19 +115,19 @@ public enum Document {
 		
 		//sewers
 		ALCHEMY_GUIDE.pages.put("Potions",              DeviceCompat.isDebug());
-		ALCHEMY_GUIDE.pages.put("Stones",               DeviceCompat.isDebug());
+		//ALCHEMY_GUIDE.pages.put("Stones",               DeviceCompat.isDebug());
 		ALCHEMY_GUIDE.pages.put("Energy_Food",          DeviceCompat.isDebug());
-		ALCHEMY_GUIDE.pages.put("Bombs",                DeviceCompat.isDebug());
-		//ALCHEMY_GUIDE.pages.put("Darts",              DeviceCompat.isDebug());
+		ALCHEMY_GUIDE.pages.put("Catalysts",            DeviceCompat.isDebug());
+		//ALCHEMY_GUIDE.pages.put("Darts",                DeviceCompat.isDebug());
 		
 		//prison
 		ALCHEMY_GUIDE.pages.put("Exotic_Potions",       DeviceCompat.isDebug());
 		ALCHEMY_GUIDE.pages.put("Exotic_Scrolls",       DeviceCompat.isDebug());
 		
 		//caves
-		ALCHEMY_GUIDE.pages.put("Catalysts",            DeviceCompat.isDebug());
-		ALCHEMY_GUIDE.pages.put("Brews_Elixirs",        DeviceCompat.isDebug());
-		ALCHEMY_GUIDE.pages.put("Spells",               DeviceCompat.isDebug());
+		ALCHEMY_GUIDE.pages.put("Bombs",                DeviceCompat.isDebug());
+		//ALCHEMY_GUIDE.pages.put("Brews_Elixirs",        DeviceCompat.isDebug());
+		//ALCHEMY_GUIDE.pages.put("Spells",               DeviceCompat.isDebug());
 	}
 	
 	private static final String DOCUMENTS = "documents";
@@ -166,11 +166,6 @@ public enum Document {
 				for (String page : pages){
 					if (doc.pages.containsKey(page)) {
 						doc.pages.put(page, true);
-					}
-					//pre-0.7.2 saves
-					else if (page.equals("Brews")){
-						doc.pages.put("Catalysts", true);
-						doc.pages.put("Brews_Elixirs", true);
 					}
 				}
 			}

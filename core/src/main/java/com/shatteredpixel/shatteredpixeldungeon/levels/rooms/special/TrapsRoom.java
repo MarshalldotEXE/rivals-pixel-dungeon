@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -31,16 +34,31 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.AlarmTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlazingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CorrosionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisintegrationTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlashingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlockTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GuardianTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.OozeTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PoisonDartTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.RockfallTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.StormTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.TeleportationTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ToxicTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.VenomTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WarpingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
@@ -136,9 +154,18 @@ public class TrapsRoom extends SpecialRoom {
 		} while (prize.cursed || Challenges.isItemBlocked(prize));
 		prize.cursedKnown = true;
 
-		//33% chance for an extra update.
-		if (Random.Int(3) == 0){
-			prize.upgrade();
+		//33/33/33% chance to be +0/+1/+2
+		switch(Random.Int(3))
+		{
+			case 0:
+				prize.level(0);
+				break;
+			case 1:
+				prize.level(1);
+				break;
+			case 2:
+				prize.level(2);
+				break;
 		}
 		
 		return prize;
@@ -147,14 +174,14 @@ public class TrapsRoom extends SpecialRoom {
 	@SuppressWarnings("unchecked")
 	private static Class<?extends Trap>[][] levelTraps = new Class[][]{
 			//sewers
-			{GrippingTrap.class, TeleportationTrap.class, FlockTrap.class},
+			{GrippingTrap.class, TeleportationTrap.class, OozeTrap.class, WornDartTrap.class, BurningTrap.class, ChillingTrap.class, ShockingTrap.class, FlockTrap.class},
 			//prison
-			{PoisonDartTrap.class, GrippingTrap.class, ExplosiveTrap.class},
+			{GrippingTrap.class, AlarmTrap.class, ExplosiveTrap.class, PoisonDartTrap.class, BurningTrap.class, ChillingTrap.class, ShockingTrap.class, ToxicTrap.class},
 			//caves
-			{PoisonDartTrap.class, FlashingTrap.class, ExplosiveTrap.class},
+			{FlashingTrap.class, WarpingTrap.class, RockfallTrap.class, PoisonDartTrap.class, BlazingTrap.class, FrostTrap.class, StormTrap.class, VenomTrap.class},
 			//city
-			{WarpingTrap.class, FlashingTrap.class, DisintegrationTrap.class},
+			{FlashingTrap.class, GuardianTrap.class, ExplosiveTrap.class, DisintegrationTrap.class, BlazingTrap.class, FrostTrap.class, StormTrap.class, CorrosionTrap.class},
 			//halls, muahahahaha
-			{GrimTrap.class}
+			{GrimTrap.class, DistortionTrap.class}
 	};
 }

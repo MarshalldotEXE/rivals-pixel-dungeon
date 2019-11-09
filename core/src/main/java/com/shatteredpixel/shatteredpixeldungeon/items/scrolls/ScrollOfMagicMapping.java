@@ -39,7 +39,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfMagicMapping extends Scroll {
 
 	{
-		initials = 2;
+		initials = 3;
 	}
 
 	@Override

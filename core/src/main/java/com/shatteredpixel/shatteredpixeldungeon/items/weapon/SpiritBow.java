@@ -126,20 +126,20 @@ public class SpiritBow extends Weapon {
 	@Override
 	public int STRReq(int lvl) {
 		lvl = Math.max(0, lvl);
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return 10 - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		//strength req decreases at +1,+2,+3,+4,etc.
+		return 10 - (int)(lvl);
 	}
 	
 	@Override
 	public int min(int lvl) {
-		return 1 + Dungeon.hero.lvl/5
+		return 1 + Dungeon.hero.lvl/4
 				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 1 : 0);
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 6 + (int)(Dungeon.hero.lvl/2.5f)
+		return 6 + (int)(Dungeon.hero.lvl/2f)
 				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 2 : 0);
 	}
@@ -194,7 +194,7 @@ public class SpiritBow extends Weapon {
 	@Override
 	public int level() {
 		//need to check if hero is null for loading an upgraded bow from pre-0.7.0
-		return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5)
+		return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl/4)
 				+ (curseInfusionBonus ? 1 : 0);
 	}
 	

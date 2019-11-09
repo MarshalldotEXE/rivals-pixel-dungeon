@@ -104,12 +104,12 @@ public class WandOfTransfusion extends Wand {
 				
 				//charms living enemies
 				if (!ch.properties().contains(Char.Property.UNDEAD)) {
-					Buff.affect(ch, Charm.class, 5).object = curUser.id();
+					Buff.affect( ch, Charm.class, 3+level() ).object = curUser.id();
 					ch.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 + level()/2 );
 				
 				//harms the undead
 				} else {
-					ch.damage(Random.NormalIntRange(3 + level()/2, 6+level()), this);
+					ch.damage(Random.NormalIntRange(1 + level(), 6+level()*2), this);
 					ch.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10 + level());
 					Sample.INSTANCE.play(Assets.SND_BURNING);
 				}
@@ -132,11 +132,6 @@ public class WandOfTransfusion extends Wand {
 			Dungeon.fail( getClass() );
 			GLog.n( Messages.get(this, "ondeath") );
 		}
-	}
-
-	@Override
-	protected int initialCharges() {
-		return 1;
 	}
 
 	@Override

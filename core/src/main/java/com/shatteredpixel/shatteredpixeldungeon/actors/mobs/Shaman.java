@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -41,31 +44,29 @@ public class Shaman extends Mob implements Callback {
 	{
 		spriteClass = ShamanSprite.class;
 		
-		HP = HT = 18;
-		defenseSkill = 8;
-		
+		HP = HT = 20;
+		defenseSkill = 11;
+			
 		EXP = 6;
-		maxLvl = 14;
+		maxLvl = 8;
 		
 		loot = Generator.Category.SCROLL;
 		lootChance = 0.33f;
-		
-		properties.add(Property.ELECTRIC);
 	}
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 2, 8 );
+		return Random.NormalIntRange( 2, 7 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 11;
+		return 14;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 4);
+		return Random.NormalIntRange( 0, 3 );
 	}
 	
 	@Override
@@ -93,7 +94,7 @@ public class Shaman extends Mob implements Callback {
 			spend( TIME_TO_ZAP );
 			
 			if (hit( this, enemy, true )) {
-				int dmg = Random.NormalIntRange(3, 10);
+				int dmg = Random.NormalIntRange(5, 10);
 				if (Dungeon.level.water[enemy.pos] && !enemy.flying) {
 					dmg *= 1.5f;
 				}

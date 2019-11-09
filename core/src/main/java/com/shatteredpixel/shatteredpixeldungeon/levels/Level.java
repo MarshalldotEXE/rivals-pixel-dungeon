@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -55,8 +58,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourg
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -197,11 +200,12 @@ public abstract class Level implements Bundlable {
 			int enchChapter = (int)((Dungeon.seed / 10) % 3) + 1;
 			if ( Dungeon.depth / 5 == enchChapter &&
 					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
-				addItemToSpawn( new StoneOfEnchantment() );
+				addItemToSpawn( new ScrollOfTransmutation() );
 			}
 			
+			//one scroll of identify is guaranteed to spawn somewhere on chapter 1
 			if ( Dungeon.depth == ((Dungeon.seed % 3) + 1)){
-				addItemToSpawn( new StoneOfIntuition() );
+				addItemToSpawn( new ScrollOfIdentify() );
 			}
 
 			DriedRose rose = Dungeon.hero.belongings.getItem( DriedRose.class );
@@ -219,19 +223,19 @@ public abstract class Level implements Bundlable {
 			}
 			
 			if (Dungeon.depth > 1) {
-				switch (Random.Int( 10 )) {
-				case 0:
+				switch (Random.Int( 12 )) {
+				case 0: case 1:
 					if (!Dungeon.bossLevel( Dungeon.depth + 1 )) {
 						feeling = Feeling.CHASM;
 					}
 					break;
-				case 1:
+				case 2: case 3:
 					feeling = Feeling.WATER;
 					break;
-				case 2:
+				case 4: case 5:
 					feeling = Feeling.GRASS;
 					break;
-				case 3:
+				case 6: case 7:
 					feeling = Feeling.DARK;
 					addItemToSpawn(new Torch());
 					viewDistance = Math.round(viewDistance/2f);

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -244,25 +247,25 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public Item random() {
-		//+0: 75% (3/4)
-		//+1: 20% (4/20)
-		//+2: 5%  (1/20)
+		//+0: 67% (6/9)
+		//+1: 22% (2/9)
+		//+2: 11% (1/9)
 		int n = 0;
-		if (Random.Int(4) == 0) {
+		if (Random.Int(3) == 0) {
 			n++;
-			if (Random.Int(5) == 0) {
+			if (Random.Int(3) == 0) {
 				n++;
 			}
 		}
 		level(n);
 		
-		//30% chance to be cursed
-		//10% chance to be enchanted
+		//33% (1/3) chance to be cursed
+		//17% (1/6) chance to be enchanted
 		float effectRoll = Random.Float();
-		if (effectRoll < 0.3f) {
+		if (effectRoll < 0.33f) {
 			enchant(Enchantment.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.9f){
+		} else if (effectRoll >= 0.83f){
 			enchant();
 		}
 

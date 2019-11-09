@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -40,6 +41,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -54,6 +56,8 @@ public class Pickaxe extends Weapon {
 	{
 		image = ItemSpriteSheet.PICKAXE;
 		
+		DLY = 2f; //0.5x speed
+		
 		unique = true;
 		bones = false;
 		
@@ -65,19 +69,80 @@ public class Pickaxe extends Weapon {
 
 	@Override
 	public int min(int lvl) {
-		return 2;   //tier 2
+		return  2 +  //2 base, up from 1
+				lvl;    //level scaling
 	}
 
 	@Override
 	public int max(int lvl) {
-		return 15;  //tier 2
+		return  10*(2) +    //20 base, up from 10
+				lvl*Math.round(2f*(2));   //+2 per level, up from +1
 	}
 
 	@Override
 	public int STRReq(int lvl) {
-		return 14;  //tier 3
+		return 10;  //tier 1
 	}
 
+	@Override
+	public int damageRoll(Char owner) {
+		int damage = augment.damageFactor(super.damageRoll( owner ));
+
+		if (owner instanceof Hero) {
+			int exStr = ((Hero)owner).STR() - STRReq();
+			if (exStr > 0) {
+				damage += Random.IntRange( 0, exStr );
+			}
+		}
+		
+		return damage;
+	}
+	
+	@Override
+	public String info() {
+
+		String info = desc();
+
+		info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", 1, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+		if (STRReq() > Dungeon.hero.STR()) {
+			info += " " + Messages.get(Weapon.class, "too_heavy");
+		} else if (Dungeon.hero.STR() > STRReq()){
+			info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+		}
+
+		String statsInfo = statsInfo();
+		if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
+
+		switch (augment) {
+			case SPEED:
+				info += "\n\n" + Messages.get(Weapon.class, "faster");
+				break;
+			case DAMAGE:
+				info += "\n\n" + Messages.get(Weapon.class, "stronger");
+				break;
+			case NONE:
+		}
+
+		if (enchantment != null && (cursedKnown || !enchantment.curse())){
+			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
+			info += " " + Messages.get(enchantment, "desc");
+		}
+
+		if (cursed && isEquipped( Dungeon.hero )) {
+			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
+		} else if (cursedKnown && cursed) {
+			info += "\n\n" + Messages.get(Weapon.class, "cursed");
+		} else if (!isIdentified() && cursedKnown){
+			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+		}
+		
+		return info;
+	}
+	
+	public String statsInfo(){
+		return Messages.get(this, "stats_desc");
+	}
+	
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );

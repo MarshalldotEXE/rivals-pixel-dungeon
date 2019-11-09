@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 public class ScrollOfAntiMagic extends ExoticScroll {
 	
 	{
-		initials = 7;
+		initials = 2;
 	}
 	
 	@Override

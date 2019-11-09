@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -62,17 +63,4 @@ public class FeatherFall extends Spell {
 		return Math.round(quantity * ((30 + 40) / 2f));
 	}
 	
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
-		{
-			inputs =  new Class[]{PotionOfLevitation.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
-			cost = 6;
-			
-			output = FeatherFall.class;
-			outQuantity = 2;
-		}
-		
-	}
 }

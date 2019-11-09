@@ -130,18 +130,4 @@ public class ElixirOfAquaticRejuvenation extends Elixir {
 		}
 	}
 	
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
-		{
-			inputs =  new Class[]{PotionOfHealing.class, GooBlob.class};
-			inQuantity = new int[]{1, 1};
-			
-			cost = 6;
-			
-			output = ElixirOfAquaticRejuvenation.class;
-			outQuantity = 1;
-		}
-		
-	}
-	
 }

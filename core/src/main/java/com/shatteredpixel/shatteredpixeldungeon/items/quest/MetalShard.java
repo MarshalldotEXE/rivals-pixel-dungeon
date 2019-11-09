@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -24,25 +27,14 @@ package com.shatteredpixel.shatteredpixeldungeon.items.quest;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class MetalShard extends Item {
+public class MetalShard extends Material {
 	
 	{
 		image = ItemSpriteSheet.SHARD;
-		stackable = true;
 	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
+
 	@Override
 	public int price() {
-		return quantity * 100;
+		return quantity * 60;
 	}
 }

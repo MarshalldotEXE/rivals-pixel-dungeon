@@ -47,11 +47,11 @@ public class Guard extends Mob {
 	{
 		spriteClass = GuardSprite.class;
 
-		HP = HT = 40;
+		HP = HT = 36;
 		defenseSkill = 10;
 
-		EXP = 6;
-		maxLvl = 14;
+		EXP = 7;
+		maxLvl = 8;
 
 		loot = null;    //see createloot.
 		lootChance = 0.25f;
@@ -63,7 +63,7 @@ public class Guard extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange(4, 12);
+		return Random.NormalIntRange(3, 12);
 	}
 
 	private boolean chain(int target){
@@ -116,12 +116,12 @@ public class Guard extends Mob {
 
 	@Override
 	public int attackSkill( Char target ) {
-		return 14;
+		return 17;
 	}
 
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 8);
+		return Random.NormalIntRange(0, 6);
 	}
 
 	@Override

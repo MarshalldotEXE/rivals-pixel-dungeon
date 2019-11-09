@@ -40,7 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAffection;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
@@ -101,7 +101,7 @@ public class StoneOfIntuition extends InventoryStone {
 	
 	public static Class[] scrolls = new Class[]{
 			ScrollOfIdentify.class,
-			ScrollOfLullaby.class,
+			ScrollOfAffection.class,
 			ScrollOfMagicMapping.class,
 			ScrollOfMirrorImage.class,
 			ScrollOfRetribution.class,

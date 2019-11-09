@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -31,20 +34,14 @@ public class Tomahawk extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.TOMAHAWK;
 
-		tier = 4;
+		tier = 3;
 		baseUses = 5;
-	}
-
-	@Override
-	public int min(int lvl) {
-		return  Math.round(1.5f * tier) +   //6 base, down from 8
-				2 * lvl;                    //scaling unchanged
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  Math.round(3.75f * tier) +  //15 base, down from 20
-				(tier)*lvl;                 //scaling unchanged
+		return  4 * tier +                  //12 base, down from 15
+				(tier) * lvl;                 //scaling unchanged
 	}
 	
 	@Override

@@ -33,13 +33,22 @@ public class Acidic extends Scorpio {
 	{
 		spriteClass = AcidicSprite.class;
 		
+		defenseSkill = 24;
+		
+		EXP = 16;
+		
 		properties.add(Property.ACIDIC);
+	}
+	
+	@Override
+	public int attackSkill( Char target ) {
+		return 29;
 	}
 	
 	@Override
 	public int defenseProc( Char enemy, int damage ) {
 		
-		int dmg = Random.IntRange( 0, damage );
+		int dmg = Random.IntRange( 0, damage/2 );
 		if (dmg > 0) {
 			enemy.damage( dmg, this );
 			if (!enemy.isAlive() && enemy == Dungeon.hero) {

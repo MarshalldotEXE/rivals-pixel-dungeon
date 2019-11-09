@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -30,12 +33,12 @@ public class Crossbow extends MeleeWeapon {
 		
 		//check Dart.class for additional properties
 		
-		tier = 4;
+		tier = 3;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  4*(tier+1) +    //20 base, down from 25
-				lvl*(tier);     //+4 per level, down from +5
+		return  4*(tier+1) +    //16 base, down from 20
+				lvl*(tier-1);     //+2 per level, down from +3
 	}
 }

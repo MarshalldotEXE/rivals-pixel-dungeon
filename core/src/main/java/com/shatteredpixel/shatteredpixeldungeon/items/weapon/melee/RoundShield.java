@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -30,25 +33,25 @@ public class RoundShield extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.ROUND_SHIELD;
 
-		tier = 3;
+		tier = 2;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier-1);   //+2 per level, down from +4
+		return  Math.round(3f*(tier+1)) +     //9 base, down from 15
+				lvl*Math.round(0.5f*(tier));  //+1 per level, down from +2
 	}
 
 	@Override
 	public int defenseFactor( Char owner ) {
-		return 5+2*level();     //5 extra defence, plus 2 per level;
+		return 6+2*level();    //6 extra defence, plus 2 per level;
 	}
 	
 	public String statsInfo(){
 		if (isIdentified()){
-			return Messages.get(this, "stats_desc", 5+2*level());
+			return Messages.get(this, "stats_desc", 6+2*level());
 		} else {
-			return Messages.get(this, "typical_stats_desc", 5);
+			return Messages.get(this, "typical_stats_desc", 6);
 		}
 	}
 }

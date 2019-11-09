@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -99,6 +102,10 @@ public class Assets {
 	public static final String GUARD    = "guard.png";
 	public static final String WARDS    = "wards.png";
 	public static final String GUARDIAN	= "guardian.png";
+	
+	public static final String TRIBESMAN= "tribesman.png";
+	public static final String BATTLEMAGE   = "battlemage.png";
+	public static final String WISP     = "wisp.png";
 
 	public static final String ITEMS	        = "items.png";
 	public static final String TERRAIN_FEATURES	= "terrain_features.png";

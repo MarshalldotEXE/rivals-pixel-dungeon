@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -51,6 +54,7 @@ public class Wraith extends Mob {
 		flying = true;
 
 		properties.add(Property.UNDEAD);
+		properties.add(Property.INORGANIC);
 	}
 	
 	private static final String LEVEL = "level";
@@ -70,7 +74,7 @@ public class Wraith extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 1 + level/2, 2 + level );
+		return Random.NormalIntRange( 1 + 3*level/4, 5 + level );
 	}
 	
 	@Override

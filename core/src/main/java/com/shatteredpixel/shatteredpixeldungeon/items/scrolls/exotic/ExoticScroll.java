@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -26,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAffection;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
@@ -37,7 +40,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,26 +55,29 @@ public abstract class ExoticScroll extends Scroll {
 		regToExo.put(ScrollOfIdentify.class, ScrollOfDivination.class);
 		exoToReg.put(ScrollOfDivination.class, ScrollOfIdentify.class);
 		
-		regToExo.put(ScrollOfUpgrade.class, ScrollOfEnchantment.class);
-		exoToReg.put(ScrollOfEnchantment.class, ScrollOfUpgrade.class);
+		regToExo.put(ScrollOfUpgrade.class, ScrollOfMagicalInfusion.class);
+		exoToReg.put(ScrollOfMagicalInfusion.class, ScrollOfUpgrade.class);
 		
 		regToExo.put(ScrollOfTerror.class, ScrollOfPetrification.class);
 		exoToReg.put(ScrollOfPetrification.class, ScrollOfTerror.class);
 		
 		regToExo.put(ScrollOfRemoveCurse.class, ScrollOfAntiMagic.class);
 		exoToReg.put(ScrollOfAntiMagic.class, ScrollOfRemoveCurse.class);
+		//exoToReg.put(ScrollOfCurseInfusion.class, ScrollOfRemoveCurse.class);
 		
-		regToExo.put(ScrollOfLullaby.class, ScrollOfAffection.class);
-		exoToReg.put(ScrollOfAffection.class, ScrollOfLullaby.class);
+		regToExo.put(ScrollOfAffection.class, ScrollOfLullaby.class);
+		exoToReg.put(ScrollOfLullaby.class, ScrollOfAffection.class);
 		
 		regToExo.put(ScrollOfRage.class, ScrollOfConfusion.class);
 		exoToReg.put(ScrollOfConfusion.class, ScrollOfRage.class);
+		//exoToReg.put(ScrollOfTaunt.class, ScrollOfRage.class);
 		
 		regToExo.put(ScrollOfTerror.class, ScrollOfPetrification.class);
 		exoToReg.put(ScrollOfPetrification.class, ScrollOfTerror.class);
 		
 		regToExo.put(ScrollOfRecharging.class, ScrollOfMysticalEnergy.class);
 		exoToReg.put(ScrollOfMysticalEnergy.class, ScrollOfRecharging.class);
+		//exoToReg.put(ScrollOfDraining.class, ScrollOfRecharging.class);
 		
 		regToExo.put(ScrollOfMagicMapping.class, ScrollOfForesight.class);
 		exoToReg.put(ScrollOfForesight.class, ScrollOfMagicMapping.class);
@@ -80,9 +87,11 @@ public abstract class ExoticScroll extends Scroll {
 		
 		regToExo.put(ScrollOfRetribution.class, ScrollOfPsionicBlast.class);
 		exoToReg.put(ScrollOfPsionicBlast.class, ScrollOfRetribution.class);
+		//exoToReg.put(ScrollOfDoom.class, ScrollOfRetribution.class);
 		
 		regToExo.put(ScrollOfMirrorImage.class, ScrollOfPrismaticImage.class);
 		exoToReg.put(ScrollOfPrismaticImage.class, ScrollOfMirrorImage.class);
+		//exoToReg.put(ScrollOfNecromancy.class, ScrollOfMirrorImage.class);
 		
 		regToExo.put(ScrollOfTransmutation.class, ScrollOfPolymorph.class);
 		exoToReg.put(ScrollOfPolymorph.class, ScrollOfTransmutation.class);
@@ -122,7 +131,7 @@ public abstract class ExoticScroll extends Scroll {
 			return (exoToReg.get(getClass()).newInstance().price() + 20) * quantity;
 		} catch (Exception e){
 			ShatteredPixelDungeon.reportException(e);
-			return 0;
+			return 1;
 		}
 	}
 	
@@ -130,23 +139,23 @@ public abstract class ExoticScroll extends Scroll {
 		
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-			int r = 0;
+			boolean catalyst = false;
 			Scroll s = null;
 			
 			for (Item i : ingredients){
-				if (i instanceof Runestone){
-					r++;
+				if (i instanceof ArcaneCatalyst){
+					catalyst = true;
 				} else if (regToExo.containsKey(i.getClass())) {
 					s = (Scroll)i;
 				}
 			}
 			
-			return s != null && r == 2;
+			return s != null && catalyst;
 		}
 		
 		@Override
 		public int cost(ArrayList<Item> ingredients) {
-			return 0;
+			return 1;
 		}
 		
 		@Override

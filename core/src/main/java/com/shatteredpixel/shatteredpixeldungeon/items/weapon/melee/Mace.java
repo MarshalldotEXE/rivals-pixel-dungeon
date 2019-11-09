@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,14 +31,14 @@ public class Mace extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.MACE;
 
-		tier = 3;
-		ACC = 1.28f; //28% boost to accuracy
+		tier = 2;
+		ACC = 1.20f; //20% boost to accuracy
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  4*(tier+1) +    //16 base, down from 20
-				lvl*(tier+1);   //scaling unchanged
+		return  4*(tier+1) +    //12 base, down from 15
+				lvl*(tier);   //scaling unchanged
 	}
 
 }

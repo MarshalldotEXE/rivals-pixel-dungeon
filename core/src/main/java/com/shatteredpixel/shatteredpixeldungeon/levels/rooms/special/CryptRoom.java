@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -33,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Point;
+import com.watabou.utils.Random;
 
 public class CryptRoom extends SpecialRoom {
 
@@ -80,14 +84,16 @@ public class CryptRoom extends SpecialRoom {
 			return new Gold().random();
 		}
 
-		//if it isn't already cursed, give it a free upgrade
+		//if it isn't already cursed, then...
 		if (!prize.cursed){
-			prize.upgrade();
 			//curse the armor, unless it has a glyph
 			if (!prize.hasGoodGlyph()){
 				prize.inscribe(Armor.Glyph.randomCurse());
 			}
 		}
+		prize.level(1);
+		//33% chance to be +2 instead of +1
+		if (Random.Int(3) == 0) prize.upgrade();
 		prize.cursed = prize.cursedKnown = true;
 		
 		return prize;

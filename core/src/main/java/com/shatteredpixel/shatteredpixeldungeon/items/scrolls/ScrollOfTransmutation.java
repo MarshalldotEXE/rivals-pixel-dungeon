@@ -28,7 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
@@ -52,7 +53,7 @@ import com.watabou.utils.Random;
 public class ScrollOfTransmutation extends InventoryScroll {
 	
 	{
-		initials = 10;
+		initials = 11;
 		mode = WndBag.Mode.TRANMSUTABLE;
 		
 		bones = true;
@@ -61,7 +62,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	public static boolean canTransmute(Item item){
 		return item instanceof MeleeWeapon ||
 				(item instanceof MissileWeapon && !(item instanceof Dart)) ||
-				(item instanceof Potion && !(item instanceof Elixir || item instanceof Brew || item instanceof AlchemicalCatalyst)) ||
+				(item instanceof Potion && !(item instanceof Elixir || item instanceof Brew || item instanceof AlchemicalCatalyst || item instanceof ArcaneCatalyst)) ||
 				item instanceof Scroll ||
 				item instanceof Ring ||
 				item instanceof Wand ||

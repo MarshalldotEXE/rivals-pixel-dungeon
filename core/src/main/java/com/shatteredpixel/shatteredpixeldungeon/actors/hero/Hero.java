@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Furor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -65,6 +66,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HalfPlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
@@ -141,7 +149,7 @@ public class Hero extends Char {
 		alignment = Alignment.ALLY;
 	}
 	
-	public static final int MAX_LEVEL = 30;
+	public static final int MAX_LEVEL = 20;
 
 	public static final int STARTING_STR = 10;
 	
@@ -152,8 +160,8 @@ public class Hero extends Char {
 	public HeroClass heroClass = HeroClass.ROGUE;
 	public HeroSubClass subClass = HeroSubClass.NONE;
 	
-	private int attackSkill = 10;
-	private int defenseSkill = 5;
+	private int attackSkill = 12;
+	private int defenseSkill = 7;
 
 	public boolean ready = false;
 	private boolean damageInterrupt = true;
@@ -297,7 +305,16 @@ public class Hero extends Char {
 	}
 	
 	public int tier() {
-		return belongings.armor == null ? 0 : belongings.armor.tier;
+		int tier = 0;
+		if (belongings.armor != null) {
+			if (belongings.armor instanceof ClothArmor)     tier = 1;
+			if (belongings.armor instanceof LeatherArmor)   tier = 2;
+			if (belongings.armor instanceof MailArmor)      tier = 3;
+			if (belongings.armor instanceof ScaleArmor)     tier = 4;
+			if (belongings.armor instanceof PlateArmor)     tier = 5;
+			if (belongings.armor instanceof HalfPlateArmor) tier = 6;
+		}
+		return tier;
 	}
 	
 	public boolean shoot( Char enemy, MissileWeapon wep ) {
@@ -456,16 +473,19 @@ public class Hero extends Char {
 	}
 	
 	public float attackDelay() {
+		float delay = 1f;
 		if (belongings.weapon != null) {
 			
-			return belongings.weapon.speedFactor( this );
+			delay = belongings.weapon.speedFactor( this );
 			
 		} else {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
 			//But there's going to be that one guy who gets a furor+force ring combo
 			//This is for that one guy, you shall get your fists of fury!
-			return RingOfFuror.attackDelayMultiplier(this);
+			delay = RingOfFuror.attackDelayMultiplier(this);
 		}
+		if ( buff(Furor.class) != null) delay /= 2f;
+		return delay;
 	}
 
 	@Override

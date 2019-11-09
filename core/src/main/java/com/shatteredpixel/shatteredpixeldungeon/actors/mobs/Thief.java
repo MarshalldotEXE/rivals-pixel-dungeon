@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -46,11 +49,11 @@ public class Thief extends Mob {
 	{
 		spriteClass = ThiefSprite.class;
 		
-		HP = HT = 20;
+		HP = HT = 21;
 		defenseSkill = 12;
 		
 		EXP = 5;
-		maxLvl = 10;
+		maxLvl = 8;
 		
 		loot = Random.oneOf(Generator.Category.RING, Generator.Category.ARTIFACT);
 		lootChance = 0.01f;
@@ -83,7 +86,7 @@ public class Thief extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 1, 10 );
+		return Random.NormalIntRange( 2, 8 );
 	}
 
 	@Override
@@ -104,7 +107,7 @@ public class Thief extends Mob {
 
 	@Override
 	public int attackSkill( Char target ) {
-		return 12;
+		return 11;
 	}
 
 	@Override

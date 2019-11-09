@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -31,7 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAffection;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SuccubusSprite;
@@ -51,13 +54,13 @@ public class Succubus extends Mob {
 		spriteClass = SuccubusSprite.class;
 		
 		HP = HT = 80;
-		defenseSkill = 25;
+		defenseSkill = 19;
 		viewDistance = Light.DISTANCE;
 		
-		EXP = 12;
-		maxLvl = 25;
+		EXP = 14;
+		maxLvl = 20;
 		
-		loot = new ScrollOfLullaby();
+		loot = new ScrollOfAffection();
 		lootChance = 0.05f;
 
 		properties.add(Property.DEMONIC);
@@ -65,7 +68,7 @@ public class Succubus extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 22, 30 );
+		return Random.NormalIntRange( 18, 30 );
 	}
 	
 	@Override
@@ -140,12 +143,12 @@ public class Succubus extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 40;
+		return 30;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 10);
+		return Random.NormalIntRange(0, 9);
 	}
 	
 	{

@@ -28,7 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 public class PotionOfStamina extends ExoticPotion {
 	
 	{
-		initials = 2;
+		initials = 3;
 	}
 	
 	@Override

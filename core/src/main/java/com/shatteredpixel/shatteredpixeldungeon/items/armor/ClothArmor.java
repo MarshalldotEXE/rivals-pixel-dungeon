@@ -28,6 +28,8 @@ public class ClothArmor extends Armor {
 	{
 		image = ItemSpriteSheet.ARMOR_CLOTH;
 
+		EVA = 1.2f; //20% boost to evasion
+		
 		bones = false; //Finding them in bones would be semi-frequent and disappointing.
 	}
 	
@@ -35,4 +37,9 @@ public class ClothArmor extends Armor {
 		super( 1 );
 	}
 
+	@Override
+	public int DRMax(int lvl) {
+		return Math.round(0.8f * (tier * 2)) +  //1.6 base, down from 2
+			   Math.round(0.8f * (tier * lvl)); //+0.8 per level, down from +1
+	}
 }

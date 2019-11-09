@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -270,7 +273,7 @@ public class Ghost extends NPC {
 				processed = false;
 				depth = Dungeon.depth;
 
-				//50%:tier2, 30%:tier3, 15%:tier4, 5%:tier5
+				//50%:tier2, 30%:tier3, 20%:tier4
 				float itemTierRoll = Random.Float();
 				int wepTier;
 
@@ -280,12 +283,9 @@ public class Ghost extends NPC {
 				} else if (itemTierRoll < 0.8f) {
 					wepTier = 3;
 					armor = new MailArmor();
-				} else if (itemTierRoll < 0.95f) {
+				} else {
 					wepTier = 4;
 					armor = new ScaleArmor();
-				} else {
-					wepTier = 5;
-					armor = new PlateArmor();
 				}
 
 				try {
@@ -297,23 +297,16 @@ public class Ghost extends NPC {
 					weapon = new Shortsword();
 				}
 
-				//50%:+0, 30%:+1, 15%:+2, 5%:+3
-				float itemLevelRoll = Random.Float();
-				int itemLevel;
-				if (itemLevelRoll < 0.5f){
-					itemLevel = 0;
-				} else if (itemLevelRoll < 0.8f){
-					itemLevel = 1;
-				} else if (itemLevelRoll < 0.95f){
-					itemLevel = 2;
-				} else {
-					itemLevel = 3;
+				weapon.level(1);
+				armor.level(1);
+				//33% chance to be +2 instead of +1
+				if (Random.Int(3) == 0) {
+					weapon.upgrade();
+					armor.upgrade();
 				}
-				weapon.upgrade(itemLevel);
-				armor.upgrade(itemLevel);
 
-				//10% to be enchanted
-				if (Random.Int(10) == 0){
+				//33% to be enchanted
+				if (Random.Int(3) == 0) {
 					weapon.enchant();
 					armor.inscribe();
 				}

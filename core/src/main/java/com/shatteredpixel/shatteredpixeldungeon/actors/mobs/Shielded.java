@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ShieldedSprite;
 import com.watabou.utils.Random;
 
@@ -29,12 +30,18 @@ public class Shielded extends Brute {
 	{
 		spriteClass = ShieldedSprite.class;
 		
-		defenseSkill = 20;
+		defenseSkill = 14;
+		
+		EXP = 10;
+	}
+	
+	@Override
+	public int attackSkill( Char target ) {
+		return 8;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 10);
+		return Random.NormalIntRange(0, 8);
 	}
-	
 }

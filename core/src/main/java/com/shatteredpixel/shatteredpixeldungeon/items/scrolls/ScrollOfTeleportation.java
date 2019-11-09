@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class ScrollOfTeleportation extends Scroll {
 
 	{
-		initials = 8;
+		initials = 9;
 	}
 
 	@Override

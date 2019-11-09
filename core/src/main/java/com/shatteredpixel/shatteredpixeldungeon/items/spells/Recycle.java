@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -99,17 +100,4 @@ public class Recycle extends InventorySpell {
 		return Math.round(quantity * ((50 + 40) / 8f));
 	}
 	
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
-		{
-			inputs =  new Class[]{ScrollOfTransmutation.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
-			cost = 6;
-			
-			output = Recycle.class;
-			outQuantity = 8;
-		}
-		
-	}
 }

@@ -34,7 +34,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfPetrification extends ExoticScroll {
 	
 	{
-		initials = 9;
+		initials = 7;
 	}
 	
 	@Override

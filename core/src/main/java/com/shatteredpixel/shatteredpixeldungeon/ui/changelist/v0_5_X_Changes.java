@@ -22,7 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.ui.changelist;
 
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SmallShield;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ChangesScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -43,7 +43,7 @@ public class v0_5_X_Changes {
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 		
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+		changes.addButton( new ChangeButton(Icons.get(Icons.EVAN), "Developer Commentary",
 				"_-_ Released February 8th, 2017\n" +
 				"_-_ 233 days after Shattered v0.4.0\n" +
 				"_-_ 115 days after Shattered v0.4.3\n" +
@@ -55,7 +55,7 @@ public class v0_5_X_Changes {
 				"_-_ Characters & items are raised & cast shadows\n" +
 				"_-_ Added a visible tile grid in the settings menu"));
 		
-		changes.addButton( new ChangeButton(new ItemSprite(new Quarterstaff()), "Equipment Balance Changes",
+		changes.addButton( new ChangeButton(new ItemSprite(new SmallShield()), "Equipment Balance Changes",
 				"_-_ Quarterstaff armor bonus increased from 2 to 3\n\n" +
 				"_-_ Wand of Frost damage against chilled enemies reduced from -7.5% per turn of chill to -10%\n\n" +
 				"_-_ Wand of Transfusion self-damage reduced from 15% max hp to 10% max hp per zap\n\n" +

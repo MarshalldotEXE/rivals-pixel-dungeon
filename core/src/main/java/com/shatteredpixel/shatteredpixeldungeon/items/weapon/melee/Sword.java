@@ -28,7 +28,7 @@ public class Sword extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.SWORD;
 
-		tier = 3;
+		tier = 2;
 	}
 
 }

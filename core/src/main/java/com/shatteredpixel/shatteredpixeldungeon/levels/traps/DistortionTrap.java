@@ -24,7 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.traps;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeaconArtifact;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.watabou.noosa.Game;
@@ -48,8 +48,8 @@ public class DistortionTrap extends Trap{
 		}
 		
 		for (Item i : belongings){
-			if (i instanceof LloydsBeacon && ((LloydsBeacon) i).returnDepth == Dungeon.depth)
-					((LloydsBeacon) i).returnDepth = -1;
+			if (i instanceof LloydsBeaconArtifact && ((LloydsBeaconArtifact) i).returnDepth == Dungeon.depth)
+					((LloydsBeaconArtifact) i).returnDepth = -1;
 		}
 
 		InterlevelScene.mode = InterlevelScene.Mode.RESET;

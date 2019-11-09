@@ -28,7 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 public class PotionOfAdrenalineSurge extends ExoticPotion {
 	
 	{
-		initials = 10;
+		initials = 0;
 	}
 	
 	@Override

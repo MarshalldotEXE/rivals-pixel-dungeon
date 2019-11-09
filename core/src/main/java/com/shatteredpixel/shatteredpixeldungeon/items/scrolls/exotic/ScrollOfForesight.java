@@ -31,7 +31,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfForesight extends ExoticScroll {
 	
 	{
-		initials = 2;
+		initials = 3;
 	}
 	
 	@Override

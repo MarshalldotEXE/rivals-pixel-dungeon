@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_4_X_Changes;
 import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_5_X_Changes;
 import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_6_X_Changes;
 import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_7_X_Changes;
+import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.Rivalsv0_1_X_Changes;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.RenderedText;
@@ -81,9 +82,10 @@ public class ChangesScene extends PixelScene {
 		
 		switch (changesSelected){
 			case 0: default:
-				v0_7_X_Changes.addAllChanges(changeInfos);
+				Rivalsv0_1_X_Changes.addAllChanges(changeInfos);
 				break;
 			case 1:
+				v0_7_X_Changes.addAllChanges(changeInfos);
 				v0_6_X_Changes.addAllChanges(changeInfos);
 				break;
 			case 2:
@@ -147,7 +149,7 @@ public class ChangesScene extends PixelScene {
 				panel.innerHeight() + 2);
 		list.scrollTo(0, 0);
 		
-		RedButton btn0_7 = new RedButton("v0.7"){
+		RedButton btn0_7 = new RedButton("Rivals"){
 			@Override
 			protected void onClick() {
 				super.onClick();
@@ -161,7 +163,7 @@ public class ChangesScene extends PixelScene {
 		btn0_7.setRect(list.left()-3, list.bottom()+5, 45, 14);
 		add(btn0_7);
 		
-		RedButton btn0_6 = new RedButton("v0.6"){
+		RedButton btn0_6 = new RedButton("v0.7-v0.6"){
 			@Override
 			protected void onClick() {
 				super.onClick();

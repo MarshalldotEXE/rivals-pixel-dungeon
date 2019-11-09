@@ -36,7 +36,7 @@ import com.watabou.utils.PathFinder;
 public class FrostBomb extends Bomb {
 	
 	{
-		image = ItemSpriteSheet.FROST_BOMB;
+		image = ItemSpriteSheet.PIPE_TURQUOISE;
 	}
 	
 	@Override

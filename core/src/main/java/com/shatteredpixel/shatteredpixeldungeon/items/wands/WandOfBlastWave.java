@@ -58,7 +58,7 @@ public class WandOfBlastWave extends DamageWand {
 	}
 
 	public int max(int lvl){
-		return 5+3*lvl;
+		return 6+2*lvl;
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class WandOfBlastWave extends DamageWand {
 
 			if (ch != null){
 				processSoulMark(ch, chargesPerCast());
-				ch.damage(Math.round(damage * 0.667f), this);
+				ch.damage(damage, this);
 
 				if (ch.isAlive()) {
 					Ballistica trajectory = new Ballistica(ch.pos, ch.pos + i, Ballistica.MAGIC_BOLT);

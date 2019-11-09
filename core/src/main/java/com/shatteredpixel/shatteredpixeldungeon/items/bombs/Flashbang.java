@@ -34,7 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class Flashbang extends Bomb {
 	
 	{
-		image = ItemSpriteSheet.FLASHBANG;
+		image = ItemSpriteSheet.BOMB_IVORY;
 	}
 
 	@Override

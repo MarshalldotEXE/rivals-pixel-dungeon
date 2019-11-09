@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 public class Stylus extends Item {
 	
-	private static final float TIME_TO_INSCRIBE = 2;
+	private static final float TIME_TO_INSCRIBE = 1;
 	
 	private static final String AC_INSCRIBE = "INSCRIBE";
 	

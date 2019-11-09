@@ -40,7 +40,7 @@ import java.util.ArrayList;
 public class ScrollOfMirrorImage extends Scroll {
 
 	{
-		initials = 3;
+		initials = 5;
 	}
 
 	private static final int NIMAGES	= 2;

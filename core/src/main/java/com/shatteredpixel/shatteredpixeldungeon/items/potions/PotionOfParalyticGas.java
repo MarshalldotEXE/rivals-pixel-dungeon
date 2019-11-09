@@ -31,7 +31,7 @@ import com.watabou.noosa.audio.Sample;
 public class PotionOfParalyticGas extends Potion {
 
 	{
-		initials = 8;
+		initials = 2;
 	}
 
 	@Override

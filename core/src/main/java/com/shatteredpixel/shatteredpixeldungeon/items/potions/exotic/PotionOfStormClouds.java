@@ -31,7 +31,7 @@ import com.watabou.noosa.audio.Sample;
 public class PotionOfStormClouds extends ExoticPotion {
 	
 	{
-		initials = 5;
+		initials = 7;
 	}
 	
 	@Override

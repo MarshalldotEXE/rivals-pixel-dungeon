@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,14 +31,14 @@ public class Whip extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.WHIP;
 
-		tier = 3;
+		tier = 2;
 		RCH = 3;    //lots of extra reach
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
+		return  Math.round(2.5f*(tier+1)) +    //8 base, down from 15
+				lvl*(tier-1);     //+1 per level, down from +2
 	}
 
 }

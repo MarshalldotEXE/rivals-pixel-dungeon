@@ -69,7 +69,7 @@ public class Dart extends MissileWeapon {
 	@Override
 	public int min(int lvl) {
 		if (bow != null){
-			return  4 +                 //4 base
+			return  2 +                 //2 base
 					bow.level() + lvl;  //+1 per level or bow level
 		} else {
 			return  1 +     //1 base, down from 2
@@ -81,7 +81,7 @@ public class Dart extends MissileWeapon {
 	public int max(int lvl) {
 		if (bow != null){
 			return  12 +                    //12 base
-					3*bow.level() + 2*lvl;  //+3 per bow level, +2 per level (default scaling +2)
+					2*bow.level() + 2*lvl;  //+2 per bow level, +2 per level (default scaling +2)
 		} else {
 			return  2 +     //2 base, down from 5
 					2*lvl;  //scaling unchanged
@@ -136,7 +136,26 @@ public class Dart extends MissileWeapon {
 	
 	@Override
 	public int price() {
-		return super.price()/2; //half normal value
+		return 20 * quantity;
+	}
+	
+	
+	public static class DoubleDart extends Dart{
+
+		{
+			image = ItemSpriteSheet.DBL_DART;
+			stackable = false;
+		}
+
+		@Override
+		public boolean doPickUp(Hero hero) {
+			Dart dart = new Dart();
+			dart.quantity(2);
+			if (dart.doPickUp(hero)) {
+				return true;
+			}
+			return false;
+		}
 	}
 	
 	private final WndBag.Listener itemSelector = new WndBag.Listener() {

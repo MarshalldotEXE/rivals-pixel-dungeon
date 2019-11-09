@@ -32,7 +32,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfMysticalEnergy extends ExoticScroll {
 	
 	{
-		initials = 6;
+		initials = 4;
 	}
 	
 	@Override

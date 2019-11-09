@@ -61,7 +61,7 @@ public class WandOfPrismaticLight extends DamageWand {
 	}
 
 	public int max(int lvl){
-		return 5+3*lvl;
+		return 6+2*lvl;
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class WandOfPrismaticLight extends DamageWand {
 	private void affectTarget(Char ch){
 		int dmg = damageRoll();
 
-		//three in (5+lvl) chance of failing
+		//three in (6+lvl) chance of failing
 		if (Random.Int(5+level()) >= 3) {
 			Buff.prolong(ch, Blindness.class, 2f + (level() * 0.333f));
 			ch.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );

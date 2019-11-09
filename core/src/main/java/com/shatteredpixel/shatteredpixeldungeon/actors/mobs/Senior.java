@@ -31,11 +31,15 @@ public class Senior extends Monk {
 
 	{
 		spriteClass = SeniorSprite.class;
+		
+		defenseSkill = 22;
+		
+		EXP = 13;
 	}
 	
 	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 16, 24 );
+	public int attackSkill( Char target ) {
+		return 24;
 	}
 	
 	@Override

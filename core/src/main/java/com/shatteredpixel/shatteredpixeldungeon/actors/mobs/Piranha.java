@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -56,8 +59,8 @@ public class Piranha extends Mob {
 	public Piranha() {
 		super();
 		
-		HP = HT = 10 + Dungeon.depth * 5;
-		defenseSkill = 10 + Dungeon.depth * 2;
+		HP = HT = 5 * (Dungeon.depth + 1);
+		defenseSkill = 2 * (Dungeon.depth + 5);
 	}
 	
 	@Override
@@ -74,17 +77,17 @@ public class Piranha extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( Dungeon.depth, 4 + Dungeon.depth * 2 );
+		return Random.NormalIntRange( Dungeon.depth, Dungeon.depth + 5 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 20 + Dungeon.depth * 2;
+		return 2 * (Dungeon.depth + 8);
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, Dungeon.depth);
+		return Random.NormalIntRange(0, Dungeon.depth/2);
 	}
 	
 	@Override

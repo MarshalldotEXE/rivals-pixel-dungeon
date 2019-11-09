@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -34,33 +37,33 @@ public class Golem extends Mob {
 	{
 		spriteClass = GolemSprite.class;
 		
-		HP = HT = 85;
-		defenseSkill = 18;
+		HP = HT = 80;
+		defenseSkill = 14;
 		
-		EXP = 12;
-		maxLvl = 22;
+		EXP = 13;
+		maxLvl = 16;
 		
 		properties.add(Property.INORGANIC);
 	}
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 25, 40 );
+		return Random.NormalIntRange( 18, 44 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 28;
+		return 27;
 	}
 	
 	@Override
 	protected float attackDelay() {
-		return super.attackDelay() * 1.5f;
+		return super.attackDelay() * 2f;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 12);
+		return Random.NormalIntRange(0, 11);
 	}
 	
 	@Override

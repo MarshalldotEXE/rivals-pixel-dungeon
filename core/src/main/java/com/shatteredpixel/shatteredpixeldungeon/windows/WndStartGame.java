@@ -320,13 +320,13 @@ public class WndStartGame extends Window {
 					switch(cl){
 						case WARRIOR:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.SEAL, null));
-							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.WORN_SHORTSWORD, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.SHORTSWORD, null));
 							heroMisc.icon(new ItemSprite(ItemSpriteSheet.RATION, null));
 							break;
 						case MAGE:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.MAGES_STAFF, null));
-							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.HOLDER, null));
-							heroMisc.icon(new ItemSprite(ItemSpriteSheet.WAND_MAGIC_MISSILE, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.WAND_MAGIC_MISSILE, null));
+							heroMisc.icon(new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ, null));
 							break;
 						case ROGUE:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.ARTIFACT_CLOAK, null));

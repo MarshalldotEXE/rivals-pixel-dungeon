@@ -54,7 +54,7 @@ public class Goo extends Mob {
 
 	{
 		HP = HT = 100;
-		EXP = 10;
+		EXP = 20;
 		defenseSkill = 8;
 		spriteClass = GooSprite.class;
 
@@ -68,7 +68,7 @@ public class Goo extends Mob {
 	@Override
 	public int damageRoll() {
 		int min = 1;
-		int max = (HP*2 <= HT) ? 15 : 10;
+		int max = (HP*2 <= HT) ? 14 : 9;
 		if (pumpedUp > 0) {
 			pumpedUp = 0;
 			PathFinder.buildDistanceMap( pos, BArray.not( Dungeon.level.solid, null ), 2 );
@@ -85,8 +85,8 @@ public class Goo extends Mob {
 
 	@Override
 	public int attackSkill( Char target ) {
-		int attack = 10;
-		if (HP*2 <= HT) attack = 15;
+		int attack = 13;
+		if (HP*2 <= HT) attack = 16;
 		if (pumpedUp > 0) attack *= 2;
 		return attack;
 	}

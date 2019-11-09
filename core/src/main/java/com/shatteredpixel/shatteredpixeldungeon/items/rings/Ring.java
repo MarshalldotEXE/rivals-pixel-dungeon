@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -217,20 +220,20 @@ public class Ring extends KindofMisc {
 	
 	@Override
 	public Item random() {
-		//+0: 66.67% (2/3)
-		//+1: 26.67% (4/15)
-		//+2: 6.67%  (1/15)
+		//+0: 67% (6/9)
+		//+1: 22% (2/9)
+		//+2: 11% (1/9)
 		int n = 0;
 		if (Random.Int(3) == 0) {
 			n++;
-			if (Random.Int(5) == 0){
+			if (Random.Int(3) == 0) {
 				n++;
 			}
 		}
 		level(n);
 		
-		//30% chance to be cursed
-		if (Random.Float() < 0.3f) {
+		//33% chance to be cursed
+		if (Random.Float() < 0.33f) {
 			cursed = true;
 		}
 		

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -27,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
@@ -45,7 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
@@ -172,7 +175,6 @@ public abstract class Recipe {
 	
 	private static Recipe[] oneIngredientRecipes = new Recipe[]{
 		new AlchemistsToolkit.upgradeKit(),
-		new Scroll.ScrollToStone(),
 		new StewedMeat.oneMeat()
 	};
 	
@@ -181,35 +183,15 @@ public abstract class Recipe {
 		new Bomb.EnhanceBomb(),
 		new AlchemicalCatalyst.Recipe(),
 		new ArcaneCatalyst.Recipe(),
-		new ElixirOfArcaneArmor.Recipe(),
-		new ElixirOfAquaticRejuvenation.Recipe(),
-		new ElixirOfDragonsBlood.Recipe(),
-		new ElixirOfIcyTouch.Recipe(),
-		new ElixirOfMight.Recipe(),
-		new ElixirOfHoneyedHealing.Recipe(),
-		new ElixirOfToxicEssence.Recipe(),
-		new BlizzardBrew.Recipe(),
-		new InfernalBrew.Recipe(),
-		new ShockingBrew.Recipe(),
-		new CausticBrew.Recipe(),
-		new Alchemize.Recipe(),
-		new AquaBlast.Recipe(),
-		new BeaconOfReturning.Recipe(),
-		new CurseInfusion.Recipe(),
-		new FeatherFall.Recipe(),
-		new MagicalInfusion.Recipe(),
-		new MagicalPorter.Recipe(),
-		new PhaseShift.Recipe(),
-		new ReclaimTrap.Recipe(),
-		new Recycle.Recipe(),
-		new WildEnergy.Recipe(),
+		new ExoticPotion.PotionToExotic(),
+		new ExoticScroll.ScrollToExotic(),
+		new AlchemicalCatalyst.Recipe(),
+		new ArcaneCatalyst.Recipe(),
 		new StewedMeat.twoMeat()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
 		new Potion.SeedToPotion(),
-		new ExoticPotion.PotionToExotic(),
-		new ExoticScroll.ScrollToExotic(),
 		new StewedMeat.threeMeat(),
 		new MeatPie.Recipe()
 	};

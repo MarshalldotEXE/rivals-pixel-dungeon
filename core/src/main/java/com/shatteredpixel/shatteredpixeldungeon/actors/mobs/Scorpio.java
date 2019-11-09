@@ -38,12 +38,12 @@ public class Scorpio extends Mob {
 	{
 		spriteClass = ScorpioSprite.class;
 		
-		HP = HT = 95;
-		defenseSkill = 24;
+		HP = HT = 90;
+		defenseSkill = 23;
 		viewDistance = Light.DISTANCE;
 		
-		EXP = 14;
-		maxLvl = 25;
+		EXP = 15;
+		maxLvl = 20;
 		
 		loot = new PotionOfHealing();
 		lootChance = 0.2f;
@@ -58,12 +58,12 @@ public class Scorpio extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 36;
+		return 28;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 16);
+		return Random.NormalIntRange(0, 11);
 	}
 	
 	@Override

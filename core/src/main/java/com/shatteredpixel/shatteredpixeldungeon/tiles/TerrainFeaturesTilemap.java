@@ -57,24 +57,24 @@ public class TerrainFeaturesTilemap extends DungeonTilemap {
 			if (!trap.visible)
 				return -1;
 			else
-				return (trap.active ? trap.color : Trap.BLACK) + (trap.shape * 16);
+				return (trap.active ? trap.color : Trap.BLACK) + (trap.shape * 32);
 		}
 
 		if (plants.get(pos) != null){
-			return plants.get(pos).image + 7*16;
+			return plants.get(pos).image + 7*32;
 		}
 
 		int stage = (Dungeon.depth-1)/5;
 		if (Dungeon.depth == 21) stage--;
 		if (tile == Terrain.HIGH_GRASS){
-			return 9 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+			return 16 + 32*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		} else if (tile == Terrain.FURROWED_GRASS){
 			//TODO
-			return 11 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+			return 18 + 32*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		} else if (tile == Terrain.GRASS) {
-			return 13 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+			return 20 + 32*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		} else if (tile == Terrain.EMBERS) {
-			return 9 * (16*5) + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+			return 16 + (32*6)   + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		}
 
 		return -1;

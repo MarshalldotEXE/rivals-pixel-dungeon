@@ -36,7 +36,7 @@ import com.watabou.utils.PathFinder;
 public class Firebomb extends Bomb {
 	
 	{
-		image = ItemSpriteSheet.FIRE_BOMB;
+		image = ItemSpriteSheet.PIPE_AMBER;
 	}
 	
 	@Override

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,14 +31,14 @@ public class Flail extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.FLAIL;
 
-		tier = 4;
-		ACC = 0.9f; //0.9x accuracy
+		tier = 3;
+		ACC = 0.8f; //0.8x accuracy
 		//also cannot surprise attack, see Hero.canSurpriseAttack
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  Math.round(7*(tier+1)) +        //35 base, up from 25
-				lvl*Math.round(1.6f*(tier+1));  //+8 per level, up from +5
+		return  Math.round(6.67f*(tier+2)) +        //33 base, up from 20
+				lvl*Math.round(1.67f*(tier));  //+5 per level, up from +3
 	}
 }

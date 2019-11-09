@@ -38,7 +38,7 @@ import com.watabou.utils.Random;
 public class Blindweed extends Plant {
 	
 	{
-		image = 11;
+		image = 13;
 	}
 	
 	@Override

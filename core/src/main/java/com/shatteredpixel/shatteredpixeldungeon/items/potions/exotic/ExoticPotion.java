@@ -34,10 +34,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibili
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfElectricity;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfCausticOoze;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfShielding;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 
 import java.util.ArrayList;
@@ -52,20 +55,20 @@ public class ExoticPotion extends Potion {
 	public static final HashMap<Class<?extends Potion>, Class<?extends ExoticPotion>> regToExo = new HashMap<>();
 	public static final HashMap<Class<?extends ExoticPotion>, Class<?extends Potion>> exoToReg = new HashMap<>();
 	static{
-		regToExo.put(PotionOfHealing.class, PotionOfShielding.class);
-		exoToReg.put(PotionOfShielding.class, PotionOfHealing.class);
+		regToExo.put(PotionOfHealing.class, PotionOfRegrowth.class);
+		exoToReg.put(PotionOfRegrowth.class, PotionOfHealing.class);
 		
-		regToExo.put(PotionOfToxicGas.class, PotionOfCorrosiveGas.class);
-		exoToReg.put(PotionOfCorrosiveGas.class, PotionOfToxicGas.class);
+		regToExo.put(PotionOfToxicGas.class, PotionOfToxicEssence.class);
+		exoToReg.put(PotionOfToxicEssence.class, PotionOfToxicGas.class);
 		
-		regToExo.put(PotionOfStrength.class, PotionOfAdrenalineSurge.class);
-		exoToReg.put(PotionOfAdrenalineSurge.class, PotionOfStrength.class);
+		regToExo.put(PotionOfStrength.class, PotionOfMight.class);
+		exoToReg.put(PotionOfMight.class, PotionOfStrength.class);
 		
 		regToExo.put(PotionOfFrost.class, PotionOfSnapFreeze.class);
 		exoToReg.put(PotionOfSnapFreeze.class, PotionOfFrost.class);
 		
-		regToExo.put(PotionOfHaste.class, PotionOfStamina.class);
-		exoToReg.put(PotionOfStamina.class, PotionOfHaste.class);
+		regToExo.put(PotionOfHaste.class, PotionOfFuror.class);
+		exoToReg.put(PotionOfFuror.class, PotionOfHaste.class);
 		
 		regToExo.put(PotionOfLiquidFlame.class, PotionOfDragonsBreath.class);
 		exoToReg.put(PotionOfDragonsBreath.class, PotionOfLiquidFlame.class);
@@ -76,17 +79,21 @@ public class ExoticPotion extends Potion {
 		regToExo.put(PotionOfMindVision.class, PotionOfMagicalSight.class);
 		exoToReg.put(PotionOfMagicalSight.class, PotionOfMindVision.class);
 		
-		regToExo.put(PotionOfLevitation.class, PotionOfStormClouds.class);
-		exoToReg.put(PotionOfStormClouds.class, PotionOfLevitation.class);
+		regToExo.put(PotionOfLevitation.class, PotionOfFeatherFall.class);
+		exoToReg.put(PotionOfFeatherFall.class, PotionOfLevitation.class);
 		
-		regToExo.put(PotionOfExperience.class, PotionOfHolyFuror.class);
-		exoToReg.put(PotionOfHolyFuror.class, PotionOfExperience.class);
+		regToExo.put(PotionOfExperience.class, PotionOfBlessing.class);
+		exoToReg.put(PotionOfBlessing.class, PotionOfExperience.class);
 		
 		regToExo.put(PotionOfPurity.class, PotionOfCleansing.class);
 		exoToReg.put(PotionOfCleansing.class, PotionOfPurity.class);
 		
-		regToExo.put(PotionOfParalyticGas.class, PotionOfEarthenArmor.class);
-		exoToReg.put(PotionOfEarthenArmor.class, PotionOfParalyticGas.class);
+		regToExo.put(PotionOfShielding.class, PotionOfAbsorption.class);
+		exoToReg.put(PotionOfAbsorption.class, PotionOfShielding.class);
+		
+		regToExo.put(PotionOfElectricity.class, PotionOfDragonsBreath.class);
+		
+		regToExo.put(PotionOfCausticOoze.class, PotionOfToxicEssence.class);
 	}
 	
 	@Override
@@ -130,23 +137,23 @@ public class ExoticPotion extends Potion {
 		
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-			int s = 0;
+			boolean catalyst = false;
 			Potion p = null;
 			
 			for (Item i : ingredients){
-				if (i instanceof Plant.Seed){
-					s++;
+				if (i instanceof AlchemicalCatalyst){
+					catalyst = true;
 				} else if (regToExo.containsKey(i.getClass())) {
 					p = (Potion)i;
 				}
 			}
 			
-			return p != null && s == 2;
+			return p != null && catalyst;
 		}
 		
 		@Override
 		public int cost(ArrayList<Item> ingredients) {
-			return 0;
+			return 1;
 		}
 		
 		@Override

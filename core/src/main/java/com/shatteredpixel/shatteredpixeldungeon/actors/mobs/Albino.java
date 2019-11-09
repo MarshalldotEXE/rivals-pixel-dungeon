@@ -32,7 +32,15 @@ public class Albino extends Rat {
 	{
 		spriteClass = AlbinoSprite.class;
 		
-		HP = HT = 15;
+		HP = HT = 10;
+		defenseSkill = 6;
+		
+		EXP = 2;
+	}
+	
+	@Override
+	public int attackSkill( Char target ) {
+		return 11;
 	}
 	
 	@Override

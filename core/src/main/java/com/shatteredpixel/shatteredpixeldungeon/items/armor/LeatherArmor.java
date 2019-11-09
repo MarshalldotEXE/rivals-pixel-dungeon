@@ -27,10 +27,12 @@ public class LeatherArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_LEATHER;
+		
+		bones = false; //Finding them in bones would be semi-frequent and disappointing.
 	}
 	
 	public LeatherArmor() {
-		super( 2 );
+		super( 1 );
 	}
-
+	
 }

@@ -77,7 +77,7 @@ public class ArtifactRecharge extends Buff {
 	
 	@Override
 	public void tintIcon(Image icon) {
-		icon.hardlight(0, 1f, 0);
+		icon.hardlight(0, 1f, 1f);
 	}
 	
 	@Override

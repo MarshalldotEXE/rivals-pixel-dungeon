@@ -84,11 +84,11 @@ public class LaboratoryRoom extends SpecialRoom {
 			}
 		}
 		
-		//4 pages in sewers, 6 in prison, 9 in caves+
+		//3 pages in sewers, 5 in prison, 6 in caves+
 		int chapterTarget;
-		if (missingPages.size() <= 3){
+		if (missingPages.size() <= 2){
 			chapterTarget = 3;
-		} else if (missingPages.size() <= 5){
+		} else if (missingPages.size() <= 4){
 			chapterTarget = 2;
 		} else {
 			chapterTarget = 1;
@@ -125,7 +125,7 @@ public class LaboratoryRoom extends SpecialRoom {
 
 		Item prize = level.findPrizeItem( Potion.class );
 		if (prize == null)
-			prize = Generator.random( Random.oneOf( Generator.Category.POTION, Generator.Category.STONE ));
+			prize = Generator.random( Random.oneOf( Generator.Category.POTION, Generator.Category.EXOTIC_POTION ));
 
 		return prize;
 	}

@@ -162,7 +162,7 @@ public class v0_7_X_Changes {
 		changes.hardlight( Window.TITLE_COLOR );
 		changeInfos.add(changes);
 		
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+		changes.addButton( new ChangeButton(Icons.get(Icons.EVAN), "Developer Commentary",
 				"_-_ Released July 18th, 2019\n" +
 				"_-_ 56 days after Shattered v0.7.3" +
 				"\n" +
@@ -215,7 +215,7 @@ public class v0_7_X_Changes {
 				"_-_ Ghost evasion reduced to 1x hero evasion from 2x.\n" +
 				"_-_ Ghost now heals over time while they are summoned."));
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.NOISEMAKER, null), "Enhanced Bomb Buffs",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.BOMB_CRIMSON, null), "Enhanced Bomb Buffs",
 				"Many enchant bombs are performing poorly compared to some of the more popular ones, such as holy bombs and boss bombs. While I am toning down the strongest bombs a bit, I'm also making some pretty significant buffs to weaker bombs:\n\n" +
 				"_-_ Frost bomb cost down to 2 from 3, now instantly freezes enemies caught in the blast in addition to chilling.\n" +
 				"_-_ Woolly bomb cost down to 2 from 3, now does regular bomb damage in addition to spawning sheep.\n" +
@@ -263,7 +263,7 @@ public class v0_7_X_Changes {
 		changes.hardlight( Window.TITLE_COLOR );
 		changeInfos.add(changes);
 		
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+		changes.addButton( new ChangeButton(Icons.get(Icons.EVAN), "Developer Commentary",
 				"_-_ Released May 23rd, 2019\n" +
 				"_-_ 66 days after Shattered v0.7.2" +
 				"\n" +
@@ -393,7 +393,7 @@ public class v0_7_X_Changes {
 		changes.hardlight( Window.TITLE_COLOR );
 		changeInfos.add(changes);
 		
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+		changes.addButton( new ChangeButton(Icons.get(Icons.EVAN), "Developer Commentary",
 				"_-_ Released Mar 18th, 2019\n" +
 				"_-_ 90 days after Shattered v0.7.1\n" +
 				"\n" +
@@ -549,7 +549,7 @@ public class v0_7_X_Changes {
 		changes.hardlight( Window.TITLE_COLOR );
 		changeInfos.add(changes);
 		
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+		changes.addButton( new ChangeButton(Icons.get(Icons.EVAN), "Developer Commentary",
 				"_-_ Released Dec 18th, 2018\n" +
 				"_-_ 61 days after Shattered v0.7.0\n" +
 				"\n" +
@@ -681,7 +681,7 @@ public class v0_7_X_Changes {
 		changes.hardlight( Window.TITLE_COLOR );
 		changeInfos.add(changes);
 		
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+		changes.addButton( new ChangeButton(Icons.get(Icons.EVAN), "Developer Commentary",
 				"_-_ Released Oct 18th, 2018\n" +
 				"_-_ 501 days after Shattered v0.6.0\n" +
 				"_-_ 168 days after Shattered v0.6.5\n" +

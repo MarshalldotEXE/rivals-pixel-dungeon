@@ -32,10 +32,10 @@ public class Gnoll extends Mob {
 		spriteClass = GnollSprite.class;
 		
 		HP = HT = 12;
-		defenseSkill = 4;
+		defenseSkill = 6;
 		
 		EXP = 2;
-		maxLvl = 8;
+		maxLvl = 4;
 		
 		loot = Gold.class;
 		lootChance = 0.5f;
@@ -48,7 +48,7 @@ public class Gnoll extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 10;
+		return 11;
 	}
 	
 	@Override

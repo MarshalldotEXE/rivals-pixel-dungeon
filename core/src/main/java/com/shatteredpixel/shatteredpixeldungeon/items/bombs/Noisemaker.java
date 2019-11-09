@@ -38,7 +38,7 @@ import com.watabou.utils.Bundle;
 public class Noisemaker extends Bomb {
 	
 	{
-		image = ItemSpriteSheet.NOISEMAKER;
+		image = ItemSpriteSheet.BOMB_CRIMSON;
 	}
 
 	public void setTrigger(int cell){

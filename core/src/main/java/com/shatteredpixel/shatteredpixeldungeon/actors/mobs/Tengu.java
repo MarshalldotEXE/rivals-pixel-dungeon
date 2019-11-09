@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -32,7 +35,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.TomeOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
@@ -54,8 +56,8 @@ public class Tengu extends Mob {
 		spriteClass = TenguSprite.class;
 		
 		HP = HT = 120;
-		EXP = 20;
-		defenseSkill = 20;
+		EXP = 40;
+		defenseSkill = 12;
 
 		HUNTING = new Hunting();
 
@@ -78,7 +80,7 @@ public class Tengu extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 20;
+		return 17;
 	}
 	
 	@Override
@@ -156,11 +158,6 @@ public class Tengu extends Mob {
 		super.die( cause );
 		
 		Badges.validateBossSlain();
-
-		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
-		if (beacon != null) {
-			beacon.upgrade();
-		}
 		
 		yell( Messages.get(this, "defeated") );
 	}

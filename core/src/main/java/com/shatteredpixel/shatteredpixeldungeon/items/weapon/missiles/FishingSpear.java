@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,8 +24,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class FishingSpear extends MissileWeapon {
@@ -30,14 +31,7 @@ public class FishingSpear extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.FISHING_SPEAR;
 		
-		tier = 2;
+		tier = 1;
 	}
-	
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		if (defender instanceof Piranha){
-			damage = Math.max(damage, defender.HP/2);
-		}
-		return super.proc(attacker, defender, damage);
-	}
+
 }

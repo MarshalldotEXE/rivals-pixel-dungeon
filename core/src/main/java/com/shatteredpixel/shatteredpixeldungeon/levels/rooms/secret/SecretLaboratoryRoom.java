@@ -33,9 +33,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibili
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfElectricity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfCausticOoze;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
@@ -50,14 +52,16 @@ public class SecretLaboratoryRoom extends SecretRoom {
 	static{
 		potionChances.put(PotionOfHealing.class,        1f);
 		potionChances.put(PotionOfMindVision.class,     2f);
+		potionChances.put(PotionOfLiquidFlame.class,    2f);
 		potionChances.put(PotionOfFrost.class,          3f);
-		potionChances.put(PotionOfLiquidFlame.class,    3f);
 		potionChances.put(PotionOfToxicGas.class,       3f);
+		potionChances.put(PotionOfInvisibility.class,   3f);
+		potionChances.put(PotionOfLevitation.class,     3f);
 		potionChances.put(PotionOfHaste.class,          4f);
-		potionChances.put(PotionOfInvisibility.class,   4f);
-		potionChances.put(PotionOfLevitation.class,     4f);
-		potionChances.put(PotionOfParalyticGas.class,   4f);
+		potionChances.put(PotionOfElectricity.class,    4f);
 		potionChances.put(PotionOfPurity.class,         4f);
+		potionChances.put(PotionOfCausticOoze.class,    4f);
+		potionChances.put(PotionOfShielding.class,      4f);
 		potionChances.put(PotionOfExperience.class,     6f);
 	}
 	

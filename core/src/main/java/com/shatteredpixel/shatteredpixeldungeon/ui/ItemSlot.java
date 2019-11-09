@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -33,6 +36,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -45,6 +50,7 @@ public class ItemSlot extends Button {
 
 	public static final int DEGRADED	= 0xFF4444;
 	public static final int UPGRADED	= 0x44FF44;
+	public static final int UPGRADED2	= 0x44FFFF;
 	public static final int FADED       = 0x999999;
 	public static final int WARNING		= 0xFF8800;
 	
@@ -238,6 +244,7 @@ public class ItemSlot extends Button {
 			bottomRight.text( item.levelKnown ? Messages.format( TXT_LEVEL, level ) : TXT_CURSED );
 			bottomRight.measure();
 			bottomRight.hardlight( level > 0 ? UPGRADED : DEGRADED );
+			if (item instanceof Artifact || item instanceof SpiritBow) bottomRight.hardlight( level > 0 ? UPGRADED2 : DEGRADED );
 		} else if (item instanceof Scroll || item instanceof Potion) {
 			bottomRight.text( null );
 

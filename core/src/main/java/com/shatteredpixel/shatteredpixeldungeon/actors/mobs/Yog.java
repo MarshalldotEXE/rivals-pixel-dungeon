@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -38,6 +41,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -70,7 +75,7 @@ public class Yog extends Mob {
 		
 		HP = HT = 300;
 		
-		EXP = 50;
+		EXP = 100;
 		
 		state = PASSIVE;
 
@@ -217,7 +222,7 @@ public class Yog extends Mob {
 			spriteClass = RottingFistSprite.class;
 			
 			HP = HT = 300;
-			defenseSkill = 25;
+			defenseSkill = 20;
 			
 			EXP = 0;
 			
@@ -230,7 +235,7 @@ public class Yog extends Mob {
 		
 		@Override
 		public int attackSkill( Char target ) {
-			return 36;
+			return 33;
 		}
 		
 		@Override
@@ -289,7 +294,7 @@ public class Yog extends Mob {
 			spriteClass = BurningFistSprite.class;
 			
 			HP = HT = 200;
-			defenseSkill = 25;
+			defenseSkill = 17;
 			
 			EXP = 0;
 			
@@ -375,6 +380,8 @@ public class Yog extends Mob {
 			immunities.add( Sleep.class );
 			immunities.add( Terror.class );
 			immunities.add( Vertigo.class );
+			immunities.add( Chill.class );
+			immunities.add( Frost.class );
 		}
 	}
 	
@@ -383,8 +390,8 @@ public class Yog extends Mob {
 		{
 			spriteClass = LarvaSprite.class;
 			
-			HP = HT = 25;
-			defenseSkill = 20;
+			HP = HT = 30;
+			defenseSkill = 27;
 			
 			EXP = 0;
 			maxLvl = -2;
@@ -396,12 +403,12 @@ public class Yog extends Mob {
 		
 		@Override
 		public int attackSkill( Char target ) {
-			return 30;
+			return 26;
 		}
 		
 		@Override
 		public int damageRoll() {
-			return Random.NormalIntRange( 22, 30 );
+			return Random.NormalIntRange( 14, 21 );
 		}
 		
 		@Override

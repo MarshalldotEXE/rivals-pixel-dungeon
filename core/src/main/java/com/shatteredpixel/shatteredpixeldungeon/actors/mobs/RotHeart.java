@@ -44,7 +44,7 @@ public class RotHeart extends Mob {
 		HP = HT = 80;
 		defenseSkill = 0;
 
-		EXP = 4;
+		EXP = 5;
 
 		state = PASSIVE;
 

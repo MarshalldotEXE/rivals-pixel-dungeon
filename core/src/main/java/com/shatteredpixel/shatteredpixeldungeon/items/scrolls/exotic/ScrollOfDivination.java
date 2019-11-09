@@ -46,7 +46,7 @@ import java.util.HashSet;
 public class ScrollOfDivination extends ExoticScroll {
 	
 	{
-		initials = 0;
+		initials = 1;
 	}
 	
 	@Override

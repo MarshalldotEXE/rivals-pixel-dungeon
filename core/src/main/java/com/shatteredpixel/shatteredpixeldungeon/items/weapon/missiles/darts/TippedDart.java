@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -43,6 +46,8 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Shinestem;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Blighttrap;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 
@@ -143,7 +148,7 @@ public abstract class TippedDart extends Dart {
 	static {
 		types.put(Blindweed.Seed.class,     BlindingDart.class);
 		types.put(Dreamfoil.Seed.class,     SleepDart.class);
-		types.put(Earthroot.Seed.class,     ParalyticDart.class);
+		types.put(Earthroot.Seed.class,     RootingDart.class);
 		types.put(Fadeleaf.Seed.class,      DisplacingDart.class);
 		types.put(Firebloom.Seed.class,     IncendiaryDart.class);
 		types.put(Icecap.Seed.class,        ChillingDart.class);
@@ -153,6 +158,8 @@ public abstract class TippedDart extends Dart {
 		types.put(Stormvine.Seed.class,     ShockingDart.class);
 		types.put(Sungrass.Seed.class,      HealingDart.class);
 		types.put(Swiftthistle.Seed.class,  AdrenalineDart.class);
+		types.put(Shinestem.Seed.class,     ParalyticDart.class);
+		types.put(Blighttrap.Seed.class,    OozingDart.class);
 	}
 	
 	public static TippedDart getTipped( Plant.Seed s, int quantity ){

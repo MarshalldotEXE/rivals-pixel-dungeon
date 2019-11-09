@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -37,7 +40,7 @@ public class Gloves extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		return  (int)(3f*(tier+1)) +    //6 base, down from 10
-				lvl*tier;               //+1 per level, down from +2
+				lvl*Math.round(0.5f*(tier));               //+0.5 per level, down from +1
 	}
 
 }

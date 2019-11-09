@@ -35,16 +35,17 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class Sorrowmoss extends Plant {
 
 	{
-		image = 6;
+		image = 8;
 	}
 	
 	@Override
 	public void activate( Char ch ) {
+		
 		if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
 			Buff.affect(ch, ToxicImbue.class).set(15f);
 		}
 		
-		if (ch != null) {
+		if (ch != null)	{
 			Buff.affect( ch, Poison.class ).set( 5 + Math.round(2*Dungeon.depth / 3f) );
 		}
 		

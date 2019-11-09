@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,15 +31,15 @@ public class RunicBlade extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.RUNIC_BLADE;
 
-		tier = 4;
+		tier = 3;
 	}
 
-	//Essentially it's a tier 4 weapon, with tier 3 base max damage, and tier 5 scaling.
-	//equal to tier 4 in damage at +5
+	//Essentially it's a tier 3 weapon, with tier 2 base max damage, and tier 4 scaling.
+	//equal to tier 3 in damage at +5
 
 	@Override
 	public int max(int lvl) {
-		return  5*(tier) +                	//20 base, down from 25
-				Math.round(lvl*(tier+2));	//+6 per level, up from +5
+		return  5*(tier) +                	//15 base, down from 20
+				Math.round(lvl*(tier+1));	//+4 per level, up from +3
 	}
 }

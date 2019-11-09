@@ -26,6 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ItemSlot;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextMultiline;
@@ -79,6 +81,7 @@ public class WndItem extends Window {
 
 		if (item.levelKnown && item.level() > 0) {
 			titlebar.color( ItemSlot.UPGRADED );
+			if (item instanceof Artifact || item instanceof SpiritBow) titlebar.color( ItemSlot.UPGRADED2 );
 		} else if (item.levelKnown && item.level() < 0) {
 			titlebar.color( ItemSlot.DEGRADED );
 		}

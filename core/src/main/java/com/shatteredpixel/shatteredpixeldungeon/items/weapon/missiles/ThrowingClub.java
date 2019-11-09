@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,14 +31,14 @@ public class ThrowingClub extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.THROWING_CLUB;
 		
-		tier = 2;
-		baseUses = 15;
+		tier = 1;
+		baseUses = 5;
 		sticky = false;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  4 * tier +                  //8 base, down from 10
-				(tier) * lvl;               //scaling unchanged
+		return  6 * tier +                      //6 base, up from 5
+				(tier == 1 ? 2*lvl : tier*lvl); //scaling unchanged
 	}
 }

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -56,6 +59,7 @@ public class Speck extends Image {
 	public static final int RATTLE      = 105;
 	public static final int JET         = 106;
 	public static final int TOXIC       = 107;
+	public static final int VENOM       = 120;
 	public static final int CORROSION   = 108;
 	public static final int PARALYSIS   = 109;
 	public static final int DUST        = 110;
@@ -110,6 +114,7 @@ public class Speck extends Image {
 			break;
 		case JET:
 		case TOXIC:
+		case VENOM:
 		case CORROSION:
 		case PARALYSIS:
 		case STENCH:
@@ -291,7 +296,7 @@ public class Speck extends Image {
 			angle = Random.Float( 360 );
 			lifespan = Random.Float( 1f, 3f );
 			break;
-
+		
 		case CORROSION:
 			hardlight( 0xAAAAAA );
 			angularSpeed = 30;
@@ -346,6 +351,13 @@ public class Speck extends Image {
 			angularSpeed = 30;
 			angle = Random.Float( 360 );
 			lifespan = Random.Float( 1f, 1.5f );
+			break;
+			
+		case VENOM:
+			hardlight( 0x8844FF );
+			angularSpeed = 30;
+			angle = Random.Float( 360 );
+			lifespan = Random.Float( 1f, 3f );
 			break;
 
 		case DUST:
@@ -467,8 +479,18 @@ public class Speck extends Image {
 
 			case CORROSION:
 				hardlight( ColorMath.interpolate( 0xAAAAAA, 0xFF8800 , p ));
+				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) );
+				scale.set( 1 + p );
+				break;
+				
 			case STENCH:
 			case SMOKE:
+				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) );
+				scale.set( 1 + p );
+				break;
+				
+			case VENOM:
+				hardlight( ColorMath.interpolate( 0x8844FF, 0x00FF00 , p ));
 				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) );
 				scale.set( 1 + p );
 				break;

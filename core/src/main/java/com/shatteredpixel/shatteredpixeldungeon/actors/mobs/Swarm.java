@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -45,11 +48,11 @@ public class Swarm extends Mob {
 	{
 		spriteClass = SwarmSprite.class;
 		
-		HP = HT = 50;
-		defenseSkill = 5;
-
+		HP = HT = 45;
+		defenseSkill = 7;
+			
 		EXP = 3;
-		maxLvl = 9;
+		maxLvl = 4;
 		
 		flying = true;
 
@@ -78,7 +81,7 @@ public class Swarm extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 1, 4 );
+		return Random.NormalIntRange( 1, 5 );
 	}
 	
 	@Override

@@ -40,7 +40,7 @@ import com.watabou.noosa.Game;
 public class Fadeleaf extends Plant {
 	
 	{
-		image = 10;
+		image = 12;
 	}
 	
 	@Override

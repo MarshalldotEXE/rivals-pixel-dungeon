@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class ScrollOfIdentify extends InventoryScroll {
 
 	{
-		initials = 0;
+		initials = 1;
 		mode = WndBag.Mode.UNIDENTIFED;
 
 		bones = true;

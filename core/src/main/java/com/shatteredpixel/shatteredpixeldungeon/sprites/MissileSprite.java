@@ -32,7 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Javelin;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Kunai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.GlaiveStar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
@@ -85,7 +85,6 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(Dart.class,          0);
 		ANGULAR_SPEEDS.put(ThrowingKnife.class, 0);
 		ANGULAR_SPEEDS.put(FishingSpear.class,  0);
-		ANGULAR_SPEEDS.put(ThrowingSpear.class, 0);
 		ANGULAR_SPEEDS.put(Kunai.class,         0);
 		ANGULAR_SPEEDS.put(Javelin.class,       0);
 		ANGULAR_SPEEDS.put(Trident.class,       0);
@@ -99,6 +98,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(Bolas.class,         1440);
 		
 		ANGULAR_SPEEDS.put(Shuriken.class,      2160);
+		ANGULAR_SPEEDS.put(GlaiveStar.class,      2160);
 		
 		ANGULAR_SPEEDS.put(TenguSprite.TenguShuriken.class,      2160);
 	}

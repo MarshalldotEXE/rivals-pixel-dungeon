@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blizzard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ConfusionGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.VenomGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
@@ -67,6 +68,7 @@ public class BlobImmunity extends FlavourBuff {
 		immunities.add( Blizzard.class );
 		immunities.add( ConfusionGas.class );
 		immunities.add( CorrosiveGas.class );
+		immunities.add( VenomGas.class );
 		immunities.add( Electricity.class );
 		immunities.add( Fire.class );
 		immunities.add( Freezing.class );

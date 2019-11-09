@@ -34,7 +34,7 @@ import com.watabou.utils.Random;
 public class Starflower extends Plant {
 
 	{
-		image = 9;
+		image = 11;
 	}
 
 	@Override

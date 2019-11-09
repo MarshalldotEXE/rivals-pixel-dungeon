@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,14 +31,20 @@ public class BattleAxe extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.BATTLE_AXE;
 
-		tier = 4;
-		ACC = 1.24f; //24% boost to accuracy
+		tier = 3;
+		DLY = 2f; //0.5x speed
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  2*tier +  //6 base, up from 3
+				2*lvl;    //+2 per level, up from +1
+	}
+	
+	@Override
 	public int max(int lvl) {
-		return  4*(tier+1) +    //20 base, down from 25
-				lvl*(tier+1);   //scaling unchanged
+		return  10*(tier+1) +    //40 base, up from 20
+				lvl*Math.round(2f*(tier));   //+6 per level, up from +3
 	}
 
 }

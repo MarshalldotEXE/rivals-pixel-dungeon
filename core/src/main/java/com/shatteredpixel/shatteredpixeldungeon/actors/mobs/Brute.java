@@ -36,11 +36,11 @@ public class Brute extends Mob {
 	{
 		spriteClass = BruteSprite.class;
 		
-		HP = HT = 40;
-		defenseSkill = 15;
+		HP = HT = 42;
+		defenseSkill = 12;
 		
-		EXP = 8;
-		maxLvl = 16;
+		EXP = 9;
+		maxLvl = 12;
 		
 		loot = Gold.class;
 		lootChance = 0.5f;
@@ -51,24 +51,24 @@ public class Brute extends Mob {
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
-		enraged = HP < HT / 4;
+		enraged = HP < HT / 3;
 	}
 	
 	@Override
 	public int damageRoll() {
 		return enraged ?
-			Random.NormalIntRange( 15, 45 ) :
-			Random.NormalIntRange( 6, 26 );
+			Random.NormalIntRange( 18, 44 ) :
+			Random.NormalIntRange( 6, 22 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 20;
+		return 19;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 8);
+		return Random.NormalIntRange(0, 5);
 	}
 	
 	@Override

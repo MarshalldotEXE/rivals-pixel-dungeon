@@ -38,7 +38,7 @@ import com.watabou.utils.Random;
 public class ScrollOfPolymorph extends ExoticScroll {
 	
 	{
-		initials = 10;
+		initials = 11;
 	}
 	
 	@Override

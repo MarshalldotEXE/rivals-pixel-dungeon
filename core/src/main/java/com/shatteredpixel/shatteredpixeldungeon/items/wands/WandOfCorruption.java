@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -50,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Venom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bee;
@@ -60,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Statue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RedWraith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Yog;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -113,6 +118,7 @@ public class WandOfCorruption extends Wand {
 		MAJOR_DEBUFFS.put(MagicalSleep.class,   0f);
 		MAJOR_DEBUFFS.put(SoulMark.class,       0f);
 		MAJOR_DEBUFFS.put(Corrosion.class,      0f);
+		MAJOR_DEBUFFS.put(Venom.class,          0f);
 		MAJOR_DEBUFFS.put(Frost.class,          0f);
 		MAJOR_DEBUFFS.put(Doom.class,           0f);
 	}
@@ -134,14 +140,14 @@ public class WandOfCorruption extends Wand {
 			//base enemy resistance is usually based on their exp, but in special cases it is based on other criteria
 			float enemyResist = 1 + enemy.EXP;
 			if (ch instanceof Mimic || ch instanceof Statue){
-				enemyResist = 1 + Dungeon.depth;
+				enemyResist = 2 + 3 * Dungeon.depth / 4;
 			} else if (ch instanceof Piranha || ch instanceof Bee) {
 				enemyResist = 1 + Dungeon.depth/2f;
-			} else if (ch instanceof Wraith) {
+			} else if (ch instanceof Wraith || ch instanceof RedWraith) {
 				//this is so low because wraiths are always at max hp
-				enemyResist = 0.5f + Dungeon.depth/8f;
+				enemyResist = 0.5f + Dungeon.depth/6f;
 			} else if (ch instanceof Yog.BurningFist || ch instanceof Yog.RottingFist) {
-				enemyResist = 1 + 30;
+				enemyResist = 1 + 25;
 			} else if (ch instanceof Yog.Larva || ch instanceof King.Undead){
 				enemyResist = 1 + 5;
 			} else if (ch instanceof Swarm){

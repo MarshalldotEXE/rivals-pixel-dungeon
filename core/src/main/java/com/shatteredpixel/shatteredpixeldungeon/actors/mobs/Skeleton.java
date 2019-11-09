@@ -44,7 +44,7 @@ public class Skeleton extends Mob {
 		defenseSkill = 9;
 		
 		EXP = 5;
-		maxLvl = 10;
+		maxLvl = 8;
 
 		loot = Generator.Category.WEAPON;
 		lootChance = 0.125f;
@@ -55,7 +55,7 @@ public class Skeleton extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 2, 10 );
+		return Random.NormalIntRange( 3, 10 );
 	}
 	
 	@Override
@@ -69,7 +69,7 @@ public class Skeleton extends Mob {
 		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
 			Char ch = findChar( pos + PathFinder.NEIGHBOURS8[i] );
 			if (ch != null && ch.isAlive()) {
-				int damage = Random.NormalIntRange(6, 12);
+				int damage = Random.NormalIntRange(6, 10);
 				damage = Math.max( 0,  damage - (ch.drRoll() + ch.drRoll()) );
 				ch.damage( damage, this );
 				if (ch == Dungeon.hero && !ch.isAlive()) {
@@ -101,12 +101,12 @@ public class Skeleton extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 12;
+		return 14;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 5);
+		return Random.NormalIntRange(0, 4);
 	}
 
 }

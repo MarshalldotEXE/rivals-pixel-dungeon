@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -44,11 +47,11 @@ public class Warlock extends Mob implements Callback {
 	{
 		spriteClass = WarlockSprite.class;
 		
-		HP = HT = 70;
-		defenseSkill = 18;
+		HP = HT = 60;
+		defenseSkill = 15;
 		
-		EXP = 11;
-		maxLvl = 21;
+		EXP = 12;
+		maxLvl = 16;
 		
 		loot = Generator.Category.POTION;
 		lootChance = 0.83f;
@@ -58,12 +61,12 @@ public class Warlock extends Mob implements Callback {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 16, 22 );
+		return Random.NormalIntRange( 10, 16 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 25;
+		return 24;
 	}
 	
 	@Override
@@ -106,7 +109,7 @@ public class Warlock extends Mob implements Callback {
 				Buff.prolong( enemy, Weakness.class, Weakness.DURATION );
 			}
 			
-			int dmg = Random.Int( 12, 18 );
+			int dmg = Random.Int( 12, 20 );
 			enemy.damage( dmg, new DarkBolt() );
 			
 			if (!enemy.isAlive() && enemy == Dungeon.hero) {

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -53,7 +56,7 @@ import java.util.Iterator;
 public class WandOfRegrowth extends Wand {
 
 	{
-		image = ItemSpriteSheet.WAND_REGROWTH;
+		image = ItemSpriteSheet.WAND_REGROWTH5;
 
 		collisionProperties = Ballistica.STOP_TERRAIN;
 	}
@@ -128,15 +131,23 @@ public class WandOfRegrowth extends Wand {
 		}
 		
 		totChrgUsed += chrgUsed;
+		
+		if (level() >= 9)                                                     image = ItemSpriteSheet.WAND_REGROWTH5;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.2f) image = ItemSpriteSheet.WAND_REGROWTH5;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.4f) image = ItemSpriteSheet.WAND_REGROWTH4;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.6f) image = ItemSpriteSheet.WAND_REGROWTH3;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.8f) image = ItemSpriteSheet.WAND_REGROWTH2;
+		else                                                                  image = ItemSpriteSheet.WAND_REGROWTH1;
+		
+		updateQuickslot();
 	}
 	
 	private int chargeLimit( int heroLevel ){
-		if (level() >= 12){
+		if (level() >= 9){
 			return Integer.MAX_VALUE;
 		} else {
-			//4 charges per hero level at +0, with another 2-4 each upgrade from +1 to +9.
-			//then +7 at +10, +16 at +11, and infinite at +12.
-			return Math.round(((4 + 2*level())*heroLevel) * (11f/12f + 1f/(12f-level())));
+			//infinite at +9
+			return Math.round(((4 + 2*level())*heroLevel) * (8f/9f + 1f/(9f-level())));
 		}
 	}
 
@@ -284,7 +295,7 @@ public class WandOfRegrowth extends Wand {
 	public static class Dewcatcher extends Plant{
 
 		{
-			image = 13;
+			image = 15;
 		}
 
 		@Override
@@ -320,7 +331,7 @@ public class WandOfRegrowth extends Wand {
 	public static class Seedpod extends Plant{
 
 		{
-			image = 14;
+			image = 16;
 		}
 
 		@Override

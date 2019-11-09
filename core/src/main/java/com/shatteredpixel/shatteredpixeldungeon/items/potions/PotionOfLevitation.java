@@ -36,7 +36,7 @@ import com.watabou.noosa.audio.Sample;
 public class PotionOfLevitation extends Potion {
 
 	{
-		initials = 5;
+		initials = 7;
 	}
 
 	@Override

@@ -41,7 +41,7 @@ import java.util.ArrayList;
 public class Swiftthistle extends Plant {
 	
 	{
-		image = 2;
+		image = 3;
 	}
 	
 	@Override

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -34,9 +37,15 @@ public class Spear extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  Math.round(1.5f*tier) +  //3 base, up from 2
+				Math.round(1.5f*lvl);    //+1.5 per level, up from +1
+	}
+	
+	@Override
 	public int max(int lvl) {
 		return  Math.round(6.67f*(tier+1)) +    //20 base, up from 15
-				lvl*Math.round(1.33f*(tier+1)); //+4 per level, up from +3
+				lvl*Math.round(1.33f*(tier)); //+3 per level, up from +2
 	}
 
 }

@@ -31,7 +31,7 @@ import com.watabou.noosa.audio.Sample;
 public class PotionOfShroudingFog extends ExoticPotion {
 	
 	{
-		initials = 4;
+		initials = 13;
 	}
 	
 	@Override

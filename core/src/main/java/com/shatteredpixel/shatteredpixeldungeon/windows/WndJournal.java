@@ -55,10 +55,10 @@ import java.util.HashMap;
 public class WndJournal extends WndTabbed {
 	
 	public static final int WIDTH_P     = 126;
-	public static final int HEIGHT_P    = 180;
+	public static final int HEIGHT_P    = 200;
 	
 	public static final int WIDTH_L     = 200;
-	public static final int HEIGHT_L    = 130;
+	public static final int HEIGHT_L    = 150;
 	
 	private static final int ITEM_HEIGHT	= 18;
 	
@@ -295,9 +295,9 @@ public class WndJournal extends WndTabbed {
 	public static class AlchemyTab extends Component {
 		
 		private RedButton[] pageButtons;
-		private static final int NUM_BUTTONS = 9;
+		private static final int NUM_BUTTONS = 6;
 		
-		private static final int[] spriteIndexes = {10, 12, 7, 8, 9, 11, 13, 14, 15};
+		private static final int[] spriteIndexes = {10, 7, 13, 9, 11, 8};
 		
 		private static int currentPageIdx   = -1;
 		
@@ -350,17 +350,17 @@ public class WndJournal extends WndTabbed {
 				}
 			} else {
 				//for first row
-				float buttonWidth = width()/4;
+				float buttonWidth = width()/3;
 				float y = 0;
 				float x = 0;
 				for (int i = 0; i < NUM_BUTTONS; i++) {
 					pageButtons[i].setRect(x, y, buttonWidth, ITEM_HEIGHT);
 					PixelScene.align(pageButtons[i]);
 					x += buttonWidth;
-					if (i == 3){
+					if (i == 2){
 						y += ITEM_HEIGHT;
 						x = 0;
-						buttonWidth = width()/5;
+						buttonWidth = width()/3;
 					}
 				}
 			}

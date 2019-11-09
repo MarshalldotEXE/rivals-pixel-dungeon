@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -265,13 +268,17 @@ public class Wandmaker extends NPC {
 				given = false;
 				wand1 = (Wand) Generator.random(Generator.Category.WAND);
 				wand1.cursed = false;
-				wand1.upgrade();
+				wand1.level(1);
+				//33% chance to be +2 instead of +1
+				if (Random.Int(3) == 0) wand1.upgrade();
 
 				do {
 					wand2 = (Wand) Generator.random(Generator.Category.WAND);
 				} while (wand2.getClass().equals(wand1.getClass()));
 				wand2.cursed = false;
-				wand2.upgrade();
+				wand2.level(1);
+				//33% chance to be +2 instead of +1
+				if (Random.Int(3) == 0) wand2.upgrade();
 				
 			}
 		}

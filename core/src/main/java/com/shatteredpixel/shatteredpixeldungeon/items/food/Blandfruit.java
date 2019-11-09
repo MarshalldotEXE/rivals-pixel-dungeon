@@ -37,10 +37,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibili
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfCausticOoze;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfElectricity;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant.Seed;
@@ -109,7 +111,8 @@ public class Blandfruit extends Food {
 			if (potionAttrib instanceof PotionOfFrost
 				|| potionAttrib instanceof PotionOfLiquidFlame
 				|| potionAttrib instanceof PotionOfToxicGas
-				|| potionAttrib instanceof PotionOfParalyticGas) {
+				|| potionAttrib instanceof PotionOfElectricity
+				|| potionAttrib instanceof PotionOfCausticOoze) {
 				desc += Messages.get(this, "desc_throw");
 			} else {
 				desc += Messages.get(this, "desc_eat");
@@ -147,9 +150,6 @@ public class Blandfruit extends Food {
 		} else if (potionAttrib instanceof PotionOfStrength){
 			name = Messages.get(this, "rotfruit");
 			potionGlow = new ItemSprite.Glowing( 0xCC0022 );
-		} else if (potionAttrib instanceof PotionOfParalyticGas){
-			name = Messages.get(this, "earthfruit");
-			potionGlow = new ItemSprite.Glowing( 0x67583D );
 		} else if (potionAttrib instanceof PotionOfInvisibility){
 			name = Messages.get(this, "blindfruit");
 			potionGlow = new ItemSprite.Glowing( 0xD9D9D9 );
@@ -177,6 +177,15 @@ public class Blandfruit extends Food {
 		} else if (potionAttrib instanceof PotionOfHaste) {
 			name = Messages.get(this, "swiftfruit");
 			potionGlow = new ItemSprite.Glowing( 0xCCBB00 );
+		} else if (potionAttrib instanceof PotionOfElectricity) {
+			name = Messages.get(this, "shinefruit");
+			potionGlow = new ItemSprite.Glowing( 0xCC8800 );
+		} else if (potionAttrib instanceof PotionOfCausticOoze) {
+			name = Messages.get(this, "blightfruit");
+			potionGlow = new ItemSprite.Glowing( 0x3C7358 );
+		} else if (potionAttrib instanceof PotionOfShielding) {
+			name = Messages.get(this, "earthfruit");
+			potionGlow = new ItemSprite.Glowing( 0x67583D );
 		}
 
 		return this;
@@ -191,9 +200,10 @@ public class Blandfruit extends Food {
 			
 		} else if (potionAttrib instanceof PotionOfLiquidFlame ||
 				potionAttrib instanceof PotionOfToxicGas ||
-				potionAttrib instanceof PotionOfParalyticGas ||
+				potionAttrib instanceof PotionOfElectricity ||
 				potionAttrib instanceof PotionOfFrost ||
 				potionAttrib instanceof PotionOfLevitation ||
+				potionAttrib instanceof PotionOfCausticOoze ||
 				potionAttrib instanceof PotionOfPurity) {
 
 			potionAttrib.shatter( cell );

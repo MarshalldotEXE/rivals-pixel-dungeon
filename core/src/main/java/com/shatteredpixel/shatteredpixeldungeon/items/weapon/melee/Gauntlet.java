@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -29,18 +32,14 @@ public class Gauntlet extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.GAUNTLETS;
 		
-		tier = 5;
+		tier = 4;
 		DLY = 0.5f; //2x speed
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  Math.round(2.5f*(tier+1)) +     //15 base, down from 30
-				lvl*Math.round(0.5f*(tier+1));  //+3 per level, down from +6
+		return  Math.round(2.5f*(tier+1)) +     //13 base, down from 25
+				lvl*Math.round(0.5f*(tier));  //+2 per level, down from +4
 	}
 	
-	@Override
-	public int defenseFactor( Char owner ) {
-		return 5;	//5 extra defence
-	}
 }

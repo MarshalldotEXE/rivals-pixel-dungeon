@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,14 +31,13 @@ public class ThrowingHammer extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.THROWING_HAMMER;
 		
-		tier = 5;
-		baseUses = 15;
+		tier = 3;
 		sticky = false;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  4 * tier +                  //20 base, down from 25
+		return  4 * tier +                  //12 base, down from 15
 				(tier) * lvl;               //scaling unchanged
 	}
 }

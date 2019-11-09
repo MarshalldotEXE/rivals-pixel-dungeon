@@ -36,7 +36,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfPsionicBlast extends ExoticScroll {
 	
 	{
-		initials = 4;
+		initials = 10;
 	}
 	
 	@Override

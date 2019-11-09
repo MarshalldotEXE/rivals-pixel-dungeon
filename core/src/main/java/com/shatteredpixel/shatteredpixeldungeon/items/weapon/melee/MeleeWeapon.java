@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -41,13 +44,14 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public int max(int lvl) {
 		return  5*(tier+1) +    //base
-				lvl*(tier+1);   //level scaling
+				lvl*(tier);   //level scaling
 	}
 
 	public int STRReq(int lvl){
 		lvl = Math.max(0, lvl);
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return (8 + tier * 2) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		//base strength req for weapons is :10,:12,:14,:16
+		//strength req decreases at +1,+2,+3,+4,etc.
+		return (8 + tier * 2) - (int)(lvl);
 	}
 	
 	@Override

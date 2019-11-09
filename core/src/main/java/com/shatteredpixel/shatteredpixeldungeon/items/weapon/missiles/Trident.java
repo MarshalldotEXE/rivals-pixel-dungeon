@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,7 +31,7 @@ public class Trident extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.TRIDENT;
 		
-		tier = 5;
+		tier = 4;
 	}
 	
 }

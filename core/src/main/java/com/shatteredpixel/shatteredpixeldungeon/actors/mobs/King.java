@@ -38,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArmorKit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
@@ -63,8 +62,8 @@ public class King extends Mob {
 		spriteClass = KingSprite.class;
 		
 		HP = HT = 300;
-		EXP = 40;
-		defenseSkill = 25;
+		EXP = 80;
+		defenseSkill = 20;
 		
 		Undead.count = 0;
 
@@ -96,7 +95,7 @@ public class King extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 32;
+		return 25;
 	}
 	
 	@Override
@@ -157,11 +156,6 @@ public class King extends Mob {
 		super.die( cause );
 		
 		Badges.validateBossSlain();
-
-		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
-		if (beacon != null) {
-			beacon.upgrade();
-		}
 		
 		yell( Messages.get(this, "defeated", Dungeon.hero.givenName()) );
 	}

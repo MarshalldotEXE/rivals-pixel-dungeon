@@ -28,7 +28,7 @@ public class Longsword extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.LONGSWORD;
 
-		tier = 4;
+		tier = 3;
 	}
 
 }

@@ -31,7 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 public class PotionOfMindVision extends Potion {
 
 	{
-		initials = 7;
+		initials = 12;
 	}
 
 	@Override

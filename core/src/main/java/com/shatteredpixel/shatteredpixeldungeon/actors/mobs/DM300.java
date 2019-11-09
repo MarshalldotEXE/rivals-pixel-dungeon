@@ -36,7 +36,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -58,8 +57,8 @@ public class DM300 extends Mob {
 		spriteClass = DM300Sprite.class;
 		
 		HP = HT = 200;
-		EXP = 30;
-		defenseSkill = 18;
+		EXP = 60;
+		defenseSkill = 16;
 		
 
 		properties.add(Property.BOSS);
@@ -73,7 +72,7 @@ public class DM300 extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 28;
+		return 21;
 	}
 	
 	@Override
@@ -157,11 +156,6 @@ public class DM300 extends Mob {
 		}
 		
 		Badges.validateBossSlain();
-
-		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
-		if (beacon != null) {
-			beacon.upgrade();
-		}
 		
 		yell( Messages.get(this, "defeated") );
 	}

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -38,20 +41,21 @@ import com.watabou.utils.DeviceCompat;
 
 public class AboutScene extends PixelScene {
 
-	private static final String TTL_SHPX = "Shattered Pixel Dungeon";
+	private static final String TTL_SHPX = "Rivals Pixel Dungeon";
 
 	private static final String TXT_SHPX =
-			"Design, Code, & Graphics: Evan";
+			"Design, Code, & Graphics: MarshalldotEXE\n\n" +
+			"Special Thanks to the Beta Testers!";
 
-	private static final String LNK_SHPX = "ShatteredPixel.com";
+	private static final String LNK_SHPX = "Forked from Shattered Pixel Dungeon";
 
-	private static final String TTL_WATA = "Pixel Dungeon";
+	private static final String TTL_WATA = "Shattered Pixel Dungeon";
 
 	private static final String TXT_WATA =
-			"Code & Graphics: Watabou\n" +
-			"Music: Cube_Code";
+			"Design, Code, & Graphics: Evan";
 	
-	private static final String LNK_WATA = "pixeldungeon.watabou.ru";
+	private static final String LNK_WATA =
+			"ShatteredPixel.com";
 	
 	@Override
 	public void create() {
@@ -67,10 +71,10 @@ public class AboutScene extends PixelScene {
 		align(shpx);
 		add( shpx );
 
-		new Flare( 7, 64 ).color( 0x225511, true ).show( shpx, 0 ).angularSpeed = +20;
+		new Flare( 7, 64 ).color( 0x220066, true ).show( shpx, 0 ).angularSpeed = +20;
 
 		RenderedText shpxtitle = renderText( TTL_SHPX, 8 );
-		shpxtitle.hardlight( Window.SHPX_COLOR );
+		shpxtitle.hardlight( Window.RVPX_COLOR );
 		add( shpxtitle );
 
 		shpxtitle.x = (colWidth - shpxtitle.width()) / 2;
@@ -86,21 +90,15 @@ public class AboutScene extends PixelScene {
 
 		RenderedTextMultiline shpxlink = renderMultiline( LNK_SHPX, 8 );
 		shpxlink.maxWidth(shpxtext.maxWidth());
-		shpxlink.hardlight( Window.SHPX_COLOR );
+		shpxlink.hardlight( Window.RVPX_COLOR );
 		add( shpxlink );
 
 		shpxlink.setPos((colWidth - shpxlink.width()) / 2, shpxtext.bottom() + 6);
 		align(shpxlink);
 
-		PointerArea shpxhotArea = new PointerArea( shpxlink.left(), shpxlink.top(), shpxlink.width(), shpxlink.height() ) {
-			@Override
-			protected void onClick( PointerEvent event ) {
-				DeviceCompat.openURI( "https://" + LNK_SHPX );
-			}
-		};
-		add( shpxhotArea );
 
-		Image wata = Icons.WATA.get();
+
+		Image wata = Icons.EVAN.get();
 		wata.x = wataOffset + (colWidth - wata.width()) / 2;
 		wata.y = SPDSettings.landscape() ?
 						colTop:
@@ -108,10 +106,10 @@ public class AboutScene extends PixelScene {
 		align(wata);
 		add( wata );
 
-		new Flare( 7, 64 ).color( 0x112233, true ).show( wata, 0 ).angularSpeed = +20;
+		new Flare( 7, 64 ).color( 0x225511, true ).show( wata, 0 ).angularSpeed = +20;
 
 		RenderedText wataTitle = renderText( TTL_WATA, 8 );
-		wataTitle.hardlight(Window.TITLE_COLOR);
+		wataTitle.hardlight(Window.SHPX_COLOR);
 		add( wataTitle );
 
 		wataTitle.x = wataOffset + (colWidth - wataTitle.width()) / 2;
@@ -127,7 +125,7 @@ public class AboutScene extends PixelScene {
 		
 		RenderedTextMultiline wataLink = renderMultiline( LNK_WATA, 8 );
 		wataLink.maxWidth((int)Math.min(colWidth, 120));
-		wataLink.hardlight(Window.TITLE_COLOR);
+		wataLink.hardlight(Window.SHPX_COLOR);
 		add(wataLink);
 		
 		wataLink.setPos(wataOffset + (colWidth - wataLink.width()) / 2 , wataText.bottom() + 6);

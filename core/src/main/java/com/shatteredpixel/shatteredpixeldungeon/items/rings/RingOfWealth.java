@@ -28,11 +28,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfBlessing;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPolymorph;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.RosePetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MagicSandBag;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
@@ -169,7 +174,7 @@ public class RingOfWealth extends Ring {
 	private static Item genBasicConsumable(){
 		float roll = Random.Float();
 		if (roll < 0.4f){ //40% chance
-			return Generator.random(Generator.Category.STONE);
+			return Generator.random(Generator.Category.SEED);
 		} else if (roll < 0.7f){ //30% chance
 			return Generator.random(Generator.Category.POTION);
 		} else { //30% chance
@@ -223,9 +228,9 @@ public class RingOfWealth extends Ring {
 	private static Item genHighValueConsumable(){
 		switch( Random.Int(4) ){ //25% chance each
 			case 0: default:
-				return new StoneOfEnchantment();
+				return new PotionOfBlessing();
 			case 1:
-				return new StoneOfEnchantment().quantity(2);
+				return new ScrollOfPolymorph();
 			case 2:
 				return new PotionOfExperience();
 			case 3:

@@ -32,7 +32,7 @@ import com.watabou.utils.PathFinder;
 public class PotionOfFrost extends Potion {
 
 	{
-		initials = 1;
+		initials = 6;
 	}
 	
 	@Override

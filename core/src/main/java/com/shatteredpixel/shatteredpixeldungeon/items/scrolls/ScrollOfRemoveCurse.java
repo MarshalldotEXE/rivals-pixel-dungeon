@@ -40,7 +40,7 @@ import com.watabou.noosa.audio.Sample;
 public class ScrollOfRemoveCurse extends InventoryScroll {
 
 	{
-		initials = 7;
+		initials = 2;
 		mode = WndBag.Mode.UNCURSABLE;
 	}
 	

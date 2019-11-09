@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CorrosionTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.VenomTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap;
@@ -96,7 +96,7 @@ public class CavesLevel extends RegularLevel {
 	
 	@Override
 	protected Class<?>[] trapClasses() {
-		return new Class[]{ BurningTrap.class, PoisonDartTrap.class, FrostTrap.class, StormTrap.class, CorrosionTrap.class,
+		return new Class[]{ BurningTrap.class, PoisonDartTrap.class, FrostTrap.class, StormTrap.class, VenomTrap.class,
 				GrippingTrap.class, ExplosiveTrap.class, RockfallTrap.class,  GuardianTrap.class,
 				ConfusionTrap.class, SummoningTrap.class, WarpingTrap.class,
 				PitfallTrap.class };

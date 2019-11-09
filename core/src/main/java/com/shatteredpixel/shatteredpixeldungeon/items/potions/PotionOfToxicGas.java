@@ -31,7 +31,7 @@ import com.watabou.noosa.audio.Sample;
 public class PotionOfToxicGas extends Potion {
 
 	{
-		initials = 11;
+		initials = 8;
 	}
 
 	@Override

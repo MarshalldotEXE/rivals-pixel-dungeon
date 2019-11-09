@@ -40,7 +40,7 @@ public class ArmorKit extends Item {
 
 	private static final String TXT_UPGRADED		= "you applied the armor kit to upgrade your %s";
 	
-	private static final float TIME_TO_UPGRADE = 2;
+	private static final float TIME_TO_UPGRADE = 1;
 	
 	private static final String AC_APPLY = "APPLY";
 	

@@ -285,7 +285,7 @@ public class WandOfWarding extends Wand {
 			spend( 1f );
 
 			//always hits
-			int dmg = Random.NormalIntRange( 2 + wandLevel, 8 + 4*wandLevel );
+			int dmg = Random.NormalIntRange( 2 + wandLevel, 8 + 3*wandLevel );
 			enemy.damage( dmg, WandOfWarding.class );
 			if (enemy.isAlive()){
 				Wand.processSoulMark(enemy, wandLevel, 1);
@@ -378,7 +378,7 @@ public class WandOfWarding extends Wand {
 
 		@Override
 		public String description() {
-			return Messages.get(this, "desc_" + tier, 2+wandLevel, 8 + 4*wandLevel );
+			return Messages.get(this, "desc_" + tier, 2+wandLevel, 8 + 3*wandLevel );
 		}
 
 		private static final String TIER = "tier";

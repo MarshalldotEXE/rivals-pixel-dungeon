@@ -34,7 +34,7 @@ import com.watabou.noosa.Game;
 public class ScrollOfPassage extends ExoticScroll {
 	
 	{
-		initials = 8;
+		initials = 9;
 	}
 	
 	@Override

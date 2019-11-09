@@ -32,11 +32,11 @@ public class Crab extends Mob {
 		spriteClass = CrabSprite.class;
 		
 		HP = HT = 15;
-		defenseSkill = 5;
+		defenseSkill = 7;
 		baseSpeed = 2f;
 		
 		EXP = 4;
-		maxLvl = 9;
+		maxLvl = 4;
 		
 		loot = new MysteryMeat();
 		lootChance = 0.167f;

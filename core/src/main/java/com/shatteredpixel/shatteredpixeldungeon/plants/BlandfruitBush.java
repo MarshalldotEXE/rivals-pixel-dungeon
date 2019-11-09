@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class BlandfruitBush extends Plant {
 
 	{
-		image = 12;
+		image = 14;
 	}
 
 	@Override

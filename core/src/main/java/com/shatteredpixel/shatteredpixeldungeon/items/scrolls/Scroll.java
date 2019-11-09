@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -73,7 +76,7 @@ public abstract class Scroll extends Item {
 		ScrollOfUpgrade.class,
 		ScrollOfRage.class,
 		ScrollOfTerror.class,
-		ScrollOfLullaby.class,
+		ScrollOfAffection.class,
 		ScrollOfTransmutation.class,
 		ScrollOfRetribution.class,
 		ScrollOfMirrorImage.class
@@ -296,8 +299,8 @@ public abstract class Scroll extends Item {
 			stones.put(ScrollOfIdentify.class,      StoneOfIntuition.class);
 			amnts.put(ScrollOfIdentify.class,       3);
 			
-			stones.put(ScrollOfLullaby.class,       StoneOfDeepenedSleep.class);
-			amnts.put(ScrollOfLullaby.class,        3);
+			stones.put(ScrollOfAffection.class,     StoneOfDeepenedSleep.class);
+			amnts.put(ScrollOfAffection.class,      3);
 			
 			stones.put(ScrollOfMagicMapping.class,  StoneOfClairvoyance.class);
 			amnts.put(ScrollOfMagicMapping.class,   3);

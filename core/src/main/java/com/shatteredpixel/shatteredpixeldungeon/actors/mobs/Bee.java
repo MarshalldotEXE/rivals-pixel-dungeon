@@ -84,8 +84,8 @@ public class Bee extends Mob {
 	public void spawn( int level ) {
 		this.level = level;
 		
-		HT = (2 + level) * 4;
-		defenseSkill = 9 + level;
+		HT = (1 + level) * 5;
+		defenseSkill = 6 + level;
 	}
 
 	public void setPotInfo(int potPos, Char potHolder){
@@ -106,12 +106,12 @@ public class Bee extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return defenseSkill;
+		return defenseSkill + 1;
 	}
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( HT / 10, HT / 4 );
+		return Random.NormalIntRange( level, level + 5 );
 	}
 	
 	@Override

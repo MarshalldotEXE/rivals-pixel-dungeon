@@ -31,9 +31,9 @@ public class Rat extends Mob {
 		spriteClass = RatSprite.class;
 		
 		HP = HT = 8;
-		defenseSkill = 2;
+		defenseSkill = 5;
 		
-		maxLvl = 5;
+		maxLvl = 4;
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class Rat extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 8;
+		return 10;
 	}
 	
 	@Override

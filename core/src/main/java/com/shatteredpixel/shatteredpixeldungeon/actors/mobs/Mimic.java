@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -79,20 +82,21 @@ public class Mimic extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( HT / 10, HT / 4 );
+		return Random.NormalIntRange( level, level + 5 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 9 + level;
+		return 2 * (9 + level);
 	}
 	
 	public void adjustStats( int level ) {
 		this.level = level;
 		
-		HP = HT = (1 + level) * 6;
-		EXP = 2 + 2 * (level - 1) / 5;
-		defenseSkill = attackSkill( null ) / 2;
+		HP = HT = (3 + level) * 6 - 4;
+		EXP = 1 + 3 * level / 4;
+		maxLvl = level + 1;
+		defenseSkill = (4 + level) / 2;
 		
 		enemySeen = true;
 	}

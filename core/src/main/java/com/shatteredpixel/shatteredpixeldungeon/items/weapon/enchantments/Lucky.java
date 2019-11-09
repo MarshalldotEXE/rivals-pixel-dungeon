@@ -58,9 +58,7 @@ public class Lucky extends Weapon.Enchantment {
 			result.quantity(Math.round(result.quantity() * 0.5f));
 			return result;
 		} else if (roll < 0.9f){
-			return Random.Int(2) == 0
-					? Generator.random(Generator.Category.SEED)
-					: Generator.random(Generator.Category.STONE);
+			return Generator.random(Generator.Category.SEED);
 		} else {
 			return Random.Int(2) == 0
 					? Generator.random(Generator.Category.POTION)

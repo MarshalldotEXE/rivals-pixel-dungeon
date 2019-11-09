@@ -35,7 +35,7 @@ import com.watabou.utils.PathFinder;
 public class PotionOfSnapFreeze extends ExoticPotion {
 	
 	{
-		initials = 1;
+		initials = 6;
 	}
 	
 	@Override

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -36,11 +39,7 @@ public class Sai extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		return  Math.round(2.5f*(tier+1)) +     //10 base, down from 20
-				lvl*Math.round(0.5f*(tier+1));  //+2 per level, down from +4
+				lvl*Math.round(0.5f*(tier));  //+1.5 per level, down from +3
 	}
 
-	@Override
-	public int defenseFactor( Char owner ) {
-		return 3;	//3 extra defence
-	}
 }

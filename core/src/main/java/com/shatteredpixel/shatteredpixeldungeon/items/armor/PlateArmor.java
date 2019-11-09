@@ -27,10 +27,17 @@ public class PlateArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_PLATE;
+		
+		EVA = 0.8f; //20% reduction to evasion
 	}
 	
 	public PlateArmor() {
-		super( 5 );
+		super( 4 );
 	}
-
+	
+	@Override
+	public int DRMax(int lvl) {
+		return Math.round(1.2f * (tier * 2)) +  //10 base, up from 8
+			   Math.round(1.2f * (tier * lvl)); //+4.8 per level, up from +4
+	}
 }

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
@@ -39,7 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibili
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAffection;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
@@ -48,9 +52,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingClub;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.DeviceCompat;
@@ -97,10 +101,7 @@ public enum HeroClass {
 	}
 
 	private static void initCommon( Hero hero ) {
-		Item i = new ClothArmor().identify();
-		if (!Challenges.isItemBlocked(i)) hero.belongings.armor = (ClothArmor)i;
-
-		i = new Food();
+		Item i = new Food();
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
@@ -126,8 +127,9 @@ public enum HeroClass {
 	}
 
 	private static void initWarrior( Hero hero ) {
-		(hero.belongings.weapon = new WornShortsword()).identify();
-		ThrowingStone stones = new ThrowingStone();
+		(hero.belongings.weapon = new Shortsword()).identify();
+		(hero.belongings.armor = new LeatherArmor()).identify();
+		ThrowingClub stones = new ThrowingClub();
 		stones.quantity(3).collect();
 		Dungeon.quickslot.setSlot(0, stones);
 
@@ -135,8 +137,8 @@ public enum HeroClass {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
 		}
 		
-		new PotionBandolier().collect();
-		Dungeon.LimitedDrops.POTION_BANDOLIER.drop();
+		new VelvetPouch().collect();
+		Dungeon.LimitedDrops.VELVET_POUCH.drop();
 		
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
@@ -149,11 +151,11 @@ public enum HeroClass {
 
 		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);
-
 		Dungeon.quickslot.setSlot(0, staff);
+		(hero.belongings.armor = new LeatherArmor()).identify();
 
-		new ScrollHolder().collect();
-		Dungeon.LimitedDrops.SCROLL_HOLDER.drop();
+		new VelvetPouch().collect();
+		Dungeon.LimitedDrops.VELVET_POUCH.drop();
 		
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
@@ -165,6 +167,7 @@ public enum HeroClass {
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.misc1 = cloak).identify();
 		hero.belongings.misc1.activate( hero );
+		(hero.belongings.armor = new ClothArmor()).identify();
 
 		ThrowingKnife knives = new ThrowingKnife();
 		knives.quantity(3).collect();
@@ -184,6 +187,7 @@ public enum HeroClass {
 		(hero.belongings.weapon = new Gloves()).identify();
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
+		(hero.belongings.armor = new ClothArmor()).identify();
 
 		Dungeon.quickslot.setSlot(0, bow);
 
@@ -191,7 +195,7 @@ public enum HeroClass {
 		Dungeon.LimitedDrops.VELVET_POUCH.drop();
 		
 		new PotionOfMindVision().identify();
-		new ScrollOfLullaby().identify();
+		new ScrollOfAffection().identify();
 	}
 	
 	public String title() {

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -72,6 +75,8 @@ import java.util.Arrays;
 public class Armor extends EquipableItem {
 
 	protected static final String AC_DETACH       = "DETACH";
+	
+	public float    EVA = 1f;	// Evasion modifier
 	
 	public enum Augment {
 		EVASION (1.5f , -1f),
@@ -269,12 +274,7 @@ public class Armor extends EquipableItem {
 	}
 
 	public int DRMax(int lvl){
-		int max = tier * (2 + lvl) + augment.defenseFactor(lvl);
-		if (lvl > max){
-			return ((lvl - max)+1)/2;
-		} else {
-			return max;
-		}
+		return tier * 2 + tier * lvl;
 	}
 
 	public final int DRMin(){
@@ -282,12 +282,7 @@ public class Armor extends EquipableItem {
 	}
 
 	public int DRMin(int lvl){
-		int max = DRMax(lvl);
-		if (lvl >= max){
-			return (lvl - max);
-		} else {
-			return lvl;
-		}
+		return lvl;
 	}
 	
 	public float evasionFactor( Char owner, float evasion ){
@@ -306,7 +301,9 @@ public class Armor extends EquipableItem {
 			}
 		}
 		
-		return evasion + augment.evasionFactor(level());
+		float EVA = this.EVA;
+		
+		return evasion * EVA;
 	}
 	
 	public float speedFactor( Char owner, float speed ){
@@ -411,18 +408,21 @@ public class Armor extends EquipableItem {
 		String info = desc();
 		
 		if (levelKnown) {
-			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", DRMin(), DRMax(), STRReq());
+			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(), DRMax(), STRReq());
 			
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {
-			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", DRMin(0), DRMax(0), STRReq(0));
+			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, DRMin(0), DRMax(0), STRReq(0));
 
 			if (STRReq(0) > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
 			}
 		}
+		
+		String statsInfo = statsInfo();
+		if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
 
 		switch (augment) {
 			case EVASION:
@@ -452,6 +452,10 @@ public class Armor extends EquipableItem {
 		return info;
 	}
 
+	public String statsInfo(){
+		return Messages.get(this, "stats_desc");
+	}
+	
 	@Override
 	public Emitter emitter() {
 		if (seal == null) return super.emitter();
@@ -464,25 +468,25 @@ public class Armor extends EquipableItem {
 
 	@Override
 	public Item random() {
-		//+0: 75% (3/4)
-		//+1: 20% (4/20)
-		//+2: 5%  (1/20)
+		//+0: 67% (6/9)
+		//+1: 22% (2/9)
+		//+2: 11% (1/9)
 		int n = 0;
-		if (Random.Int(4) == 0) {
+		if (Random.Int(3) == 0) {
 			n++;
-			if (Random.Int(5) == 0) {
+			if (Random.Int(3) == 0) {
 				n++;
 			}
 		}
 		level(n);
 		
-		//30% chance to be cursed
-		//15% chance to be inscribed
+		//33% (1/3) chance to be cursed
+		//17% (1/6) chance to be inscribed
 		float effectRoll = Random.Float();
-		if (effectRoll < 0.3f) {
+		if (effectRoll < 0.33f) {
 			inscribe(Glyph.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.85f){
+		} else if (effectRoll >= 0.83f){
 			inscribe();
 		}
 
@@ -495,9 +499,9 @@ public class Armor extends EquipableItem {
 
 	public int STRReq(int lvl){
 		lvl = Math.max(0, lvl);
-
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return (8 + Math.round(tier * 2)) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		//base strength req for armor is :9,:11,:13,:15
+		//strength req decreases at +1,+2,+3,+4,etc.
+		return (7 + tier * 2) - (int)(lvl);
 	}
 	
 	@Override

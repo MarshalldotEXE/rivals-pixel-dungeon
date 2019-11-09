@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -83,17 +84,4 @@ public class CurseInfusion extends InventorySpell {
 		return Math.round(quantity * ((30 + 100) / 3f));
 	}
 	
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
-		{
-			inputs =  new Class[]{ScrollOfRemoveCurse.class, MetalShard.class};
-			inQuantity = new int[]{1, 1};
-			
-			cost = 4;
-			
-			output = CurseInfusion.class;
-			outQuantity = 3;
-		}
-		
-	}
 }

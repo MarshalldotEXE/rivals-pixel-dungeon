@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -119,9 +122,18 @@ public class PoolRoom extends SpecialRoom {
 		} while (prize.cursed || Challenges.isItemBlocked(prize));
 		prize.cursedKnown = true;
 		
-		//33% chance for an extra update.
-		if (Random.Int(3) == 0){
-			prize.upgrade();
+		//33/33/33% chance to be +0/+1/+2
+		switch(Random.Int(3))
+		{
+			case 0:
+				prize.level(0);
+				break;
+			case 1:
+				prize.level(1);
+				break;
+			case 2:
+				prize.level(2);
+				break;
 		}
 
 		return prize;

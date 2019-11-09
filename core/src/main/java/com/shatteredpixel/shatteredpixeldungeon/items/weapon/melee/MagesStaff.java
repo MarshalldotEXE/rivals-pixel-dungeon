@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfVenom;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
@@ -81,7 +82,7 @@ public class MagesStaff extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		return  4*(tier+1) +    //8 base damage, down from 10
-				lvl*(tier+1);   //scaling unaffected
+				lvl*(tier);   //scaling unaffected
 	}
 
 	public MagesStaff(Wand wand){
@@ -178,9 +179,8 @@ public class MagesStaff extends MeleeWeapon {
 		//syncs the level of the two items.
 		int targetLevel = Math.max(this.level() - (curseInfusionBonus ? 1 : 0), wand.level());
 
-		//if the staff's level is being overridden by the wand, preserve 1 upgrade
-		if (wand.level() >= this.level() && this.level() > (curseInfusionBonus ? 1 : 0)) targetLevel++;
-		
+		//staff no longer preserves 1 upgrade
+
 		level(targetLevel);
 		this.wand = wand;
 		updateWand(false);
@@ -236,8 +236,8 @@ public class MagesStaff extends MeleeWeapon {
 		if (wand != null) {
 			int curCharges = wand.curCharges;
 			wand.level(level());
-			//gives the wand one additional max charge
-			wand.maxCharges = Math.min(wand.maxCharges + 1, 10);
+			//staff gets no additional max charge, instead all wands get +1 max charge at base
+			wand.maxCharges = Math.min(wand.maxCharges, 10);
 			wand.curCharges = Math.min(curCharges + (levelled ? 1 : 0), wand.maxCharges);
 			updateQuickslot();
 		}
@@ -287,7 +287,7 @@ public class MagesStaff extends MeleeWeapon {
 		super.restoreFromBundle(bundle);
 		wand = (Wand) bundle.get(WAND);
 		if (wand != null) {
-			wand.maxCharges = Math.min(wand.maxCharges + 1, 10);
+			wand.maxCharges = Math.min(wand.maxCharges, 10);
 			name = Messages.get(wand, "staff_name");
 		}
 	}
@@ -379,6 +379,7 @@ public class MagesStaff extends MeleeWeapon {
 			return !((wand instanceof WandOfDisintegration)
 					|| (wand instanceof WandOfCorruption)
 					|| (wand instanceof WandOfCorrosion)
+					|| (wand instanceof WandOfVenom)
 					|| (wand instanceof WandOfRegrowth)
 					|| (wand instanceof WandOfLivingEarth));
 		}

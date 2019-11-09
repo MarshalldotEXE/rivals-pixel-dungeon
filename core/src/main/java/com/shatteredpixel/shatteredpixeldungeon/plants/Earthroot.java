@@ -39,7 +39,7 @@ import com.watabou.utils.Bundle;
 public class Earthroot extends Plant {
 	
 	{
-		image = 8;
+		image = 10;
 	}
 	
 	@Override

@@ -36,7 +36,7 @@ import com.watabou.utils.PathFinder;
 public class Icecap extends Plant {
 	
 	{
-		image = 4;
+		image = 6;
 	}
 	
 	@Override

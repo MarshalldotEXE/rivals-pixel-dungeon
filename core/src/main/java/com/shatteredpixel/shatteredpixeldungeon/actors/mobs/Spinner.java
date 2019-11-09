@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -38,10 +41,10 @@ public class Spinner extends Mob {
 		spriteClass = SpinnerSprite.class;
 
 		HP = HT = 50;
-		defenseSkill = 14;
+		defenseSkill = 15;
 
-		EXP = 9;
-		maxLvl = 17;
+		EXP = 10;
+		maxLvl = 12;
 
 		loot = new MysteryMeat();
 		lootChance = 0.125f;
@@ -51,17 +54,17 @@ public class Spinner extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange(10, 25);
+		return Random.NormalIntRange(6, 20);
 	}
 
 	@Override
 	public int attackSkill(Char target) {
-		return 20;
+		return 18;
 	}
 
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 6);
+		return Random.NormalIntRange(0, 5);
 	}
 
 	@Override
