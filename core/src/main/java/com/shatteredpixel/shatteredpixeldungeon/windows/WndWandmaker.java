@@ -66,7 +66,7 @@ public class WndWandmaker extends Window {
 		message.setPos(0, titlebar.bottom() + GAP);
 		add( message );
 		
-		RedButton btnWand1 = new RedButton( Messages.titleCase(Wandmaker.Quest.wand1.name()) ) {
+		RedButton btnWand1 = new RedButton( Messages.titleCase(Wandmaker.Quest.wand1.toString()) ) {
 			@Override
 			protected void onClick() {
 				selectReward( wandmaker, item, Wandmaker.Quest.wand1 );
@@ -75,7 +75,7 @@ public class WndWandmaker extends Window {
 		btnWand1.setRect(0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT);
 		add( btnWand1 );
 		
-		RedButton btnWand2 = new RedButton( Messages.titleCase(Wandmaker.Quest.wand2.name()) ) {
+		RedButton btnWand2 = new RedButton( Messages.titleCase(Wandmaker.Quest.wand2.toString()) ) {
 			@Override
 			protected void onClick() {
 				selectReward( wandmaker, item, Wandmaker.Quest.wand2 );
@@ -93,7 +93,6 @@ public class WndWandmaker extends Window {
 		
 		item.detach( Dungeon.hero.belongings.backpack );
 
-		reward.identify();
 		if (reward.doPickUp( Dungeon.hero )) {
 			GLog.i( Messages.get(Dungeon.hero, "you_now_have", reward.name()) );
 		} else {

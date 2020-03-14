@@ -36,10 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.MerchantsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.HalfPlateArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -50,30 +47,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bludgeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Kunai;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Javelin;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingHammer;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.GlaiveStar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ForceCube;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
@@ -176,121 +156,148 @@ public class ShopRoom extends SpecialRoom {
 
 		ArrayList<Item> itemsToSpawn = new ArrayList<>();
 		
-		switch (Dungeon.depth) {
-		case 6:
-			itemsToSpawn.add( (Random.Int( 2 ) == 0 ? new Sword().identify() : new Mace().identify()) );
-			itemsToSpawn.add( Random.Int( 2 ) == 0 ?
-					new Shuriken().quantity(2) :
-					new Kunai().quantity(2));
-			itemsToSpawn.add( new MailArmor().identify() );
-			break;
-			
-		case 11:
-			itemsToSpawn.add( (Random.Int( 2 ) == 0 ?
-					new Longsword().identify() :
-					new Bludgeon().identify() ));
-			itemsToSpawn.add( Random.Int( 2 ) == 0 ?
-					new Javelin().quantity(2) :
-					new ThrowingHammer().quantity(2));
-			itemsToSpawn.add( new ScaleArmor().identify() );
-			break;
-			
-		case 16:
-			itemsToSpawn.add( (Random.Int( 2 ) == 0 ?
-					new Greatsword().identify() :
-					new WarHammer().identify() ));
-			itemsToSpawn.add( Random.Int( 2 ) == 0 ?
-					new Trident().quantity(2) :
-					new GlaiveStar().quantity(2));
-			itemsToSpawn.add( (Random.Int( 2 ) == 0 ?
-					new PlateArmor().identify() :
-					new HalfPlateArmor().identify() ));
-			break;
-			
-		case 21:
-			itemsToSpawn.add( (Random.Int( 2 ) == 0 ?
-					new Greatsword().identify().upgrade() :
-					new WarHammer().identify().upgrade() ));
-			itemsToSpawn.add( Random.Int(2) == 0 ?
-					new Trident().quantity(2) :
-					new GlaiveStar().quantity(2));
-			itemsToSpawn.add( (Random.Int( 2 ) == 0 ?
-					new PlateArmor().identify().upgrade() :
-					new HalfPlateArmor().identify().upgrade() ));
-			itemsToSpawn.add( new Torch() );
-			itemsToSpawn.add( new Torch() );
-			itemsToSpawn.add( new Torch() );
-			break;
+		//weapon
+		Item weapon;
+		switch(Dungeon.depth) {
+			case 5:
+				weapon = Generator.random( Generator.Category.WEP_T2 );
+				break;
+			case 9:
+				weapon = Generator.random( Generator.Category.WEP_T3 );
+				break;
+			case 13:
+				weapon = Generator.random( Generator.Category.WEP_T4 );
+				break;
+			case 17: default:
+				weapon = Generator.random( Generator.Category.WEP_T4 );
+				break;
+		}
+		//imp items are always at least +1
+		if (Dungeon.depth == 17) {
+			weapon.level( Math.max( 1, weapon.level() ) );
+		}
+		if (weapon.cursed) {
+			((Weapon)weapon).enchant(null);
+			weapon.cursed = false;
+		}
+		weapon.identify();
+		itemsToSpawn.add( weapon );
+		
+		//armor
+		Item armor;
+		switch(Dungeon.depth) {
+			case 5:
+				armor = Generator.random( Generator.Category.ARMOR_T2 );
+				break;
+			case 9:
+				armor = Generator.random( Generator.Category.ARMOR_T3 );
+				break;
+			case 13:
+				armor = Generator.random( Generator.Category.ARMOR_T4 );
+				break;
+			case 17: default:
+				armor = Generator.random( Generator.Category.ARMOR_T4 );
+				break;
+		}
+		//imp items are always at least +1
+		if (Dungeon.depth == 17) {
+			armor.level( Math.max( 1, armor.level() ) );
+		}
+		if (armor.cursed) {
+			((Armor)armor).inscribe(null);
+			armor.cursed = false;
+		}
+		armor.identify();
+		itemsToSpawn.add( armor );
+		
+		//missile
+		Item missile;
+		switch(Dungeon.depth) {
+			case 5:
+				missile = Generator.random( Generator.Category.MIS_T2 );
+				break;
+			case 9:
+				missile = Generator.random( Generator.Category.MIS_T3 );
+				break;
+			case 13:
+				missile = Generator.random( Generator.Category.MIS_T4 );
+				break;
+			case 17: default:
+				missile = Generator.random( Generator.Category.MIS_T4 );
+				break;
+		}
+		//imp items are always at least +1
+		//only upgrade missile weapons that are in quantities of 1 or 2
+		if (Dungeon.depth == 17 && missile.quantity() <= 2) {
+			missile.level( Math.max( 1, missile.level() ) );
+		}
+		itemsToSpawn.add( missile );
+		
+		//wand
+		Item wand;
+		wand = Generator.random( Generator.Category.WAND );
+		//imp items are always at least +1
+		if (Dungeon.depth == 17) {
+			wand.level( Math.max( 1, wand.level() ) );
+		}
+		wand.cursed = false;
+		wand.identify();
+		itemsToSpawn.add( wand );
+		
+		//ring
+		Item ring;
+		ring = Generator.random( Generator.Category.RING );
+		//imp items are always at least +1
+		if (Dungeon.depth == 17) {
+			ring.level( Math.max( 1, ring.level() ) );
+		}
+		ring.cursed = false;
+		ring.identify();
+		itemsToSpawn.add( ring );
+		
+		//artifact
+		Item artifact;
+		artifact = Generator.random( Generator.Category.ARTIFACT );
+		artifact.cursed = false;
+		artifact.identify();
+		itemsToSpawn.add( artifact );
+		
+		//depth-specific
+		switch(Dungeon.depth) {
+			case 5:
+				itemsToSpawn.add( ChooseBag( Dungeon.hero.belongings ) );
+				break;
+			case 9:
+				itemsToSpawn.add( ChooseBag( Dungeon.hero.belongings ) );
+				break;
+			case 13:
+				Dungeon.LimitedDrops.MAGICAL_HOLSTER.drop();
+				itemsToSpawn.add( new MagicalHolster() );
+				break;
+			case 17:
+				itemsToSpawn.add( new Torch() );
+				itemsToSpawn.add( new Torch() );
+				break;
 		}
 		
-		itemsToSpawn.add( new Dart.DoubleDart() );
-
-		itemsToSpawn.add(ChooseBag(Dungeon.hero.belongings));
-
+		itemsToSpawn.add( new Dart().quantity(2) );
+		itemsToSpawn.add( new Bomb.DoubleBomb() );
 
 		itemsToSpawn.add( new PotionOfHealing() );
-		switch (Random.Int(3)){
-			case 0:
-				itemsToSpawn.add( new PotionOfLiquidFlame() );
-				break;
-			case 1:
-				itemsToSpawn.add( new PotionOfLevitation() );
-				break;
-			case 2:
-				itemsToSpawn.add( new PotionOfInvisibility() );
-				break;
-		}
+		itemsToSpawn.add( new PotionOfShielding() );
 		itemsToSpawn.add( Generator.random( Generator.Category.POTION ) );
-		itemsToSpawn.add( Generator.random( Generator.Category.EXOTIC_POTION ) );
 
 		itemsToSpawn.add( new ScrollOfIdentify() );
 		itemsToSpawn.add( new ScrollOfRemoveCurse() );
 		itemsToSpawn.add( Generator.random( Generator.Category.SCROLL ) );
-		itemsToSpawn.add( Generator.random( Generator.Category.EXOTIC_SCROLL ) );
 
-		itemsToSpawn.add( new SmallRation() );
-		itemsToSpawn.add( new SmallRation() );
+		itemsToSpawn.add( Generator.random( Generator.Category.FOOD ) );
 		
-		switch (Random.Int(3)){
-			case 0:
-				itemsToSpawn.add( new Bomb() );
-				break;
-			case 1:
-			case 2:
-				itemsToSpawn.add( new Bomb.DoubleBomb() );
-				break;
-		}
-
-		itemsToSpawn.add( new Ankh() );
-		itemsToSpawn.add( new Stylus() );
+		itemsToSpawn.add( new Torch() );
 		itemsToSpawn.add( new Honeypot() );
 
-		Item rare;
-		switch (Random.Int(3)){
-			case 0:
-				rare = Generator.random( Generator.Category.WAND );
-				rare.level( 0 );
-				break;
-			case 1:
-				rare = Generator.random( Generator.Category.RING );
-				rare.level( 0 );
-				break;
-			default:
-				rare = Generator.random( Generator.Category.ARTIFACT );
-				break;
-		}
-		rare.cursed = false;
-		rare.cursedKnown = true;
-		itemsToSpawn.add( rare );
-
-		switch (Random.Int(2)){
-			case 0:
-				itemsToSpawn.add( new AlchemicalCatalyst() );
-				break;
-			case 1:
-				itemsToSpawn.add( new ArcaneCatalyst() );
-				break;
-		}
+		itemsToSpawn.add( new AlchemicalCatalyst() );
+		itemsToSpawn.add( new ArcaneCatalyst() );
 		
 		switch (Random.Int(4)){
 			case 0:
@@ -317,26 +324,22 @@ public class ShopRoom extends SpecialRoom {
 
 	protected static Bag ChooseBag(Belongings pack){
 	
-		//0=pouch, 1=holder, 2=bandolier, 3=holster
-		int[] bagItems = new int[4];
+		//0=holder, 1=bandolier
+		int[] bagItems = new int[2];
 
 		//count up items in the main bag
 		for (Item item : pack.backpack.items) {
-			if (item instanceof Plant.Seed)                                 bagItems[0]++;
-			if (item instanceof Scroll)                                     bagItems[1]++;
-			if (item instanceof Potion)                                     bagItems[2]++;
-			if (item instanceof Wand || item instanceof MissileWeapon)      bagItems[3]++;
+			if (item instanceof Scroll)                                     bagItems[0]++;
+			if (item instanceof Potion)                                     bagItems[1]++;
 		}
 		
 		//disqualify bags that have already been dropped
-		if (Dungeon.LimitedDrops.VELVET_POUCH.dropped())                    bagItems[0] = -1;
-		if (Dungeon.LimitedDrops.SCROLL_HOLDER.dropped())                   bagItems[1] = -1;
-		if (Dungeon.LimitedDrops.POTION_BANDOLIER.dropped())                bagItems[2] = -1;
-		if (Dungeon.LimitedDrops.MAGICAL_HOLSTER.dropped())                 bagItems[3] = -1;
+		if (Dungeon.LimitedDrops.SCROLL_HOLDER.dropped())                   bagItems[0] = -1;
+		if (Dungeon.LimitedDrops.POTION_BANDOLIER.dropped())                bagItems[1] = -1;
 		
 		//find the best bag to drop. This does give a preference to later bags, if counts are equal
 		int bestBagIdx = 0;
-		for (int i = 1; i <= 3; i++){
+		for (int i = 1; i <= 1; i++){
 			if (bagItems[bestBagIdx] <= bagItems[i]){
 				bestBagIdx = i;
 			}
@@ -346,17 +349,11 @@ public class ShopRoom extends SpecialRoom {
 		if (bagItems[bestBagIdx] == -1) return null;
 		switch (bestBagIdx){
 			case 0: default:
-				Dungeon.LimitedDrops.VELVET_POUCH.drop();
-				return new VelvetPouch();
-			case 1:
 				Dungeon.LimitedDrops.SCROLL_HOLDER.drop();
 				return new ScrollHolder();
-			case 2:
+			case 1:
 				Dungeon.LimitedDrops.POTION_BANDOLIER.drop();
 				return new PotionBandolier();
-			case 3:
-				Dungeon.LimitedDrops.MAGICAL_HOLSTER.drop();
-				return new MagicalHolster();
 		}
 
 	}

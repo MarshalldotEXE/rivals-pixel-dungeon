@@ -86,7 +86,7 @@ public abstract class InventoryScroll extends Scroll {
 				((InventoryScroll)curItem).readAnimation();
 				
 				Sample.INSTANCE.play( Assets.SND_READ );
-				Invisibility.dispel();
+				curUser.dispel();
 				
 			} else if (identifiedByUse && !((Scroll)curItem).anonymous) {
 				

@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 public class ConfusionTrap extends Trap {
 
 	{
-		color = TEAL;
+		color = PINK;
 		shape = GRILL;
 	}
 

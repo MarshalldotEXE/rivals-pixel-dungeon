@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.RainbowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -65,14 +66,14 @@ public class WandOfPrismaticLight extends DamageWand {
 	}
 
 	@Override
-	protected void onZap(Ballistica beam) {
+	public void onZap(Ballistica beam) {
 		affectMap(beam);
 		
 		if (Dungeon.level.viewDistance < 6 ){
-			if (Dungeon.isChallenged(Challenges.DARKNESS)){
-				Buff.prolong( curUser, Light.class, 2f + level());
+			if (Dungeon.isChallenged(Challenges.INTO_DARKNESS)){
+				Buff.prolong( curUser, Light.class, 2f + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )  );
 			} else {
-				Buff.prolong( curUser, Light.class, 10f+level()*5);
+				Buff.prolong( curUser, Light.class, 10f+ ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )*5);
 			}
 		}
 		
@@ -87,18 +88,18 @@ public class WandOfPrismaticLight extends DamageWand {
 		int dmg = damageRoll();
 
 		//three in (6+lvl) chance of failing
-		if (Random.Int(5+level()) >= 3) {
-			Buff.prolong(ch, Blindness.class, 2f + (level() * 0.333f));
+		if (Random.Int(5+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )) >= 3) {
+			Buff.prolong(ch, Blindness.class, 2f + (( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) * 0.333f));
 			ch.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
 		}
 
 		if (ch.properties().contains(Char.Property.DEMONIC) || ch.properties().contains(Char.Property.UNDEAD)){
-			ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+level() );
+			ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) );
 			Sample.INSTANCE.play(Assets.SND_BURNING);
 
 			ch.damage(Math.round(dmg*1.333f), this);
 		} else {
-			ch.sprite.centerEmitter().burst( RainbowParticle.BURST, 10+level() );
+			ch.sprite.centerEmitter().burst( RainbowParticle.BURST, 10+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) );
 
 			ch.damage(dmg, this);
 		}
@@ -135,9 +136,9 @@ public class WandOfPrismaticLight extends DamageWand {
 	}
 
 	@Override
-	protected void fx( Ballistica beam, Callback callback ) {
-		curUser.sprite.parent.add(
-				new Beam.LightRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)));
+	public void fx( Ballistica beam, Char caster, Callback callback ) {
+		caster.sprite.parent.add(
+				new Beam.LightRay(caster.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)));
 		callback.call();
 	}
 

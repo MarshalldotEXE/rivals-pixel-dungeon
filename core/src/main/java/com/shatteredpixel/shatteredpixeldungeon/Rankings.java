@@ -55,6 +55,7 @@ public enum Rankings {
 	public ArrayList<Record> records;
 	public int lastRecord;
 	public int totalNumber;
+	public int trueTotal;
 	public int wonNumber;
 
 	public void submit( boolean win, Class cause ) {
@@ -94,6 +95,7 @@ public enum Rankings {
 		}
 		
 		totalNumber++;
+		trueTotal++;
 		if (win) {
 			wonNumber++;
 		}
@@ -102,9 +104,16 @@ public enum Rankings {
 		
 		save();
 	}
-
+	
+	//deleted runs will add to the total rankings counter as non-wins, but won't show up as a record
+	public void addErased() {
+		load();
+		totalNumber++;
+		save();
+	}
+	
 	private int score( boolean win ) {
-		return (Statistics.goldCollected + Dungeon.hero.lvl * (win ? 26 : Dungeon.depth ) * 100) * (win ? 2 : 1);
+		return (Statistics.goldCollected + Dungeon.hero.lvl * (win ? 21 : Dungeon.depth ) * 100) * (win ? 2 : 1);
 	}
 
 	public static final String HERO = "hero";
@@ -188,6 +197,7 @@ public enum Rankings {
 	private static final String RECORDS	= "records";
 	private static final String LATEST	= "latest";
 	private static final String TOTAL	= "total";
+	private static final String TRUE	= "true";
 	private static final String WON     = "won";
 
 	public void save() {
@@ -195,6 +205,7 @@ public enum Rankings {
 		bundle.put( RECORDS, records );
 		bundle.put( LATEST, lastRecord );
 		bundle.put( TOTAL, totalNumber );
+		bundle.put( TRUE, trueTotal );
 		bundle.put( WON, wonNumber );
 
 		try {
@@ -225,7 +236,9 @@ public enum Rankings {
 			if (totalNumber == 0) {
 				totalNumber = records.size();
 			}
-
+			
+			trueTotal = bundle.getInt( TRUE );
+			
 			wonNumber = bundle.getInt( WON );
 			if (wonNumber == 0) {
 				for (Record rec : records) {

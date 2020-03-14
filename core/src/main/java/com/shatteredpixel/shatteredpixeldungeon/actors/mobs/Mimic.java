@@ -50,12 +50,10 @@ import java.util.List;
 
 public class Mimic extends Mob {
 	
-	private int level;
+	protected int level;
 	
 	{
 		spriteClass = MimicSprite.class;
-
-		properties.add(Property.DEMONIC);
 	}
 	
 	public ArrayList<Item> items;
@@ -95,7 +93,7 @@ public class Mimic extends Mob {
 		
 		HP = HT = (3 + level) * 6 - 4;
 		EXP = 1 + 3 * level / 4;
-		maxLvl = level + 1;
+		maxLvl = (1 + level / 4) * 4;
 		defenseSkill = (4 + level) / 2;
 		
 		enemySeen = true;
@@ -159,7 +157,7 @@ public class Mimic extends Mob {
 		//generate an extra reward for killing the mimic
 		Item reward = null;
 		do {
-			switch (Random.Int(5)) {
+			switch (Random.Int(4)) {
 				case 0:
 					reward = new Gold().random();
 					break;
@@ -172,11 +170,8 @@ public class Mimic extends Mob {
 				case 3:
 					reward = Generator.randomWeapon();
 					break;
-				case 4:
-					reward = Generator.random(Generator.Category.RING);
-					break;
 			}
-		} while (reward == null || Challenges.isItemBlocked(reward));
+		} while (reward == null);
 		m.items.add(reward);
 		
 		return m;

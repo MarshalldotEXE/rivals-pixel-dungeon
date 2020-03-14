@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.potions;
 
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -47,6 +48,8 @@ public class PotionOfHealing extends Potion {
 		Buff.affect( hero, Healing.class ).setHeal((int)(0.8f*hero.HT + 14), 0.25f, 0);
 		cure( hero );
 		GLog.p( Messages.get(this, "heal") );
+		
+		Statistics.healingUsed = true;
 	}
 	
 	public static void cure( Char ch ) {
@@ -55,10 +58,5 @@ public class PotionOfHealing extends Potion {
 		Buff.detach( ch, Weakness.class );
 		Buff.detach( ch, Bleeding.class );
 		
-	}
-
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
 	}
 }

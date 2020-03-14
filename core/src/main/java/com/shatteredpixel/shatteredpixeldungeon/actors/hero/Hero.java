@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Furor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
@@ -73,9 +74,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.HalfPlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.WarriorArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.DiscArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RingArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Weightlessness;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -107,7 +115,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -183,6 +190,8 @@ public class Hero extends Char {
 	
 	public int HTBoost = 0;
 	
+	public int might = 0;
+	
 	private ArrayList<Mob> visibleEnemies;
 
 	//This list is maintained so that some logic checks can be skipped
@@ -204,13 +213,9 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = 20 + 5*(lvl-1) + HTBoost + (10 * might);
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
-		
-		if (buff(ElixirOfMight.HTBoost.class) != null){
-			HT += buff(ElixirOfMight.HTBoost.class).boost();
-		}
 		
 		if (boostHP){
 			HP += Math.max(HT - curHT, 0);
@@ -220,8 +225,6 @@ public class Hero extends Char {
 
 	public int STR() {
 		int STR = this.STR;
-
-		STR += RingOfMight.strengthBonus( this );
 		
 		AdrenalineSurge buff = buff(AdrenalineSurge.class);
 		if (buff != null){
@@ -237,6 +240,7 @@ public class Hero extends Char {
 	private static final String LEVEL		= "lvl";
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
+	private static final String MIGHT       = "might";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -255,6 +259,8 @@ public class Hero extends Char {
 		bundle.put( EXPERIENCE, exp );
 		
 		bundle.put( HTBOOST, HTBoost );
+		
+		bundle.put( MIGHT, might );
 
 		belongings.storeInBundle( bundle );
 	}
@@ -275,6 +281,8 @@ public class Hero extends Char {
 		exp = bundle.getInt( EXPERIENCE );
 		
 		HTBoost = bundle.getInt(HTBOOST);
+		
+		might = bundle.getInt(MIGHT);
 		
 		belongings.restoreFromBundle( bundle );
 	}
@@ -309,10 +317,16 @@ public class Hero extends Char {
 		if (belongings.armor != null) {
 			if (belongings.armor instanceof ClothArmor)     tier = 1;
 			if (belongings.armor instanceof LeatherArmor)   tier = 2;
-			if (belongings.armor instanceof MailArmor)      tier = 3;
-			if (belongings.armor instanceof ScaleArmor)     tier = 4;
-			if (belongings.armor instanceof PlateArmor)     tier = 5;
-			if (belongings.armor instanceof HalfPlateArmor) tier = 6;
+			if (belongings.armor instanceof DiscArmor)      tier = 3;
+			if (belongings.armor instanceof MailArmor)      tier = 4;
+			if (belongings.armor instanceof ScaleArmor)     tier = 5;
+			if (belongings.armor instanceof RingArmor)      tier = 6;
+			if (belongings.armor instanceof PlateArmor)     tier = 7;
+			if (belongings.armor instanceof HalfPlateArmor) tier = 8;
+			if (belongings.armor instanceof WarriorArmor)   tier = 9;
+			if (belongings.armor instanceof MageArmor)      tier = 9;
+			if (belongings.armor instanceof RogueArmor)     tier = 9;
+			if (belongings.armor instanceof HuntressArmor)  tier = 9;
 		}
 		return tier;
 	}
@@ -323,7 +337,7 @@ public class Hero extends Char {
 		KindOfWeapon equipped = belongings.weapon;
 		belongings.weapon = wep;
 		boolean hit = attack( enemy );
-		Invisibility.dispel();
+		dispel();
 		belongings.weapon = equipped;
 		
 		if (subClass == HeroSubClass.GLADIATOR){
@@ -397,10 +411,9 @@ public class Hero extends Char {
 			if (wepDr > 0) dr += wepDr;
 		}
 		Barkskin bark = buff(Barkskin.class);
-		if (bark != null)               dr += Random.NormalIntRange( 0 , bark.level() );
-		
-		Blocking.BlockBuff block = buff(Blocking.BlockBuff.class);
-		if (block != null)              dr += block.blockingRoll();
+		if (bark != null) dr += Random.NormalIntRange( 0 , bark.level() );
+		Brimstone.MagmaArmor magma = buff(Brimstone.MagmaArmor.class);
+		if (magma != null) dr += magma.strength();
 		
 		return dr;
 	}
@@ -412,9 +425,8 @@ public class Hero extends Char {
 
 		if (wep != null) {
 			dmg = wep.damageRoll( this );
-			if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(this);
 		} else {
-			dmg = RingOfForce.damageRoll(this);
+			dmg = Random.NormalIntRange(1, Math.max(STR()-6, 1));
 		}
 		if (dmg < 0) dmg = 0;
 		
@@ -479,10 +491,10 @@ public class Hero extends Char {
 			delay = belongings.weapon.speedFactor( this );
 			
 		} else {
-			//Normally putting furor speed on unarmed attacks would be unnecessary
-			//But there's going to be that one guy who gets a furor+force ring combo
-			//This is for that one guy, you shall get your fists of fury!
-			delay = RingOfFuror.attackDelayMultiplier(this);
+			//who would ever use unarmed without force, lol
+			//bet noone would notice unarmed is twice as
+			//fast without looking at the changelog
+			delay = 0.5f * RingOfFuror.attackDelayMultiplier(this);
 		}
 		if ( buff(Furor.class) != null) delay /= 2f;
 		return delay;
@@ -1046,9 +1058,9 @@ public class Hero extends Char {
 		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
 
 		//TODO improve this when I have proper damage source logic
-		if (belongings.armor != null && belongings.armor.hasGlyph(AntiMagic.class, this)
-				&& AntiMagic.RESISTS.contains(src.getClass())){
-			dmg -= AntiMagic.drRoll(belongings.armor.level());
+		if (belongings.armor != null && belongings.armor instanceof MageArmor
+				&& MageArmor.RESISTS.contains(src.getClass())){
+			dmg -= MageArmor.drRoll(belongings.armor.level());
 		}
 
 		super.damage( dmg, src );
@@ -1182,6 +1194,12 @@ public class Hero extends Char {
 			
 			float speed = speed();
 			
+			if (belongings.armor != null
+				&& belongings.armor.hasGlyph(Weightlessness.class, this)
+				&& !(Dungeon.level.pit[step])){
+				Buff.prolong(this, Levitation.class, 2f + belongings.armor.level());
+			}
+			
 			sprite.move(pos, step);
 			move(step);
 
@@ -1250,7 +1268,7 @@ public class Hero extends Char {
 			
 			curAction = new HeroAction.Unlock( cell );
 			
-		} else if (cell == Dungeon.level.exit && Dungeon.depth < 26) {
+		} else if (cell == Dungeon.level.exit && Dungeon.depth < 21) {
 			
 			curAction = new HeroAction.Descend( cell );
 			
@@ -1304,10 +1322,6 @@ public class Hero extends Char {
 			if (lvl < MAX_LEVEL) {
 				lvl++;
 				levelUp = true;
-				
-				if (buff(ElixirOfMight.HTBoost.class) != null){
-					buff(ElixirOfMight.HTBoost.class).onLevelUp();
-				}
 				
 				updateHT( true );
 				attackSkill++;
@@ -1419,7 +1433,6 @@ public class Hero extends Char {
 
 			Sample.INSTANCE.play( Assets.SND_TELEPORT );
 			GLog.w( Messages.get(this, "revive") );
-			Statistics.ankhsUsed++;
 			
 			for (Char ch : Actor.chars()){
 				if (ch instanceof DriedRose.GhostHero){
@@ -1549,8 +1562,8 @@ public class Hero extends Char {
 				if (combo != null) combo.miss( enemy );
 			}
 		}
-		
-		Invisibility.dispel();
+
+		dispel();
 		spend( attackDelay() );
 
 		curAction = null;
@@ -1666,13 +1679,13 @@ public class Hero extends Char {
 						} else if (foresight){
 							chance = 1f;
 							
-						//unintentional trap detection scales from 40% at floor 0 to 30% at floor 25
+						//unintentional trap detection scales from 40% at floor 0 to 30% at floor 20
 						} else if (Dungeon.level.map[p] == Terrain.SECRET_TRAP) {
-							chance = 0.4f - (Dungeon.depth / 250f);
+							chance = 0.4f - (Dungeon.depth / 200f);
 							
-						//unintentional door detection scales from 20% at floor 0 to 0% at floor 20
+						//unintentional door detection scales from 20% at floor 0 to 0% at floor 16
 						} else {
-							chance = 0.2f - (Dungeon.depth / 100f);
+							chance = 0.2f - (Dungeon.depth / 80f);
 						}
 						
 						if (Random.Float() < chance) {
@@ -1686,9 +1699,6 @@ public class Hero extends Char {
 							ScrollOfMagicMapping.discover( p );
 							
 							smthFound = true;
-	
-							if (talisman != null && !talisman.isCursed())
-								talisman.charge();
 						}
 					}
 				}

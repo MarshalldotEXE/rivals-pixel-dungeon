@@ -54,7 +54,7 @@ public class ScrollOfMirrorImage extends Scroll {
 		}
 		
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		readAnimation();
 	}
@@ -67,7 +67,7 @@ public class ScrollOfMirrorImage extends Scroll {
 		setKnown();
 		
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 	
 		readAnimation();
 	}
@@ -163,10 +163,5 @@ public class ScrollOfMirrorImage extends Scroll {
 			imPerRound = bundle.getInt( PER_ROUND );
 			delay = bundle.getFloat( DELAY );
 		}
-	}
-
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
 	}
 }

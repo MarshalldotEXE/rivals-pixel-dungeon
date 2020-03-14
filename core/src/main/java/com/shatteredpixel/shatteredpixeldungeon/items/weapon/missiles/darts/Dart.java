@@ -136,26 +136,7 @@ public class Dart extends MissileWeapon {
 	
 	@Override
 	public int price() {
-		return 20 * quantity;
-	}
-	
-	
-	public static class DoubleDart extends Dart{
-
-		{
-			image = ItemSpriteSheet.DBL_DART;
-			stackable = false;
-		}
-
-		@Override
-		public boolean doPickUp(Hero hero) {
-			Dart dart = new Dart();
-			dart.quantity(2);
-			if (dart.doPickUp(hero)) {
-				return true;
-			}
-			return false;
-		}
+		return 10 * quantity;
 	}
 	
 	private final WndBag.Listener itemSelector = new WndBag.Listener() {

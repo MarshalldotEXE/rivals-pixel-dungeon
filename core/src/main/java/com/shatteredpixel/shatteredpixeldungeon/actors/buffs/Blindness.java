@@ -40,7 +40,7 @@ public class Blindness extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.BLINDNESS;
+		return BuffIndicator.BLIND;
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public class Chill extends FlavourBuff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.FROST;
+		return BuffIndicator.CHILL;
 	}
 
 	@Override

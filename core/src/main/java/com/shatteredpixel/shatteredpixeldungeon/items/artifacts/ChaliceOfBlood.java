@@ -42,8 +42,14 @@ public class ChaliceOfBlood extends Artifact {
 
 	{
 		image = ItemSpriteSheet.ARTIFACT_CHALICE1;
-
+		//passive, no default action
+		
+		//no exp
 		levelCap = 10;
+
+		//no charge cap
+		//no partial charge cap
+		//no charge cap
 	}
 
 	public static final String AC_PRICK = "PRICK";
@@ -62,7 +68,7 @@ public class ChaliceOfBlood extends Artifact {
 
 		if (action.equals(AC_PRICK)){
 
-			int damage = 3*(level()*level());
+			int damage = 2*(level()*level())+8;
 
 			if (damage > hero.HP*0.75) {
 
@@ -86,7 +92,7 @@ public class ChaliceOfBlood extends Artifact {
 	}
 
 	private void prick(Hero hero){
-		int damage = 3*(level()*level());
+		int damage = 2*(level()*level())+8;
 
 		Earthroot.Armor armor = hero.buff(Earthroot.Armor.class);
 		if (armor != null) {
@@ -144,7 +150,7 @@ public class ChaliceOfBlood extends Artifact {
 	
 	@Override
 	public void charge(Hero target) {
-		target.HP = Math.min( target.HT, target.HP + 1 + Dungeon.depth/5);
+		target.HP = Math.min( target.HT, target.HP + 1 + Dungeon.depth/4);
 	}
 	
 	@Override

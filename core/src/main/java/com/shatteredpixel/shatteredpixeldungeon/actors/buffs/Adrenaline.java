@@ -35,11 +35,12 @@ public class Adrenaline extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.AMOK;
+		return BuffIndicator.HASTE;
 	}
 	
 	@Override
 	public void tintIcon(Image icon) {
+		icon.hardlight(1f, 1f, 0f);
 		greyIcon(icon, 5f, cooldown());
 	}
 	

@@ -40,13 +40,15 @@ public class HeavyBoomerang extends MissileWeapon {
 		image = ItemSpriteSheet.BOOMERANG;
 		
 		tier = 2;
+		baseUses = 9;
+		
 		sticky = false;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  4 * tier +                  //8 base, down from 10
-				(tier) * lvl;               //scaling unchanged
+		return  4 * tier +                  //12 base, down from 15
+				tier * lvl;					//scaling unchanged
 	}
 	
 	@Override

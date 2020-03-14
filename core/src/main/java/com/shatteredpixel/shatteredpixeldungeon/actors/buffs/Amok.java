@@ -34,7 +34,7 @@ public class Amok extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.AMOK;
+		return BuffIndicator.CHALLENGE;
 	}
 
 	@Override

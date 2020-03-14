@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -209,6 +212,10 @@ public class Potion extends Item {
 	public void anonymize(){
 		if (!isKnown()) image = ItemSpriteSheet.POTION_HOLDER;
 		anonymous = true;
+	}
+	
+	public boolean anonymous(){
+		return anonymous;
 	}
 
 	@Override
@@ -440,7 +447,7 @@ public class Potion extends Item {
 	
 	@Override
 	public int price() {
-		return 30 * quantity;
+		return 10 * quantity;
 	}
 	
 	public static class PlaceHolder extends Potion {
@@ -537,8 +544,7 @@ public class Potion extends Item {
 			}
 			
 			while (result instanceof PotionOfHealing
-					&& (Dungeon.isChallenged(Challenges.NO_HEALING)
-					|| Random.Int(10) < Dungeon.LimitedDrops.COOKING_HP.count)) {
+					&& Random.Int(10) < Dungeon.LimitedDrops.COOKING_HP.count) {
 				result = Generator.random(Generator.Category.POTION);
 			}
 			
@@ -546,8 +552,7 @@ public class Potion extends Item {
 				Dungeon.LimitedDrops.COOKING_HP.count++;
 			}
 			
-			Statistics.potionsCooked++;
-			Badges.validatePotionsCooked();
+			Statistics.itemsCrafted++;
 			
 			return result;
 		}

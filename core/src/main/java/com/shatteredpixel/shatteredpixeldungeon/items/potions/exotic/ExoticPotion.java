@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -23,6 +26,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -123,14 +127,8 @@ public class ExoticPotion extends Potion {
 	}
 	
 	@Override
-	//20 gold more than its none-exotic equivalent
 	public int price() {
-		try {
-			return (exoToReg.get(getClass()).newInstance().price() + 20) * quantity;
-		} catch (Exception e){
-			ShatteredPixelDungeon.reportException(e);
-			return 0;
-		}
+		return 15 * quantity;
 	}
 	
 	public static class PotionToExotic extends Recipe{
@@ -170,6 +168,9 @@ public class ExoticPotion extends Potion {
 					}
 				}
 			}
+			
+			Statistics.itemsCrafted++;
+			
 			return result;
 		}
 		

@@ -26,7 +26,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -38,15 +40,15 @@ public class WandOfMagicMissile extends DamageWand {
 	}
 
 	public int min(int lvl){
-		return 2+lvl;
+		return 2+lvl+Dungeon.hero.lvl/4;
 	}
 
 	public int max(int lvl){
-		return 8+2*lvl;
+		return 8+2*lvl+Dungeon.hero.lvl/2;
 	}
 	
 	@Override
-	protected void onZap( Ballistica bolt ) {
+	public void onZap( Ballistica bolt ) {
 				
 		Char ch = Actor.findChar( bolt.collisionPos );
 		if (ch != null) {
@@ -54,7 +56,7 @@ public class WandOfMagicMissile extends DamageWand {
 			processSoulMark(ch, chargesPerCast());
 			ch.damage(damageRoll(), this);
 
-			ch.sprite.burst(0xFFFFFFFF, level() / 2 + 2);
+			ch.sprite.burst(0xFFFFFFFF, ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) / 2 + 2);
 
 		} else {
 			Dungeon.level.press(bolt.collisionPos, null, true);

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -27,6 +30,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.InfernoBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.BlizzardBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ParalyticBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.StormBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.CorrosiveBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.VenomousBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.DisplacingBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlockBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ArcaneBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShrapnelBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
@@ -35,6 +50,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfElectricity;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfCausticOoze;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
@@ -48,10 +69,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMi
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.RosePetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MagicSandBag;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
@@ -306,22 +337,30 @@ public class QuickRecipe extends Component {
 				}
 				return result;
 			case 5:
-				r = new Bomb.EnhanceBomb();
-				int i = 0;
-				for (Class<?> cls : Bomb.EnhanceBomb.validIngredients.keySet()){
-					try{
-						if (i == 2){
-							result.add(null);
-							i = 0;
-						}
-						Item item = (Item) cls.newInstance();
-						ArrayList<Item> in = new ArrayList<Item>(Arrays.asList(new Bomb(), item));
-						result.add(new QuickRecipe( r, in, r.sampleOutput(in)));
-						i++;
-					} catch (Exception e){
-						ShatteredPixelDungeon.reportException(e);
-					}
-				}
+				result.add(new QuickRecipe(new InfernoBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new PotionOfLiquidFlame(), new AlchemicalCatalyst())), new InfernoBomb()));
+				result.add(new QuickRecipe(new BlizzardBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new PotionOfFrost(), new AlchemicalCatalyst())), new BlizzardBomb()));
+				result.add(new QuickRecipe(new ParalyticBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new PotionOfElectricity(), new AlchemicalCatalyst())), new ParalyticBomb()));
+				result.add(new QuickRecipe(new StormBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new PotionOfLevitation(), new AlchemicalCatalyst())), new StormBomb()));
+				result.add(new QuickRecipe(new CorrosiveBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new PotionOfCausticOoze(), new AlchemicalCatalyst())), new CorrosiveBomb()));
+				result.add(new QuickRecipe(new VenomousBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new PotionOfToxicGas(), new AlchemicalCatalyst())), new VenomousBomb()));
+				result.add(new QuickRecipe(new Noisemaker.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new ScrollOfRage(), new ArcaneCatalyst())), new Noisemaker()));
+				result.add(new QuickRecipe(new DisplacingBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new ScrollOfTeleportation(), new ArcaneCatalyst())), new DisplacingBomb()));
+				result.add(new QuickRecipe(new HolyBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new ScrollOfRemoveCurse(), new ArcaneCatalyst())), new HolyBomb()));
+				result.add(new QuickRecipe(new FlockBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new ScrollOfMirrorImage(), new ArcaneCatalyst())), new FlockBomb()));
+				result.add(new QuickRecipe(new ArcaneBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new ScrollOfRage(), new GooBlob())), new ArcaneBomb()));
+				result.add(new QuickRecipe(new ShrapnelBomb.Recipe(),
+						new ArrayList<>(Arrays.asList(new Bomb(), new ScrollOfRetribution(), new MetalShard())), new ShrapnelBomb()));
 				return result;
 		}
 	}

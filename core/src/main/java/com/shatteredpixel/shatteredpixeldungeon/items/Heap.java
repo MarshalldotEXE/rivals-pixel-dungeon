@@ -28,6 +28,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GoldMimic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalMimic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.MonsterBox;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EbonyMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
@@ -70,10 +74,15 @@ public class Heap implements Bundlable {
 		CHEST,
 		LOCKED_CHEST,
 		CRYSTAL_CHEST,
+		EBONY_CHEST,
 		TOMB,
 		SKELETON,
 		REMAINS,
-		MIMIC
+		MIMIC,
+		GOLD_MIMIC,
+		CRYSTAL_MIMIC,
+		MONSTER_BOX,
+		EBONY_MIMIC
 	}
 	public Type type = Type.HEAP;
 	
@@ -94,9 +103,15 @@ public class Heap implements Bundlable {
 		case MIMIC:
 			return ItemSpriteSheet.CHEST;
 		case LOCKED_CHEST:
+		case GOLD_MIMIC:
 			return ItemSpriteSheet.LOCKED_CHEST;
+		case CRYSTAL_MIMIC:
 		case CRYSTAL_CHEST:
 			return ItemSpriteSheet.CRYSTAL_CHEST;
+		case MONSTER_BOX:
+			return ItemSpriteSheet.MONSTER_BOX;
+		case EBONY_MIMIC:
+			return ItemSpriteSheet.EBONY_CHEST;
 		case TOMB:
 			return ItemSpriteSheet.TOMB;
 		case SKELETON:
@@ -121,6 +136,34 @@ public class Heap implements Bundlable {
 				type = Type.CHEST;
 			}
 			break;
+		case GOLD_MIMIC:
+			if (GoldMimic.spawnAt(pos, items) != null) {
+				destroy();
+			} else {
+				type = Type.LOCKED_CHEST;
+			}
+			break;
+		case CRYSTAL_MIMIC:
+			if (CrystalMimic.spawnAt(pos, items) != null) {
+				destroy();
+			} else {
+				type = Type.CRYSTAL_CHEST;
+			}
+			break;
+		case MONSTER_BOX:
+			if (MonsterBox.spawnAt(pos, items) != null) {
+				destroy();
+			} else {
+				type = Type.CHEST;
+			}
+			break;
+		case EBONY_MIMIC:
+			if (EbonyMimic.spawnAt(pos, items) != null) {
+				destroy();
+			} else {
+				type = Type.EBONY_CHEST;
+			}
+			break;
 		case TOMB:
 			Wraith.spawnAround( hero.pos );
 			break;
@@ -139,7 +182,11 @@ public class Heap implements Bundlable {
 			Sample.INSTANCE.play( Assets.SND_CURSED );
 		}
 
-		if (type != Type.MIMIC) {
+		if (!(type == Type.MIMIC
+			|| type == Type.GOLD_MIMIC
+			|| type == Type.CRYSTAL_MIMIC
+			|| type == Type.MONSTER_BOX
+			|| type == Type.EBONY_MIMIC)) {
 			type = Type.HEAP;
 			ArrayList<Item> bonus = RingOfWealth.tryForBonusDrop(hero, 1);
 			if (bonus != null && !bonus.isEmpty()) {
@@ -148,7 +195,7 @@ public class Heap implements Bundlable {
 					new Flare(8, 48).color(0xAA00FF, true).show(sprite, 2f);
 					RingOfWealth.latestDropWasRare = false;
 				} else {
-					new Flare(8, 24).color(0xFFFFFF, true).show(sprite, 2f);
+					new Flare(8, 24).color(0x00FF00, true).show(sprite, 2f);
 				}
 			}
 			sprite.link();
@@ -231,15 +278,36 @@ public class Heap implements Bundlable {
 	
 	public void burn() {
 
-		if (type == Type.MIMIC) {
-			Mimic m = Mimic.spawnAt( pos, items );
+		if (type == Type.MIMIC
+			|| type == Type.GOLD_MIMIC
+			|| type == Type.CRYSTAL_MIMIC
+			|| type == Type.MONSTER_BOX
+			|| type == Type.EBONY_MIMIC) {
+			Mimic m;
+			switch (type) {
+				case MIMIC: default:
+					m = Mimic.spawnAt( pos, items );
+					break;
+				case GOLD_MIMIC:
+					m = GoldMimic.spawnAt( pos, items );
+					break;
+				case CRYSTAL_MIMIC:
+					m = CrystalMimic.spawnAt( pos, items );
+					break;
+				case MONSTER_BOX:
+					m = MonsterBox.spawnAt( pos, items );
+					break;
+				case EBONY_MIMIC:
+					m = EbonyMimic.spawnAt( pos, items );
+					break;
+			}
 			if (m != null) {
 				Buff.affect( m, Burning.class ).reignite( m );
 				m.sprite.emitter().burst( FlameParticle.FACTORY, 5 );
 				destroy();
 			}
 		}
-
+		
 		if (type != Type.HEAP) {
 			return;
 		}
@@ -292,14 +360,44 @@ public class Heap implements Bundlable {
 	//Note: should not be called to initiate an explosion, but rather by an explosion that is happening.
 	public void explode() {
 
-		//breaks open most standard containers, mimics die.
-		if (type == Type.MIMIC || type == Type.CHEST || type == Type.SKELETON) {
+		//breaks open bone piles
+		if (type == Type.SKELETON) {
 			type = Type.HEAP;
 			sprite.link();
 			sprite.drop();
 			return;
 		}
-
+		
+		//mimics are spawned and take damage
+		if (type == Type.MIMIC
+			|| type == Type.GOLD_MIMIC
+			|| type == Type.CRYSTAL_MIMIC
+			|| type == Type.MONSTER_BOX
+			|| type == Type.EBONY_MIMIC) {
+			Mimic m;
+			switch (type) {
+				case MIMIC: default:
+					m = Mimic.spawnAt( pos, items );
+					break;
+				case GOLD_MIMIC:
+					m = GoldMimic.spawnAt( pos, items );
+					break;
+				case CRYSTAL_MIMIC:
+					m = CrystalMimic.spawnAt( pos, items );
+					break;
+				case MONSTER_BOX:
+					m = MonsterBox.spawnAt( pos, items );
+					break;
+				case EBONY_MIMIC:
+					m = EbonyMimic.spawnAt( pos, items );
+					break;
+			}
+			if (m != null) {
+				m.damage( Random.NormalIntRange(3 + Dungeon.depth, 5 + Dungeon.depth), Bomb.class );
+				destroy();
+			}
+		}
+		
 		if (type != Type.HEAP) {
 
 			return;
@@ -337,8 +435,29 @@ public class Heap implements Bundlable {
 	
 	public void freeze() {
 
-		if (type == Type.MIMIC) {
-			Mimic m = Mimic.spawnAt( pos, items );
+		if (type == Type.MIMIC
+			|| type == Type.GOLD_MIMIC
+			|| type == Type.CRYSTAL_MIMIC
+			|| type == Type.MONSTER_BOX
+			|| type == Type.EBONY_MIMIC) {
+			Mimic m;
+			switch (type) {
+				case MIMIC: default:
+					m = Mimic.spawnAt( pos, items );
+					break;
+				case GOLD_MIMIC:
+					m = GoldMimic.spawnAt( pos, items );
+					break;
+				case CRYSTAL_MIMIC:
+					m = CrystalMimic.spawnAt( pos, items );
+					break;
+				case MONSTER_BOX:
+					m = MonsterBox.spawnAt( pos, items );
+					break;
+				case EBONY_MIMIC:
+					m = EbonyMimic.spawnAt( pos, items );
+					break;
+			}
 			if (m != null) {
 				Buff.prolong( m, Frost.class, Frost.duration( m ) * Random.Float( 1.0f, 1.5f ) );
 				destroy();
@@ -401,9 +520,16 @@ public class Heap implements Bundlable {
 			case MIMIC:
 				return Messages.get(this, "chest");
 			case LOCKED_CHEST:
+			case GOLD_MIMIC:
 				return Messages.get(this, "locked_chest");
 			case CRYSTAL_CHEST:
+			case CRYSTAL_MIMIC:
 				return Messages.get(this, "crystal_chest");
+			case MONSTER_BOX:
+				return Messages.get(this, "monster_box");
+			case EBONY_CHEST:
+			case EBONY_MIMIC:
+				return Messages.get(this, "ebony_chest");
 			case TOMB:
 				return Messages.get(this, "tomb");
 			case SKELETON:
@@ -421,14 +547,21 @@ public class Heap implements Bundlable {
 			case MIMIC:
 				return Messages.get(this, "chest_desc");
 			case LOCKED_CHEST:
+			case GOLD_MIMIC:
 				return Messages.get(this, "locked_chest_desc");
 			case CRYSTAL_CHEST:
+			case CRYSTAL_MIMIC:
 				if (peek() instanceof Artifact)
 					return Messages.get(this, "crystal_chest_desc", Messages.get(this, "artifact") );
 				else if (peek() instanceof Wand)
 					return Messages.get(this, "crystal_chest_desc", Messages.get(this, "wand") );
 				else
 					return Messages.get(this, "crystal_chest_desc", Messages.get(this, "ring") );
+			case MONSTER_BOX:
+				return Messages.get(this, "monster_box_desc");
+			case EBONY_CHEST:
+			case EBONY_MIMIC:
+				return Messages.get(this, "ebony_chest_desc");
 			case TOMB:
 				return Messages.get(this, "tomb_desc");
 			case SKELETON:

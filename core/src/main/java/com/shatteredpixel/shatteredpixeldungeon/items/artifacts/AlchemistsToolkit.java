@@ -41,17 +41,16 @@ public class AlchemistsToolkit extends Artifact {
 	{
 		image = ItemSpriteSheet.ARTIFACT_TOOLKIT;
 		defaultAction = AC_BREW;
-
+		
+		exp = 0;
 		levelCap = 10;
 		
 		charge = 0;
 		partialCharge = 0;
-		chargeCap = 100;
+		chargeCap = 50;
 	}
 
 	public static final String AC_BREW = "BREW";
-	
-	protected WndBag.Mode mode = WndBag.Mode.POTION;
 	
 	private boolean alchemyReady = false;
 
@@ -90,7 +89,7 @@ public class AlchemistsToolkit extends Artifact {
 	@Override
 	public void charge(Hero target) {
 		if (charge < chargeCap){
-			partialCharge += 0.5f;
+			partialCharge += 0.25f;
 			if (partialCharge >= 1){
 				partialCharge--;
 				charge++;
@@ -102,17 +101,21 @@ public class AlchemistsToolkit extends Artifact {
 	public void absorbEnergy( int energy ){
 		
 		exp += energy;
-		while (exp >= 10 && level() < levelCap){
+		//costs 4/5/6/etc. energy to upgrade
+		while (exp >= 4 + level() && level() < levelCap) {
 			upgrade();
-			exp -= 10;
+			exp -= 4 + level();
 		}
-		if (level() == levelCap){
-			partialCharge += exp;
+		
+		//50% of excess exp is converted to charge
+		if (level() == levelCap) {
+			charge += exp/2f;
 			energy -= exp;
 			exp = 0;
 		}
 		
-		partialCharge += energy/3f;
+		//50% of absorbed energy is converted to charge
+		partialCharge += energy/2f;
 		while (partialCharge >= 1){
 			
 			partialCharge -= 1;
@@ -174,21 +177,19 @@ public class AlchemistsToolkit extends Artifact {
 			
 			if (charge < chargeCap) {
 				
-				//generates 2 energy every hero level, +0.1 energy per toolkit level
-				//to a max of 12 energy per hero level
-				//This means that energy absorbed into the kit is recovered in 6.67 hero levels (as 33% of input energy is kept)
-				//exp towards toolkit levels is included here
-				float effectiveLevel = GameMath.gate(0, level() + exp/10f, 10);
-				partialCharge += (2 + (1f * effectiveLevel)) * levelPortion;
+				//+2 charge per hero level
+				//levelPortion is percentage of exp to hero's next level
+				partialCharge += 2 * levelPortion;
+				//+0.1 bonus charge per toolkit level
+				partialCharge += (level() / 10f) * levelPortion;
 				
-				//charge is in increments of 1/10 max hunger value.
 				while (partialCharge >= 1) {
 					charge++;
-					partialCharge -= 1;
+					partialCharge--;
 					
-					if (charge == chargeCap){
-						GLog.p( Messages.get(AlchemistsToolkit.class, "full") );
+					if (charge == chargeCap) {
 						partialCharge = 0;
+						GLog.p( Messages.get(AlchemistsToolkit.class, "full") );
 					}
 					
 					updateQuickslot();

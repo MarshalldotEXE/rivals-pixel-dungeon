@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -49,8 +50,8 @@ public class Bones {
 
 		depth = Dungeon.depth;
 
-		//heroes which have won the game, who die far above their farthest depth, or who are challenged drop no bones.
-		if (Statistics.amuletObtained || (Statistics.deepestFloor - 5) >= depth || Dungeon.challenges > 0) {
+		//heroes which have won the game or who are challenged drop no bones.
+		if (Statistics.amuletObtained || Dungeon.challenges > 0) {
 			depth = -1;
 			return;
 		}
@@ -69,51 +70,40 @@ public class Bones {
 	}
 
 	private static Item pickItem(Hero hero){
-		Item item = null;
-		if (Random.Int(3) != 0) {
-			switch (Random.Int(6)) {
-				case 0:
-					item = hero.belongings.weapon;
-					break;
-				case 1:
-					item = hero.belongings.armor;
-					break;
-				case 2:
-					item = hero.belongings.misc1;
-					break;
-				case 3:
-					item = hero.belongings.misc2;
-					break;
-				case 4: case 5:
-					item = Dungeon.quickslot.randomNonePlaceholder();
-					break;
-			}
-			if (item == null || !item.bones) {
-				return pickItem(hero);
+		ArrayList<Item> items = new ArrayList<Item>();
+		Iterator<Item> iterator = hero.belongings.backpack.iterator();
+		Item curItem;
+		Item item;
+		
+		//put all belongings into an arraylist
+		curItem = hero.belongings.weapon;
+		if (curItem != null && curItem.bones)
+			items.add(curItem);
+		curItem = hero.belongings.armor;
+		if (curItem != null && curItem.bones)
+			items.add(curItem);
+		curItem = hero.belongings.misc1;
+		if (curItem != null && curItem.bones)
+			items.add(curItem);
+		curItem = hero.belongings.misc2;
+		if (curItem != null && curItem.bones)
+			items.add(curItem);
+		
+		while (iterator.hasNext()){
+			curItem = iterator.next();
+			if (curItem.bones)
+				items.add(curItem);
+		}
+		
+		if (items.size() > 0) {
+			//pick a random item
+			item = Random.element(items);
+			
+			if (item.stackable){
+				item.quantity(Random.NormalIntRange(1, (item.quantity() + 1) / 2));
 			}
 		} else {
-
-			Iterator<Item> iterator = hero.belongings.backpack.iterator();
-			Item curItem;
-			ArrayList<Item> items = new ArrayList<Item>();
-			while (iterator.hasNext()){
-				curItem = iterator.next();
-				if (curItem.bones)
-					items.add(curItem);
-			}
-
-			if (Random.Int(3) < items.size()) {
-				item = Random.element(items);
-				if (item.stackable){
-					item.quantity(Random.NormalIntRange(1, (item.quantity() + 1) / 2));
-				}
-			} else {
-				if (Dungeon.gold > 100) {
-					item = new Gold( Random.NormalIntRange( 50, Dungeon.gold/2 ) );
-				} else {
-					item = new Gold( 50 );
-				}
-			}
+			item = new Dewdrop();
 		}
 		
 		return item;
@@ -168,9 +158,9 @@ public class Bones {
 				}
 				
 				if (item.isUpgradable()) {
-					//caps at +3
-					if (item.level() > 3) {
-						item.degrade( item.level() - 3 );
+					//caps at +2
+					if (item.level() > 2) {
+						item.degrade( item.level() - 2 );
 					}
 					//thrown weapons are always IDed, otherwise set unknown
 					item.levelKnown = item instanceof MissileWeapon;

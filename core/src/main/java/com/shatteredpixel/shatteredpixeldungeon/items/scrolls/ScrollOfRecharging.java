@@ -47,7 +47,7 @@ public class ScrollOfRecharging extends Scroll {
 		charge(curUser);
 		
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 
 		GLog.i( Messages.get(this, "surge") );
 		SpellSprite.show( curUser, SpellSprite.CHARGE );
@@ -64,10 +64,5 @@ public class ScrollOfRecharging extends Scroll {
 	
 	public static void charge( Hero hero ) {
 		hero.sprite.centerEmitter().burst( EnergyParticle.FACTORY, 15 );
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
 	}
 }

@@ -46,8 +46,7 @@ public class WndBlacksmith extends Window {
 	
 	private ItemButton btnPressed;
 	
-	private ItemButton btnItem1;
-	private ItemButton btnItem2;
+	private ItemButton btnItem;
 	private RedButton btnReforge;
 	
 	public WndBlacksmith( Blacksmith troll, Hero hero ) {
@@ -65,35 +64,25 @@ public class WndBlacksmith extends Window {
 		message.setPos(0, titlebar.bottom() + GAP);
 		add( message );
 		
-		btnItem1 = new ItemButton() {
+		btnItem = new ItemButton() {
 			@Override
 			protected void onClick() {
-				btnPressed = btnItem1;
+				btnPressed = btnItem;
 				GameScene.selectItem( itemSelector, WndBag.Mode.UPGRADEABLE, Messages.get(WndBlacksmith.class, "select") );
 			}
 		};
-		btnItem1.setRect( (WIDTH - BTN_GAP) / 2 - BTN_SIZE, message.top() + message.height() + BTN_GAP, BTN_SIZE, BTN_SIZE );
-		add( btnItem1 );
-		
-		btnItem2 = new ItemButton() {
-			@Override
-			protected void onClick() {
-				btnPressed = btnItem2;
-				GameScene.selectItem( itemSelector, WndBag.Mode.UPGRADEABLE, Messages.get(WndBlacksmith.class, "select") );
-			}
-		};
-		btnItem2.setRect( btnItem1.right() + BTN_GAP, btnItem1.top(), BTN_SIZE, BTN_SIZE );
-		add( btnItem2 );
+		btnItem.setRect( 40, message.top() + message.height() + BTN_GAP, BTN_SIZE, BTN_SIZE );
+		add( btnItem );
 		
 		btnReforge = new RedButton( Messages.get(this, "reforge") ) {
 			@Override
 			protected void onClick() {
-				Blacksmith.upgrade( btnItem1.item, btnItem2.item );
+				Blacksmith.upgrade( btnItem.item );
 				hide();
 			}
 		};
 		btnReforge.enable( false );
-		btnReforge.setRect( 0, btnItem1.bottom() + BTN_GAP, WIDTH, 20 );
+		btnReforge.setRect( 0, btnItem.bottom() + BTN_GAP, WIDTH, 20 );
 		add( btnReforge );
 		
 		
@@ -106,8 +95,8 @@ public class WndBlacksmith extends Window {
 			if (item != null) {
 				btnPressed.item( item );
 				
-				if (btnItem1.item != null && btnItem2.item != null) {
-					String result = Blacksmith.verify( btnItem1.item, btnItem2.item );
+				if (btnItem.item != null) {
+					String result = Blacksmith.verify( btnItem.item );
 					if (result != null) {
 						GameScene.show( new WndMessage( result ) );
 						btnReforge.enable( false );

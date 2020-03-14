@@ -31,13 +31,15 @@ public class MasterThievesArmband extends Artifact {
 
 	{
 		image = ItemSpriteSheet.ARTIFACT_ARMBAND;
-
+		//passive, no default action
+		
+		exp = 0;
 		levelCap = 10;
 
 		charge = 0;
+		partialCharge = 0;
+		//no charge cap
 	}
-
-	private int exp = 0;
 
 	@Override
 	protected ArtifactBuff passiveBuff() {
@@ -46,10 +48,8 @@ public class MasterThievesArmband extends Artifact {
 	
 	@Override
 	public void charge(Hero target) {
-		if (charge < chargeCap){
-			charge += 10;
-			updateQuickslot();
-		}
+		charge += 10;
+		updateQuickslot();
 	}
 
 	@Override
@@ -69,61 +69,79 @@ public class MasterThievesArmband extends Artifact {
 	}
 
 	public class Thievery extends ArtifactBuff{
-		public void collect(int gold){
+		
+		public void collect(int gold) {
 			if (!cursed) {
-				charge += gold/2;
+				partialCharge += gold / 2f;
+				
+				while (partialCharge >= 1) {
+					charge++;
+					partialCharge--;
+				}
 			}
-		}
-
-		@Override
-		public void detach() {
-			charge *= 0.95;
-			super.detach();
 		}
 		
 		@Override
 		public boolean act() {
 			if (cursed) {
 				
-				if (Dungeon.gold > 0 && Random.Int(6) == 0){
+				if (Dungeon.gold > 0 && Random.Int(5) == 0){
 					Dungeon.gold--;
 				}
 				
-				spend(TICK);
+				spend( TICK );
+				
 				return true;
+				
 			} else {
 				return super.act();
 			}
 		}
 		
-		public boolean steal(int value){
-			if (value <= charge){
+		public boolean steal(int value) {
+			
+			//charge is 100% or greater compared to the item's cost
+			if (charge >= value) {
 				charge -= value;
 				exp += value;
-			} else {
+			}
+			
+			//charge is 99% or less compared to the item's cost
+			else {
 				float chance = stealChance(value);
-				if (Random.Float() > chance)
+				//random chance fails
+				if (Random.Float() > chance) {
 					return false;
+				}
+				//random chance succeeds
 				else {
-					if (chance <= 1)
+					//chance is less than or equal to 100%
+					if (chance <= 1) {
 						charge = 0;
-					else
-						//removes the charge it took you to reach 100%
+					}
+					
+					//chance is more than 100%
+					else {
 						charge -= charge/chance;
+					}
+					
 					exp += value;
 				}
+				
 			}
-			while(exp >= (250 + 50*level()) && level() < levelCap) {
-				exp -= (250 + 50*level());
+			
+			while (exp >= 50 + 50 * level() && level() < levelCap) {
 				upgrade();
-			}
+				exp -= 50 + 50 * level();
+			}	
+			
 			return true;
 		}
 
-		public float stealChance(int value){
-				//get lvl*50 gold or lvl*3.33% item value of free charge, whichever is less.
-				int chargeBonus = Math.min(level()*50, (value*level())/30);
-				return (((float)charge + chargeBonus)/value);
+		public float stealChance(int value) {
+			//item's cost is decreased by 3.3% per armband level
+			value *= 1 - (.033f * level());
+			return (float)charge / value;
 		}
 	}
 }

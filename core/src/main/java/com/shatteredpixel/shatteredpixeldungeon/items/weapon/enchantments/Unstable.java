@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -29,30 +32,30 @@ import com.watabou.utils.Random;
 
 public class Unstable extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x999999 );
+	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x666666 );
 
 	private static Class<?extends Weapon.Enchantment>[] randomEnchants = new Class[]{
 			Blazing.class,
-			Blocking.class,
-			Blooming.class,
 			Chilling.class,
-			Kinetic.class,
-			Corrupting.class,
-			Elastic.class,
-			Grim.class,
-			Lucky.class,
-			//projecting not included, no on-hit effect
 			Shocking.class,
-			Vampiric.class
+			Kinetic.class,
+			Blooming.class,
+			Elastic.class,
+			Vampiric.class,
+			Corrupting.class,
+			Grim.class
 	};
 
 	@Override
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
 		
+		int lvl = Math.max( 0, weapon.level() );
+		
 		int conservedDamage = 0;
 		if (attacker.buff(Kinetic.ConservedDamage.class) != null) {
 			conservedDamage = attacker.buff(Kinetic.ConservedDamage.class).damageBonus();
 			attacker.buff(Kinetic.ConservedDamage.class).detach();
+			conservedDamage += lvl;
 		}
 		
 		try {

@@ -115,7 +115,7 @@ public abstract class Plant implements Bundlable {
 			if (Dungeon.level.map[cell] == Terrain.ALCHEMY
 					|| Dungeon.level.pit[cell]
 					|| Dungeon.level.traps.get(cell) != null
-					|| Dungeon.isChallenged(Challenges.NO_HERBALISM)) {
+					|| Dungeon.isChallenged(Challenges.BARREN_LAND)) {
 				super.onThrow( cell );
 			} else {
 				Dungeon.level.plant( this, cell );
@@ -175,7 +175,7 @@ public abstract class Plant implements Bundlable {
 		
 		@Override
 		public int price() {
-			return 10 * quantity;
+			return 5 * quantity;
 		}
 
 		@Override

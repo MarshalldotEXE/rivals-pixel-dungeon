@@ -24,6 +24,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -66,6 +67,20 @@ public class MeleeWeapon extends Weapon {
 		}
 		
 		return damage;
+	}
+	
+	@Override
+	public boolean doEquip( final Hero hero ) {
+		if (super.doEquip( hero )) {
+			
+			Badges.validateItemLevelAquired( this );
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
 	}
 	
 	@Override
@@ -122,15 +137,15 @@ public class MeleeWeapon extends Weapon {
 	
 	@Override
 	public int price() {
-		int price = 20 * tier;
+		int price = 15 + 5 * tier;
 		if (hasGoodEnchant()) {
-			price *= 1.5;
+			price += 10;
 		}
 		if (cursedKnown && (cursed || hasCurseEnchant())) {
-			price /= 2;
+			price -= 10;
 		}
 		if (levelKnown && level() > 0) {
-			price *= (level() + 1);
+			price += 5 * level();
 		}
 		if (price < 1) {
 			price = 1;

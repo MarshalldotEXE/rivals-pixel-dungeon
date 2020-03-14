@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -61,15 +62,15 @@ public class WandOfLightning extends DamageWand {
 	}
 	
 	@Override
-	protected void onZap( Ballistica bolt ) {
+	public void onZap( Ballistica bolt ) {
 
 		//lightning deals less damage per-target, the more targets that are hit.
 		float multipler = 0.4f + (0.6f/affected.size());
 		//if the main target is in water, all affected take full damage
 		if (Dungeon.level.water[bolt.collisionPos]) multipler = 1f;
 
-		int min = 3 + level();
-		int max = 10 + 4*level();
+		int min = 3 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
+		int max = 10 + 4*( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
 
 		for (Char ch : affected){
 			processSoulMark(ch, chargesPerCast());
@@ -118,7 +119,7 @@ public class WandOfLightning extends DamageWand {
 	}
 	
 	@Override
-	protected void fx( Ballistica bolt, Callback callback ) {
+	public void fx( Ballistica bolt, Char caster, Callback callback ) {
 
 		affected.clear();
 		arcs.clear();
@@ -127,15 +128,15 @@ public class WandOfLightning extends DamageWand {
 
 		Char ch = Actor.findChar( cell );
 		if (ch != null) {
-			arcs.add( new Lightning.Arc(curUser.sprite.center(), ch.sprite.center()));
+			arcs.add( new Lightning.Arc(caster.sprite.center(), ch.sprite.center()));
 			arc(ch);
 		} else {
-			arcs.add( new Lightning.Arc(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(bolt.collisionPos)));
+			arcs.add( new Lightning.Arc(caster.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(bolt.collisionPos)));
 			CellEmitter.center( cell ).burst( SparkParticle.FACTORY, 3 );
 		}
 
 		//don't want to wait for the effect before processing damage.
-		curUser.sprite.parent.addToFront( new Lightning( arcs, null ) );
+		caster.sprite.parent.addToFront( new Lightning( arcs, null ) );
 		callback.call();
 	}
 

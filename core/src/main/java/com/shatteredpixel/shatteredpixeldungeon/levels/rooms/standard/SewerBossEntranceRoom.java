@@ -66,7 +66,7 @@ public class SewerBossEntranceRoom extends EntranceRoom {
 		Painter.fill( level, left+1, top+1, width()-2, 1, Terrain.WALL_DECO);
 		Painter.fill( level, left+1, top+2, width()-2, 1, Terrain.WATER);
 		
-		Painter.set( level, left+width()/2, top+1, Terrain.LOCKED_EXIT);
+		Painter.set( level, left+width()/2, top+1, Terrain.UNLOCKED_EXIT);
 		level.exit = level.pointToCell(new Point(left+width()/2, top+1));
 		
 		do {

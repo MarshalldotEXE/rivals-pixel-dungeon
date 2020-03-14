@@ -42,15 +42,14 @@ public class TalismanOfForesight extends Artifact {
 
 	{
 		image = ItemSpriteSheet.ARTIFACT_TALISMAN;
-
-		exp = 0;
-		levelCap = 10;
+		defaultAction = AC_SCRY;
+		
+		//no exp
+		levelCap = 4;
 
 		charge = 0;
 		partialCharge = 0;
 		chargeCap = 100;
-
-		defaultAction = AC_SCRY;
 	}
 
 	public static final String AC_SCRY = "SCRY";
@@ -107,7 +106,7 @@ public class TalismanOfForesight extends Artifact {
 	@Override
 	public void charge(Hero target) {
 		if (charge < chargeCap){
-			charge += 4f;
+			charge += 5f;
 			if (charge >= chargeCap) {
 				charge = chargeCap;
 				partialCharge = 0;
@@ -197,43 +196,60 @@ public class TalismanOfForesight extends Artifact {
 				warn = 3;
 			} else {
 				if (warn > 0){
-					warn --;
+					warn--;
 				}
 			}
 			BuffIndicator.refreshHero();
+			
+			if (charge < chargeCap && !cursed) {
+				
+				//+0.1 charge per turn
+				partialCharge += 0.1;
+				//+0.05 bonus charge per talisman level (max +0.2)
+				partialCharge += level() * 0.05;
 
-			//fully charges in 2000 turns at lvl=0, scaling to 667 turns at lvl = 10.
-			LockedFloor lock = target.buff(LockedFloor.class);
-			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
-				partialCharge += 0.05+(level()*0.01);
-
-				if (partialCharge > 1 && charge < chargeCap) {
-					partialCharge--;
+				while (partialCharge >= 1) {
 					charge++;
+					partialCharge--;
+					
+					if (charge == chargeCap) {
+						partialCharge = 0;
+						GLog.p( Messages.get(this, "full_charge") );
+					}
+					
 					updateQuickslot();
-				} else if (charge >= chargeCap) {
-					partialCharge = 0;
-					GLog.p( Messages.get(this, "full_charge") );
 				}
 			}
-
-			return true;
-		}
-
-		public void charge(){
-			charge = Math.min(charge+(2+(level()/3)), chargeCap);
-			exp++;
-			if (exp >= 4 && level() < levelCap) {
-				upgrade();
-				GLog.p( Messages.get(this, "levelup") );
-				exp -= 4;
+			
+			//depth 5 = 1
+			//depth 9 = 2
+			//depth 13 = 3
+			//depth 17 = 4
+			int chapter = Math.min( 4, ( Dungeon.depth - 1 ) / 4 );
+			
+			if (level() < levelCap) {
+				
+				//this is to prevent the upgrade text from not only appearing every turn, but...
+				boolean wasUpgraded = false;
+				
+				while (chapter > level() && level() < levelCap) {
+					upgrade();
+					//...also multiple times per upgrade
+					wasUpgraded = true;
+				}
+				
+				//if it was upgraded at all, show the message
+				if (wasUpgraded) GLog.p( Messages.get(this, "levelup") );
+				
+				updateQuickslot();
 			}
-			updateQuickslot();
+			
+			return true;
 		}
 
 		@Override
 		public String toString() {
-			return  Messages.get(this, "name");
+			return Messages.get(this, "name");
 		}
 
 		@Override

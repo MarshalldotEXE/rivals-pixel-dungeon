@@ -28,7 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Chainsaw;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -48,8 +49,8 @@ public class Monk extends Mob {
 		EXP = 12;
 		maxLvl = 16;
 		
-		loot = new Food();
-		lootChance = 0.083f;
+		loot = new SmallRation();
+		lootChance = 0.167f;
 
 		properties.add(Property.UNDEAD);
 	}
@@ -95,6 +96,7 @@ public class Monk extends Mob {
 			if (weapon != null
 					&& !(weapon instanceof Gloves)
 					&& !(weapon instanceof Gauntlet)
+					&& !(weapon instanceof Chainsaw)
 					&& !weapon.cursed) {
 				if (hitsToDisarm == 0) hitsToDisarm = Random.NormalIntRange(4, 8);
 

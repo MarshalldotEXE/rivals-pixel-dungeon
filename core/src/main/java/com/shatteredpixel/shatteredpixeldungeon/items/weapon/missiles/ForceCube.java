@@ -43,9 +43,14 @@ public class ForceCube extends MissileWeapon {
 		image = ItemSpriteSheet.FORCE_CUBE;
 		
 		tier = 4;
-		baseUses = 5;
 		
 		sticky = false;
+	}
+	
+	@Override
+	public int max(int lvl) {
+		return  4 * tier +                  //16 base, down from 20
+				tier * lvl;					//scaling unchanged
 	}
 	
 	@Override

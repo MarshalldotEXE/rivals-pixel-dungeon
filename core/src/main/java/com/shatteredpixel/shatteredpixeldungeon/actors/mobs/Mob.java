@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Taunt;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -52,7 +53,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourg
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -510,19 +510,11 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	protected boolean hitWithRanged = false;
-	
 	@Override
 	public int defenseProc( Char enemy, int damage ) {
 		
-		if (enemy instanceof Hero && ((Hero) enemy).belongings.weapon instanceof MissileWeapon){
-			hitWithRanged = true;
-		}
-		
 		if ((!enemySeen || enemy.invisible > 0)
 				&& enemy == Dungeon.hero && Dungeon.hero.canSurpriseAttack()) {
-			Statistics.sneakAttacks++;
-			Badges.validateRogueUnlock();
 			if (enemy.buff(Preparation.class) != null) {
 				Wound.hit(this);
 			} else {
@@ -594,7 +586,6 @@ public abstract class Mob extends Char {
 			if (alignment == Alignment.ENEMY) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
-				Statistics.qualifiedForNoKilling = false;
 				
 				int exp = Dungeon.hero.lvl < maxLvl ? EXP : 0;
 				if (exp > 0) {
@@ -608,17 +599,14 @@ public abstract class Mob extends Char {
 	@Override
 	public void die( Object cause ) {
 		
-		if (hitWithRanged){
-			Statistics.thrownAssists++;
-			Badges.validateHuntressUnlock();
-		}
-		
 		if (cause == Chasm.class){
 			//50% chance to round up, 50% to round down
 			if (EXP % 2 == 1) EXP += Random.Int(2);
 			EXP /= 2;
 		}
 
+		if ( buff(Taunt.class) != null) EXP *= 2;
+		
 		if (alignment == Alignment.ENEMY){
 			rollToDropLoot();
 		}
@@ -655,15 +643,9 @@ public abstract class Mob extends Char {
 					new Flare(8, 48).color(0xAA00FF, true).show(sprite, 3f);
 					RingOfWealth.latestDropWasRare = false;
 				} else {
-					new Flare(8, 24).color(0xFFFFFF, true).show(sprite, 3f);
+					new Flare(8, 24).color(0x00FF00, true).show(sprite, 3f);
 				}
 			}
-		}
-		
-		//lucky enchant logic
-		if (Dungeon.hero.lvl <= maxLvl && buff(Lucky.LuckProc.class) != null){
-			new Flare(8, 24).color(0x00FF00, true).show(sprite, 3f);
-			Dungeon.level.drop(Lucky.genLoot(), pos).sprite.drop();
 		}
 	}
 	

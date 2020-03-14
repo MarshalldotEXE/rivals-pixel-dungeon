@@ -31,12 +31,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
@@ -88,7 +88,7 @@ abstract public class MissileWeapon extends Weapon {
 	@Override
 	public int max(int lvl) {
 		return  5 * tier +                      //base
-				(tier == 1 ? 2*lvl : tier*lvl); //level scaling
+				tier * lvl;						//level scaling
 	}
 	
 	public int STRReq(int lvl){
@@ -147,12 +147,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public int throwPos(Hero user, int dst) {
-		if (hasEnchant(Projecting.class, user)
-				&& !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
-			return dst;
-		} else {
-			return super.throwPos(user, dst);
-		}
+		return super.throwPos(user, dst);
 	}
 
 	@Override
@@ -182,16 +177,27 @@ abstract public class MissileWeapon extends Weapon {
 	public Item random() {
 		if (!stackable) return this;
 		
-		//2: 66.67% (2/3)
-		//3: 26.67% (4/15)
-		//4: 6.67%  (1/15)
-		quantity = 2;
-		if (Random.Int(3) == 0) {
+		int maxNat = 2;
+		
+		//1: 50% (1/2)
+		//2: 30% (3/10)
+		//3: 20% (1/5)
+		quantity = 1;
+		if (Random.Int(2) == 0) {
 			quantity++;
-			if (Random.Int(5) == 0) {
+			maxNat--;
+			if (Random.Int(5) >= 1) {
 				quantity++;
+				maxNat--;
 			}
 		}
+		
+		level(
+			Math.min( maxNat,
+				Random.chances( Generator.floorSetUpgradeProbs[ Dungeon.depth / 4 ])
+			)
+		);
+		
 		return this;
 	}
 	
@@ -221,12 +227,11 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	protected float durabilityPerUse(){
-		float usages = baseUses * (float)(Math.pow(3, level()));
+		float usages = baseUses;
+		if (level() >= 1) usages = 100;
 		
 		if (Dungeon.hero.heroClass == HeroClass.HUNTRESS)   usages *= 1.5f;
 		if (holster)                                        usages *= MagicalHolster.HOLSTER_DURABILITY_FACTOR;
-		
-		usages *= RingOfSharpshooting.durabilityMultiplier( Dungeon.hero );
 		
 		//at 100 uses, items just last forever.
 		if (usages >= 100f) return 0;
@@ -369,7 +374,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public int price() {
-		return 6 * tier * quantity * (level() + 1);
+		return (int)Math.round(( 7.5 + ( 2.5 * tier ) + ( 2.5 * level())) * quantity );
 	}
 	
 	private static final String DURABILITY = "durability";

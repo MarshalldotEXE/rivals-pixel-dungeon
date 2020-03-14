@@ -24,9 +24,14 @@ package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
@@ -34,10 +39,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.Material;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFirebolt;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -61,13 +69,14 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	
 	public static boolean canTransmute(Item item){
 		return item instanceof MeleeWeapon ||
+				item instanceof Armor ||
 				(item instanceof MissileWeapon && !(item instanceof Dart)) ||
-				(item instanceof Potion && !(item instanceof Elixir || item instanceof Brew || item instanceof AlchemicalCatalyst || item instanceof ArcaneCatalyst)) ||
+				item instanceof Potion ||
 				item instanceof Scroll ||
 				item instanceof Ring ||
 				item instanceof Wand ||
 				item instanceof Plant.Seed ||
-				item instanceof Runestone ||
+				item instanceof Material ||
 				item instanceof Artifact;
 	}
 	
@@ -80,6 +89,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			result = changeStaff( (MagesStaff)item );
 		} else if (item instanceof MeleeWeapon || item instanceof MissileWeapon) {
 			result = changeWeapon( (Weapon)item );
+		} else if (item instanceof Armor) {
+			result = changeArmor( (Armor)item );
 		} else if (item instanceof Scroll) {
 			result = changeScroll( (Scroll)item );
 		} else if (item instanceof Potion) {
@@ -90,8 +101,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			result = changeWand( (Wand)item );
 		} else if (item instanceof Plant.Seed) {
 			result = changeSeed((Plant.Seed) item);
-		} else if (item instanceof Runestone) {
-			result = changeStone((Runestone) item);
+		} else if (item instanceof Material) {
+			result = changeMaterial((Material) item);
 		} else if (item instanceof Artifact) {
 			result = changeArtifact( (Artifact)item );
 		} else {
@@ -116,8 +127,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			if (result.isIdentified()){
 				Catalog.setSeen(result.getClass());
 			}
-			//TODO visuals
 			GLog.p( Messages.get(this, "morph") );
+			CellEmitter.get(Dungeon.hero.pos).start( Speck.factory( Speck.CHANGE ), 0.2f, 7 );
 		}
 		
 	}
@@ -178,11 +189,61 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		
 	}
 	
+	private Armor changeArmor( Armor a ) {
+		
+		Armor n;
+		Generator.Category c;
+		c = Generator.armorTiers[((Armor)a).tier - 1];
+		
+		do {
+			try {
+				n = (Armor)c.classes[Random.chances(c.probs)].newInstance();
+			} catch (Exception e) {
+				ShatteredPixelDungeon.reportException(e);
+				return null;
+			}
+		} while (Challenges.isItemBlocked(n) || n.getClass() == a.getClass());
+		
+		int level = a.level();
+		if (a.curseInfusionBonus) level--;
+		if (level > 0) {
+			n.upgrade( level );
+		} else if (level < 0) {
+			n.degrade( -level );
+		}
+		
+		n.glyph = a.glyph;
+		n.curseInfusionBonus = a.curseInfusionBonus;
+		n.levelKnown = a.levelKnown;
+		n.cursedKnown = a.cursedKnown;
+		n.cursed = a.cursed;
+		n.augment = a.augment;
+		
+		//give new armor the seal
+		BrokenSeal seal = a.checkSeal();
+		if (seal != null) {
+			//if the seal is upgraded, remove one level from the armor,
+			//otherwise this will result in the armor being unintentionally upgraded
+			if (seal.level() == 1)
+				n.level(n.level() - 1);
+			n.affixSeal((BrokenSeal)seal);
+		}
+		
+		return n;
+		
+	}
+	
 	private Ring changeRing( Ring r ) {
 		Ring n;
-		do {
-			n = (Ring)Generator.random( Generator.Category.RING );
-		} while (Challenges.isItemBlocked(n) || n.getClass() == r.getClass());
+		if (Random.Int(11) == 0) { //10 rings can spawn from generator; power is 11th
+			n = new RingOfPower();
+			GLog.p( Messages.get(ScrollOfTransmutation.class, "somethings_off") );
+			CellEmitter.get(Dungeon.hero.pos).burst( ElmoParticle.FACTORY, 6 );
+		}
+		else
+			do {
+				n = (Ring)Generator.random( Generator.Category.RING );
+			} while (Challenges.isItemBlocked(n) || n.getClass() == r.getClass());
 		
 		n.level(0);
 		
@@ -215,11 +276,16 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	}
 	
 	private Wand changeWand( Wand w ) {
-		
 		Wand n;
-		do {
-			n = (Wand)Generator.random( Generator.Category.WAND );
-		} while ( Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
+		if (Random.Int(15) == 0) { //14 wands can spawn from generator; firebolt is 15th
+			n = new WandOfFirebolt();
+			GLog.p( Messages.get(ScrollOfTransmutation.class, "somethings_off") );
+			CellEmitter.get(Dungeon.hero.pos).burst( ElmoParticle.FACTORY, 6 );
+		}
+		else
+			do {
+				n = (Wand)Generator.random( Generator.Category.WAND );
+			} while ( Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
 		
 		n.level( 0 );
 		int level = w.level();
@@ -245,13 +311,13 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		return n;
 	}
 	
-	private Runestone changeStone( Runestone r ) {
+	private Material changeMaterial( Material m ) {
 		
-		Runestone n;
+		Material n;
 		
 		do {
-			n = (Runestone) Generator.random( Generator.Category.STONE );
-		} while (n.getClass() == r.getClass());
+			n = (Material) Generator.random( Generator.Category.MATERIAL );
+		} while (n.getClass() == m.getClass());
 		
 		return n;
 	}
@@ -285,10 +351,5 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	@Override
 	public void empoweredRead() {
 		//does nothing, this shouldn't happen
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 50 * quantity : super.price();
 	}
 }

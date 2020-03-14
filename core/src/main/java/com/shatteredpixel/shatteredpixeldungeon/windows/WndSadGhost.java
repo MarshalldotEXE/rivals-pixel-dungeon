@@ -73,7 +73,7 @@ public class WndSadGhost extends Window {
 		message.setPos(0, titlebar.bottom() + GAP);
 		add( message );
 		
-		RedButton btnWeapon = new RedButton( Messages.get(this, "weapon") ) {
+		RedButton btnWeapon = new RedButton( Messages.titleCase(Ghost.Quest.weapon.toString()) ) {
 			@Override
 			protected void onClick() {
 				selectReward( ghost, Ghost.Quest.weapon );
@@ -82,20 +82,16 @@ public class WndSadGhost extends Window {
 		btnWeapon.setRect( 0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT );
 		add( btnWeapon );
 
-		if (!Dungeon.isChallenged( Challenges.NO_ARMOR )) {
-			RedButton btnArmor = new RedButton( Messages.get(this, "armor") ) {
-				@Override
-				protected void onClick() {
-					selectReward(ghost, Ghost.Quest.armor);
-				}
-			};
-			btnArmor.setRect(0, btnWeapon.bottom() + GAP, WIDTH, BTN_HEIGHT);
-			add(btnArmor);
+		RedButton btnArmor = new RedButton( Messages.titleCase(Ghost.Quest.armor.toString()) ) {
+			@Override
+			protected void onClick() {
+				selectReward(ghost, Ghost.Quest.armor);
+			}
+		};
+		btnArmor.setRect(0, btnWeapon.bottom() + GAP, WIDTH, BTN_HEIGHT);
+		add(btnArmor);
 
-			resize(WIDTH, (int) btnArmor.bottom());
-		} else {
-			resize(WIDTH, (int) btnWeapon.bottom());
-		}
+		resize(WIDTH, (int) btnArmor.bottom());
 	}
 	
 	private void selectReward( Ghost ghost, Item reward ) {
@@ -104,7 +100,6 @@ public class WndSadGhost extends Window {
 		
 		if (reward == null) return;
 		
-		reward.identify();
 		if (reward.doPickUp( Dungeon.hero )) {
 			GLog.i( Messages.get(Dungeon.hero, "you_now_have", reward.name()) );
 		} else {

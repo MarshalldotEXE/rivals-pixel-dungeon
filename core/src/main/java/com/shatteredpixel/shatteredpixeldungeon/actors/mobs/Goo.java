@@ -33,7 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SacrificialParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
@@ -74,7 +74,7 @@ public class Goo extends Mob {
 			PathFinder.buildDistanceMap( pos, BArray.not( Dungeon.level.solid, null ), 2 );
 			for (int i = 0; i < PathFinder.distance.length; i++) {
 				if (PathFinder.distance[i] < Integer.MAX_VALUE)
-					CellEmitter.get(i).burst(ElmoParticle.FACTORY, 10);
+					CellEmitter.get(i).burst(SacrificialParticle.FACTORY, 10);
 			}
 			Sample.INSTANCE.play( Assets.SND_BURNING );
 			return Random.NormalIntRange( min*3, max*3 );
@@ -232,18 +232,6 @@ public class Goo extends Mob {
 		
 		GameScene.bossSlain();
 		Dungeon.level.drop( new SkeletonKey( Dungeon.depth ), pos ).sprite.drop();
-		
-		//60% chance of 2 blobs, 30% chance of 3, 10% chance for 4. Average of 2.5
-		int blobs = Random.chances(new float[]{0, 0, 6, 3, 1});
-		for (int i = 0; i < blobs; i++){
-			int ofs;
-			do {
-				ofs = PathFinder.NEIGHBOURS8[Random.Int(8)];
-			} while (!Dungeon.level.passable[pos + ofs]);
-			Dungeon.level.drop( new GooBlob(), pos + ofs ).sprite.drop( pos );
-		}
-		
-		Badges.validateBossSlain();
 		
 		yell( Messages.get(this, "defeated") );
 	}

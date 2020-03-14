@@ -39,10 +39,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -78,7 +80,7 @@ public abstract class Wand extends Item {
 	private int usesLeftToID = USES_TO_ID;
 	private float availableUsesToID = USES_TO_ID/2f;
 
-	protected int collisionProperties = Ballistica.MAGIC_BOLT;
+	public int collisionProperties = Ballistica.MAGIC_BOLT;
 	
 	{
 		defaultAction = AC_ZAP;
@@ -110,7 +112,16 @@ public abstract class Wand extends Item {
 		}
 	}
 	
-	protected abstract void onZap( Ballistica attack );
+	@Override
+	public boolean doPickUp( Hero hero ) {
+		if (super.doPickUp( hero )) {
+			Badges.validateAllWandsObtained();
+			return true;
+		}
+		return false;
+	}
+	
+	public abstract void onZap( Ballistica attack );
 
 	public abstract void onHit( MagesStaff staff, Char attacker, Char defender, int damage);
 
@@ -292,10 +303,10 @@ public abstract class Wand extends Item {
 		return 1;
 	}
 	
-	protected void fx( Ballistica bolt, Callback callback ) {
-		MagicMissile.boltFromChar( curUser.sprite.parent,
+	public void fx( Ballistica bolt, Char caster, Callback callback ) {
+		MagicMissile.boltFromChar( caster.sprite.parent,
 				MagicMissile.MAGIC_MISSILE,
-				curUser.sprite,
+				caster.sprite,
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play( Assets.SND_ZAP );
@@ -322,7 +333,8 @@ public abstract class Wand extends Item {
 		
 		curCharges -= cursed ? 1 : chargesPerCast();
 		
-		if (curUser.heroClass == HeroClass.MAGE) levelKnown = true;
+		identify();
+		Badges.validateItemLevelAquired( this );
 		updateQuickslot();
 
 		curUser.spendAndNext( TIME_TO_ZAP );
@@ -330,38 +342,24 @@ public abstract class Wand extends Item {
 	
 	@Override
 	public Item random() {
-		//+0: 67% (6/9)
-		//+1: 22% (2/9)
-		//+2: 11% (1/9)
-		int n = 0;
-		if (Random.Int(3) == 0) {
-			n++;
-			if (Random.Int(3) == 0) {
-				n++;
-			}
-		}
-		level(n);
 		
-		//33% chance to be cursed
-		if (Random.Float() < 0.33f) {
+		level( Random.chances( Generator.floorSetUpgradeProbs[ Dungeon.depth / 4 ]));
+		
+		int effectRoll = Random.chances( Generator.floorSetEffectProbs[ Dungeon.depth / 4 ]);
+		if (effectRoll == 1)
 			cursed = true;
-		}
 
 		return this;
 	}
 	
 	@Override
 	public int price() {
-		int price = 75;
+		int price = 20;
 		if (cursed && cursedKnown) {
-			price /= 2;
+			price -= 10;
 		}
-		if (levelKnown) {
-			if (level() > 0) {
-				price *= (level() + 1);
-			} else if (level() < 0) {
-				price /= (1 - level());
-			}
+		if (levelKnown && level() > 0) {
+			price += 5 * level();
 		}
 		if (price < 1) {
 			price = 1;
@@ -448,7 +446,7 @@ public abstract class Wand extends Item {
 				if (curWand.tryToZap(curUser, target)) {
 					
 					curUser.busy();
-					Invisibility.dispel();
+					curUser.dispel();
 					
 					if (curWand.cursed){
 						if (!curWand.cursedKnown){
@@ -464,7 +462,7 @@ public abstract class Wand extends Item {
 									}
 								});
 					} else {
-						curWand.fx(shot, new Callback() {
+						curWand.fx(shot, curUser, new Callback() {
 							public void call() {
 								curWand.onZap(shot);
 								curWand.wandUsed();
@@ -483,6 +481,12 @@ public abstract class Wand extends Item {
 			return Messages.get(Wand.class, "prompt");
 		}
 	};
+	
+	public void rivalOnZap( Ballistica attack, Char attacker ) {
+		attacker.dispel();
+		onZap(attack);
+		curCharges -= cursed ? 1 : chargesPerCast();
+	}
 	
 	public class Charger extends Buff {
 		

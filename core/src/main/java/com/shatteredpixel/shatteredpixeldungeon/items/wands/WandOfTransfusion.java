@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BloodParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -58,7 +59,7 @@ public class WandOfTransfusion extends Wand {
 	private boolean freeCharge = false;
 
 	@Override
-	protected void onZap(Ballistica beam) {
+	public void onZap(Ballistica beam) {
 
 		for (int c : beam.subPath(0, beam.dist))
 			CellEmitter.center(c).burst( BloodParticle.BURST, 1 );
@@ -79,7 +80,7 @@ public class WandOfTransfusion extends Wand {
 				// 10% of max hp
 				int selfDmg = Math.round(curUser.HT*0.10f);
 				
-				int healing = selfDmg + 3*level();
+				int healing = selfDmg + 3*( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
 				int shielding = (ch.HP + healing) - ch.HT;
 				if (shielding > 0){
 					healing -= shielding;
@@ -90,7 +91,7 @@ public class WandOfTransfusion extends Wand {
 				
 				ch.HP += healing;
 				
-				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + level() / 2);
+				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) / 2);
 				ch.sprite.showStatus(CharSprite.POSITIVE, "+%dHP", healing + shielding);
 				
 				if (!freeCharge) {
@@ -104,18 +105,18 @@ public class WandOfTransfusion extends Wand {
 				
 				//charms living enemies
 				if (!ch.properties().contains(Char.Property.UNDEAD)) {
-					Buff.affect( ch, Charm.class, 3+level() ).object = curUser.id();
-					ch.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 + level()/2 );
+					Buff.affect( ch, Charm.class, 3+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) ).object = curUser.id();
+					ch.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )/2 );
 				
 				//harms the undead
 				} else {
-					ch.damage(Random.NormalIntRange(1 + level(), 6+level()*2), this);
-					ch.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10 + level());
+					ch.damage(Random.NormalIntRange(1 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ), 6+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )*2), this);
+					ch.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ));
 					Sample.INSTANCE.play(Assets.SND_BURNING);
 				}
 				
 				//and grants a self shield
-				Buff.affect(curUser, Barrier.class).setShield((5 + 2*level()));
+				Buff.affect(curUser, Barrier.class).setShield((4 + 2*( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )));
 
 			}
 			
@@ -148,9 +149,9 @@ public class WandOfTransfusion extends Wand {
 	}
 
 	@Override
-	protected void fx(Ballistica beam, Callback callback) {
-		curUser.sprite.parent.add(
-				new Beam.HealthRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)));
+	public void fx(Ballistica beam, Char caster, Callback callback) {
+		caster.sprite.parent.add(
+				new Beam.HealthRay(caster.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)));
 		callback.call();
 	}
 

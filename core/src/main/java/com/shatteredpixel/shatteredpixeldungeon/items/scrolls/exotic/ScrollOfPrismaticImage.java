@@ -56,7 +56,7 @@ public class ScrollOfPrismaticImage extends ExoticScroll {
 		setKnown();
 		
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 	
 		readAnimation();
 	}

@@ -38,7 +38,7 @@ public class ScrollOfForesight extends ExoticScroll {
 	public void doRead() {
 		SpellSprite.show( curUser, SpellSprite.MAP );
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		Buff.affect(curUser, Foresight.class, 600f);
 		

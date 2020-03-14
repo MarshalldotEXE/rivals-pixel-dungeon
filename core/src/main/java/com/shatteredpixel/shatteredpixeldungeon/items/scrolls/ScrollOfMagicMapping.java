@@ -81,7 +81,7 @@ public class ScrollOfMagicMapping extends Scroll {
 		
 		SpellSprite.show( curUser, SpellSprite.MAP );
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		setKnown();
 
@@ -94,11 +94,6 @@ public class ScrollOfMagicMapping extends Scroll {
 		Buff.affect( curUser, MindVision.class, MindVision.DURATION );
 		Buff.affect( curUser, Awareness.class, Awareness.DURATION );
 		Dungeon.observe();
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
 	}
 	
 	public static void discover( int cell ) {

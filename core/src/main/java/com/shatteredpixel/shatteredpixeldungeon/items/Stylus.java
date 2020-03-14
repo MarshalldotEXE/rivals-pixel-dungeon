@@ -106,7 +106,7 @@ public class Stylus extends Item {
 	
 	@Override
 	public int price() {
-		return 30 * quantity;
+		return 20 * quantity;
 	}
 
 	private final WndBag.Listener itemSelector = new WndBag.Listener() {

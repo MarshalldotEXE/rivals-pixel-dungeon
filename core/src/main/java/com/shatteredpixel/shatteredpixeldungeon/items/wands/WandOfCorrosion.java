@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.CorrosionParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -51,10 +52,10 @@ public class WandOfCorrosion extends Wand {
 	}
 
 	@Override
-	protected void onZap(Ballistica bolt) {
-		Blob corrosiveGas = Blob.seed(bolt.collisionPos, 50 + 10 * level(), CorrosiveGas.class);
+	public void onZap(Ballistica bolt) {
+		Blob corrosiveGas = Blob.seed(bolt.collisionPos, 50 + 10 * ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ), CorrosiveGas.class);
 		CellEmitter.center(bolt.collisionPos).burst( CorrosionParticle.SPLASH, 10 );
-		((CorrosiveGas)corrosiveGas).setStrength(level()+2);
+		((CorrosiveGas)corrosiveGas).setStrength(( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )+2);
 		GameScene.add(corrosiveGas);
 
 		for (int i : PathFinder.NEIGHBOURS9) {
@@ -70,11 +71,10 @@ public class WandOfCorrosion extends Wand {
 	}
 
 	@Override
-	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar(
-				curUser.sprite.parent,
+	public void fx(Ballistica bolt, Char caster, Callback callback) {
+		MagicMissile.boltFromChar( caster.sprite.parent,
 				MagicMissile.CORROSION,
-				curUser.sprite,
+				caster.sprite,
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play(Assets.SND_ZAP);

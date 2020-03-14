@@ -74,8 +74,15 @@ public class Invisibility extends FlavourBuff {
 
 	@Override
 	public void fx(boolean on) {
-		if (on) target.sprite.add( CharSprite.State.INVISIBLE );
-		else if (target.invisible == 0) target.sprite.remove( CharSprite.State.INVISIBLE );
+		if (on) {
+			if (target.alignment == Char.Alignment.ALLY)
+				target.sprite.add( CharSprite.State.TRANSLUCENT );
+			else
+				target.sprite.add( CharSprite.State.INVISIBLE );
+		} else if (target.invisible == 0) {
+			target.sprite.remove( CharSprite.State.TRANSLUCENT );
+			target.sprite.remove( CharSprite.State.INVISIBLE );
+		}
 	}
 
 	@Override
@@ -87,31 +94,5 @@ public class Invisibility extends FlavourBuff {
 	public String desc() {
 		return Messages.get(this, "desc", dispTurns());
 	}
-
-	public static void dispel() {
-		Invisibility buff = Dungeon.hero.buff( Invisibility.class );
-		if (buff != null) {
-			buff.detach();
-		}
-		CloakOfShadows.cloakStealth cloakBuff = Dungeon.hero.buff( CloakOfShadows.cloakStealth.class );
-		if (cloakBuff != null) {
-			cloakBuff.dispel();
-		}
-		
-		//these aren't forms of invisibilty, but do dispel at the same time as it.
-		TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff( TimekeepersHourglass.timeFreeze.class );
-		if (timeFreeze != null) {
-			timeFreeze.detach();
-		}
-		
-		Preparation prep = Dungeon.hero.buff( Preparation.class );
-		if (prep != null){
-			prep.detach();
-		}
-		
-		Swiftthistle.TimeBubble bubble =  Dungeon.hero.buff( Swiftthistle.TimeBubble.class );
-		if (bubble != null){
-			bubble.detach();
-		}
-	}
+	
 }

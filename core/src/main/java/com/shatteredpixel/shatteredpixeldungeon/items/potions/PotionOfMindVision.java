@@ -46,9 +46,4 @@ public class PotionOfMindVision extends Potion {
 			GLog.i( Messages.get(this, "see_none") );
 		}
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
-	}
 }

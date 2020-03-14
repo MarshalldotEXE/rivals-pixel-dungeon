@@ -39,10 +39,13 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HalfPlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.DiscArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RingArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
@@ -256,7 +259,7 @@ public class Ghost extends NPC {
 		}
 		
 		public static void spawn( SewerLevel level ) {
-			if (!spawned && Dungeon.depth > 1 && Random.Int( 5 - Dungeon.depth ) == 0) {
+			if (!spawned && Dungeon.depth >= 1 && Random.Int( 4 - Dungeon.depth ) == 0) {
 				
 				Ghost ghost = new Ghost();
 				do {
@@ -266,51 +269,37 @@ public class Ghost extends NPC {
 				
 				spawned = true;
 				//dungeon depth determines type of quest.
-				//depth2=fetid rat, 3=gnoll trickster, 4=great crab
-				type = Dungeon.depth-1;
+				//depth1=fetid rat, 2=gnoll trickster, 3=great crab
+				type = Dungeon.depth;
 				
 				given = false;
 				processed = false;
 				depth = Dungeon.depth;
-
-				//50%:tier2, 30%:tier3, 20%:tier4
-				float itemTierRoll = Random.Float();
-				int wepTier;
-
-				if (itemTierRoll < 0.5f) {
-					wepTier = 2;
-					armor = new LeatherArmor();
-				} else if (itemTierRoll < 0.8f) {
-					wepTier = 3;
-					armor = new MailArmor();
-				} else {
-					wepTier = 4;
-					armor = new ScaleArmor();
+				
+				int itemTier = Random.Int(2);
+				switch(itemTier) {
+					case 0: default:
+						do {
+							weapon = (Weapon)Generator.random( Generator.Category.WEP_T2 );
+							armor = (Armor)Generator.random( Generator.Category.ARMOR_T2 );	
+						} while (weapon.cursed || armor.cursed);
+						break;
+					case 1:
+						do {
+							weapon = (Weapon)Generator.random( Generator.Category.WEP_T1 );
+							armor = (Armor)Generator.random( Generator.Category.ARMOR_T1 );
+						} while (weapon.cursed || armor.cursed);
+						break;
 				}
-
-				try {
-					do {
-						weapon = (Weapon) Generator.wepTiers[wepTier - 1].classes[Random.chances(Generator.wepTiers[wepTier - 1].probs)].newInstance();
-					} while (!(weapon instanceof MeleeWeapon));
-				} catch (Exception e){
-					ShatteredPixelDungeon.reportException(e);
-					weapon = new Shortsword();
-				}
-
-				weapon.level(1);
-				armor.level(1);
-				//33% chance to be +2 instead of +1
-				if (Random.Int(3) == 0) {
-					weapon.upgrade();
-					armor.upgrade();
-				}
-
-				//33% to be enchanted
-				if (Random.Int(3) == 0) {
-					weapon.enchant();
-					armor.inscribe();
-				}
-
+				weapon.identify();
+				armor.identify();
+				
+				//upgrade chances are that of prison
+				//tier-1 items are automatically upgraded
+				int itemLevel = Math.max( itemTier, Random.chances( Generator.floorSetUpgradeProbs[ 2 ]) );
+				weapon.level( itemLevel );
+				armor.level( itemLevel );
+				
 			}
 		}
 		

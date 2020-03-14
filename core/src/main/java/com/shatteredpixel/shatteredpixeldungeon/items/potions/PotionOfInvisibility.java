@@ -42,10 +42,4 @@ public class PotionOfInvisibility extends Potion {
 		GLog.i( Messages.get(this, "invisible") );
 		Sample.INSTANCE.play( Assets.SND_MELD );
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
-
 }

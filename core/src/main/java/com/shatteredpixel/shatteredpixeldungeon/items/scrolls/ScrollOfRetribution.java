@@ -47,7 +47,7 @@ public class ScrollOfRetribution extends Scroll {
 		float power = Math.min( 4f, 4.45f*hpPercent);
 		
 		Sample.INSTANCE.play( Assets.SND_BLAST );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
 			if (Dungeon.level.heroFOV[mob.pos]) {
@@ -74,7 +74,7 @@ public class ScrollOfRetribution extends Scroll {
 		GameScene.flash( 0xFFFFFF );
 		
 		Sample.INSTANCE.play( Assets.SND_BLAST );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		//scales from 3x to 5x power, maxing at ~20% HP
 		float hpPercent = (curUser.HT - curUser.HP)/(float)(curUser.HT);
@@ -89,10 +89,5 @@ public class ScrollOfRetribution extends Scroll {
 		setKnown();
 		
 		readAnimation();
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
 	}
 }

@@ -28,18 +28,26 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.painters.CavesPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.VenomTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlazingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GuardianTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PitfallTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PoisonDartTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.RockfallTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.StormTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ToxicTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.VenomTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PoisonDartTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlashingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.MeltingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GuardianTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.TeleportationTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WarpingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.RockfallTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PitfallTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WeakeningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisarmingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Game;
@@ -66,14 +74,14 @@ public class CavesLevel extends RegularLevel {
 	
 	@Override
 	protected int standardRooms() {
-		//6 to 9, average 7.333
-		return 6+Random.chances(new float[]{2, 3, 3, 1});
+		//6 to 8
+		return 6+Random.chances(new float[]{1, 2, 1});
 	}
 	
 	@Override
 	protected int specialRooms() {
-		//1 to 3, average 2.2
-		return 1+Random.chances(new float[]{2, 4, 4});
+		//1 to 3
+		return 1+Random.chances(new float[]{1, 1, 2});
 	}
 	
 	@Override
@@ -96,18 +104,23 @@ public class CavesLevel extends RegularLevel {
 	
 	@Override
 	protected Class<?>[] trapClasses() {
-		return new Class[]{ BurningTrap.class, PoisonDartTrap.class, FrostTrap.class, StormTrap.class, VenomTrap.class,
-				GrippingTrap.class, ExplosiveTrap.class, RockfallTrap.class,  GuardianTrap.class,
-				ConfusionTrap.class, SummoningTrap.class, WarpingTrap.class,
-				PitfallTrap.class };
+		return new Class[]{
+			BurningTrap.class, BlazingTrap.class, ChillingTrap.class, FrostTrap.class, ShockingTrap.class, StormTrap.class, ToxicTrap.class, VenomTrap.class,
+			PoisonDartTrap.class, FlashingTrap.class, MeltingTrap.class, GuardianTrap.class, TeleportationTrap.class, WarpingTrap.class, ConfusionTrap.class,
+			
+			ExplosiveTrap.class, RockfallTrap.class,
+			SummoningTrap.class, PitfallTrap.class, WeakeningTrap.class, DisarmingTrap.class
+		};
 	}
 
 	@Override
 	protected float[] trapChances() {
-		return new float[]{ 8, 8, 8, 8, 8,
-				4, 4, 4, 4,
-				2, 2, 2,
-				1 };
+		return new float[]{
+			4, 4, 4, 4, 4, 4, 4, 4,
+			4, 4, 4, 4, 2, 2, 4,
+			2, 2,
+			1, 1, 1, 1
+		};
 	}
 	
 	@Override

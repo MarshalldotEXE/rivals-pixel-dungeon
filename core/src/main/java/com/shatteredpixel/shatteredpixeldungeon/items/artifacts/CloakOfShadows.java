@@ -45,6 +45,7 @@ public class CloakOfShadows extends Artifact {
 
 	{
 		image = ItemSpriteSheet.ARTIFACT_CLOAK;
+		defaultAction = AC_STEALTH;
 
 		exp = 0;
 		levelCap = 10;
@@ -53,15 +54,13 @@ public class CloakOfShadows extends Artifact {
 		partialCharge = 0;
 		chargeCap = Math.min(level()+3, 10);
 
-		defaultAction = AC_STEALTH;
-
 		unique = true;
 		bones = false;
 	}
 
-	private boolean stealthed = false;
-
 	public static final String AC_STEALTH = "STEALTH";
+	
+	private boolean stealthed = false;
 
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
@@ -176,12 +175,13 @@ public class CloakOfShadows extends Artifact {
 		@Override
 		public boolean act() {
 			if (charge < chargeCap) {
-				LockedFloor lock = target.buff(LockedFloor.class);
-				if (!stealthed && (lock == null || lock.regenOn())) {
-					float missing = (chargeCap - charge);
-					if (level() > 7) missing += 5*(level() - 7)/3f;
-					float turnsToCharge = (45 - missing);
-					partialCharge += (1f / turnsToCharge);
+				
+				if (!stealthed) {
+					float missing = chargeCap - charge;
+					//at +8 or higher, cloak recharges slightly faster
+					if (level() > 7) missing += level() - 7;
+					
+					partialCharge += 1f / (40 - missing);
 				}
 
 				if (partialCharge >= 1) {
@@ -190,13 +190,14 @@ public class CloakOfShadows extends Artifact {
 					if (charge == chargeCap){
 						partialCharge = 0;
 					}
-
 				}
-			} else
+				
+			} else {
 				partialCharge = 0;
-
+			}
+			
 			if (cooldown > 0)
-				cooldown --;
+				cooldown--;
 
 			updateQuickslot();
 
@@ -245,25 +246,21 @@ public class CloakOfShadows extends Artifact {
 					GLog.w(Messages.get(this, "no_charge"));
 					((Hero) target).interrupt();
 				} else {
-					//target hero level is 1 + 2*cloak level
-					int lvlDiffFromTarget = ((Hero) target).lvl - (1+level()*2);
-					//plus an extra one for each level after 6
-					if (level() >= 7){
-						lvlDiffFromTarget -= level()-6;
-					}
-					if (lvlDiffFromTarget >= 0){
-						exp += Math.round(10f * Math.pow(1.1f, lvlDiffFromTarget));
-					} else {
-						exp += Math.round(10f * Math.pow(0.75f, -lvlDiffFromTarget));
+					
+					//costs 5/8/11/etc. uses to upgrade
+					exp++;
+					while (exp >= 5 + 3 * level() && level() < levelCap) {
+						upgrade();
+						exp -= 5 + 3 * level();
+						GLog.p(Messages.get(this, "levelup"));
 					}
 					
-					if (exp >= (level() + 1) * 50 && level() < levelCap) {
-						upgrade();
-						exp -= level() * 50;
-						GLog.p(Messages.get(this, "levelup"));
-						
+					//at +8 or higher, cloak can last slightly longer
+					if (level() > 7) {
+						turnsToCost = 5 + level() - 7;
+					} else {
+						turnsToCost = 5;
 					}
-					turnsToCost = 5;
 				}
 				updateQuickslot();
 			}
@@ -280,8 +277,15 @@ public class CloakOfShadows extends Artifact {
 
 		@Override
 		public void fx(boolean on) {
-			if (on) target.sprite.add( CharSprite.State.INVISIBLE );
-			else if (target.invisible == 0) target.sprite.remove( CharSprite.State.INVISIBLE );
+			if (on) {
+				if (target.alignment == Char.Alignment.ALLY)
+					target.sprite.add( CharSprite.State.TRANSLUCENT );
+				else
+					target.sprite.add( CharSprite.State.INVISIBLE );
+			} else if (target.invisible == 0) {
+				target.sprite.remove( CharSprite.State.TRANSLUCENT );
+				target.sprite.remove( CharSprite.State.INVISIBLE );
+			}
 		}
 
 		@Override

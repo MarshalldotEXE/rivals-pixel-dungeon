@@ -96,7 +96,7 @@ public class Shadows extends Invisibility {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.SHADOWS;
+		return BuffIndicator.SHADOWMELD;
 	}
 	
 	@Override

@@ -25,6 +25,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
@@ -125,14 +126,8 @@ public abstract class ExoticScroll extends Scroll {
 	}
 	
 	@Override
-	//20 gold more than its none-exotic equivalent
 	public int price() {
-		try {
-			return (exoToReg.get(getClass()).newInstance().price() + 20) * quantity;
-		} catch (Exception e){
-			ShatteredPixelDungeon.reportException(e);
-			return 1;
-		}
+		return 15 * quantity;
 	}
 	
 	public static class ScrollToExotic extends Recipe {
@@ -172,6 +167,9 @@ public abstract class ExoticScroll extends Scroll {
 					}
 				}
 			}
+			
+			Statistics.itemsCrafted++;
+			
 			return result;
 		}
 		

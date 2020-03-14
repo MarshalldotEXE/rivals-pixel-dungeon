@@ -30,9 +30,9 @@ public class RingOfSharpshooting extends Ring {
 	
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", soloBonus(), new DecimalFormat("#.##").format(100f * (Math.pow(1.2, soloBonus()) - 1f)));
+			return Messages.get(this, "stats", soloBonus());
 		} else {
-			return Messages.get(this, "typical_stats", 1, new DecimalFormat("#.##").format(20f));
+			return Messages.get(this, "typical_stats", 1);
 		}
 	}
 	
@@ -43,10 +43,6 @@ public class RingOfSharpshooting extends Ring {
 	
 	public static int levelDamageBonus( Char target ){
 		return getBonus(target, RingOfSharpshooting.Aim.class);
-	}
-	
-	public static float durabilityMultiplier( Char target ){
-		return (float)(Math.pow(1.2, getBonus(target, Aim.class)));
 	}
 
 	public class Aim extends RingBuff {

@@ -96,7 +96,7 @@ public class ElixirOfAquaticRejuvenation extends Elixir {
 		
 		@Override
 		public int icon() {
-			return BuffIndicator.HEALING;
+			return BuffIndicator.HEALTH;
 		}
 		
 		@Override

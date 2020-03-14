@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -37,26 +40,20 @@ public class Grim extends Weapon.Enchantment {
 	@Override
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
 
-		int level = Math.max( 0, weapon.level() );
-
+		int lvl = Math.max( 0, weapon.level() );
+		
+		float chanceA = (lvl + 1) * LEVEL_SCALING;
+		float chanceB = ((defender.HT - defender.HP) / (float)defender.HT) / 10;
+		float chanceC = chanceA + chanceB;
+		
+		//A% + B% chance to instantly kill defender
 		int enemyHealth = defender.HP - damage;
 		if (enemyHealth <= 0) return damage; //no point in proccing if they're already dead.
-
-		//scales from 0 - 50% based on how low hp the enemy is, plus 5% per level
-		float maxChance = 0.5f + .05f*level;
-		float chanceMulti = (float)Math.pow( ((defender.HT - enemyHealth) / (float)defender.HT), 2);
-		float chance = maxChance * chanceMulti;
 		
-		if (Random.Float() < chance) {
+		if (Random.Float() < chanceC) {
 			
 			defender.damage( defender.HP, this );
-			defender.sprite.emitter().burst( ShadowParticle.UP, 5 );
-			
-			if (!defender.isAlive() && attacker instanceof Hero
-				//this prevents unstable from triggering grim achievement
-				&& weapon.hasEnchant(Grim.class, attacker)) {
-				Badges.validateGrimWeapon();
-			}
+			defender.sprite.emitter().burst( ShadowParticle.UP, lvl + 1 );
 			
 		}
 

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -40,21 +43,24 @@ public class Shocking extends Weapon.Enchantment {
 
 	@Override
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
-		// lvl 0 - 33%
-		// lvl 1 - 50%
-		// lvl 2 - 60%
-		int level = Math.max( 0, weapon.level() );
 		
-		if (Random.Int( level + 3 ) >= 2) {
+		int lvl = Math.max( 0, weapon.level() );
+		
+		float chanceA = (lvl + damage) * ONE_PERCENT;
+		float numberB = Math.min(1f, (lvl + 1) * LEVEL_SCALING);
+		
+		//A% chance to arc damage to nearby targets
+		//B% of damage = arc damage
+		if (Random.Float() < chanceA) {
 			
 			affected.clear();
 
 			arcs.clear();
-			arc(attacker, defender, 2);
+			arc(attacker, defender, 2, lvl + 1);
 			
 			affected.remove(defender); //defender isn't hurt by lightning
 			for (Char ch : affected) {
-				ch.damage(Math.round(damage*0.4f), this);
+				ch.damage(Math.round(damage*numberB), this);
 			}
 
 			attacker.sprite.parent.addToFront( new Lightning( arcs, null ) );
@@ -74,11 +80,11 @@ public class Shocking extends Weapon.Enchantment {
 
 	private ArrayList<Lightning.Arc> arcs = new ArrayList<>();
 	
-	private void arc( Char attacker, Char defender, int dist ) {
+	private void arc( Char attacker, Char defender, int dist, int particleAmount ) {
 		
 		affected.add(defender);
 		
-		defender.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+		defender.sprite.centerEmitter().burst(SparkParticle.FACTORY, particleAmount);
 		defender.sprite.flash();
 		
 		PathFinder.buildDistanceMap( defender.pos, BArray.not( Dungeon.level.solid, null ), dist );
@@ -87,7 +93,7 @@ public class Shocking extends Weapon.Enchantment {
 				Char n = Actor.findChar(i);
 				if (n != null && n != attacker && !affected.contains(n)) {
 					arcs.add(new Lightning.Arc(defender.sprite.center(), n.sprite.center()));
-					arc(attacker, n, (Dungeon.level.water[n.pos] && !n.flying) ? 2 : 1);
+					arc(attacker, n, (Dungeon.level.water[n.pos] && !n.flying) ? 2 : 1, particleAmount);
 				}
 			}
 		}

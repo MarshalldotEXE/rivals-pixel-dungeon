@@ -95,7 +95,7 @@ public class ElixirOfMight extends Elixir {
 		
 		@Override
 		public int icon() {
-			return BuffIndicator.HEALING;
+			return BuffIndicator.HEALTH;
 		}
 		
 		@Override

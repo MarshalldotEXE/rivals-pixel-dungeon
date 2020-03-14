@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.food;
 
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WellFed;
@@ -45,7 +46,7 @@ public class MeatPie extends Food {
 	
 	@Override
 	public int price() {
-		return 40 * quantity;
+		return 35 * quantity;
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe {
@@ -76,7 +77,7 @@ public class MeatPie extends Food {
 		
 		@Override
 		public int cost(ArrayList<Item> ingredients) {
-			return 6;
+			return 5;
 		}
 		
 		@Override
@@ -86,6 +87,8 @@ public class MeatPie extends Food {
 			for (Item ingredient : ingredients){
 				ingredient.quantity(ingredient.quantity() - 1);
 			}
+			
+			Statistics.itemsCrafted++;
 			
 			return sampleOutput(null);
 		}

@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.food;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -270,11 +271,6 @@ public class Blandfruit extends Food {
 			if (fruit.quantity() >= 1 && fruit.potionAttrib == null
 				&& seed.quantity() >= 1){
 
-				if (Dungeon.isChallenged(Challenges.NO_HEALING)
-						&& seed instanceof Sungrass.Seed){
-					return false;
-				}
-
 				return true;
 			}
 			
@@ -293,6 +289,7 @@ public class Blandfruit extends Food {
 			ingredients.get(0).quantity(ingredients.get(0).quantity() - 1);
 			ingredients.get(1).quantity(ingredients.get(1).quantity() - 1);
 			
+			Statistics.itemsCrafted++;
 			
 			return new Blandfruit().cook((Seed) ingredients.get(1));
 		}

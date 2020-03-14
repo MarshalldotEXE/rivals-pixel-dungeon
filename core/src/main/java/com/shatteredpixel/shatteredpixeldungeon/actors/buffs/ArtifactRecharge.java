@@ -72,12 +72,13 @@ public class ArtifactRecharge extends Buff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.RECHARGING;
+		return BuffIndicator.RECHARGE;
 	}
 	
 	@Override
 	public void tintIcon(Image icon) {
-		icon.hardlight(0, 1f, 1f);
+		icon.hardlight(0f, 1f, 1f);
+		if (left < 5) FlavourBuff.greyIcon(icon, 5f, left);
 	}
 	
 	@Override

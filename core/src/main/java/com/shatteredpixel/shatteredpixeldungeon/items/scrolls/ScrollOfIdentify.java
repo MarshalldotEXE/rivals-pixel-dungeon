@@ -70,9 +70,4 @@ public class ScrollOfIdentify extends InventoryScroll {
 		
 		Badges.validateItemLevelAquired( item );
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
-	}
 }

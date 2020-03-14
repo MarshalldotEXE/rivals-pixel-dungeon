@@ -41,56 +41,62 @@ import java.util.LinkedHashMap;
 public class BuffIndicator extends Component {
 	
 	//transparent icon
-	public static final int NONE	= 63;
-
-	//FIXME this is becoming a mess, should do a big cleaning pass on all of these
-	//and think about tinting options
-	public static final int MIND_VISION	= 0;
-	public static final int LEVITATION	= 1;
-	public static final int FIRE		= 2;
-	public static final int POISON		= 3;
-	public static final int PARALYSIS	= 4;
-	public static final int HUNGER		= 5;
-	public static final int STARVATION	= 6;
-	public static final int SLOW		= 7;
-	public static final int OOZE		= 8;
-	public static final int AMOK		= 9;
-	public static final int TERROR		= 10;
+	public static final int NONE	= 71;
+	
+	public static final int BURN		= 0;
+	public static final int SPECTRAL	= 1;
+	public static final int SACRIFICE	= 2;
+	public static final int CHILL		= 3;
+	public static final int FREEZE		= 4;
+	public static final int PARALYSIS	= 5;
+	public static final int POISON		= 6;
+	public static final int OOZE		= 7;
+	public static final int BLEED		= 8;
+	public static final int SLOW		= 9;
+	public static final int CRIPPLE		= 10;
 	public static final int ROOTS		= 11;
-	public static final int INVISIBLE	= 12;
-	public static final int SHADOWS		= 13;
-	public static final int WEAKNESS	= 14;
-	public static final int FROST		= 15;
-	public static final int BLINDNESS	= 16;
-	public static final int COMBO		= 17;
-	public static final int FURY		= 18;
-	public static final int HERB_HEALING= 19;
-	public static final int ARMOR		= 20;
-	public static final int HEART		= 21;
-	public static final int LIGHT		= 22;
-	public static final int CRIPPLE		= 23;
-	public static final int BARKSKIN	= 24;
-	public static final int IMMUNITY	= 25;
-	public static final int BLEEDING	= 26;
-	public static final int MARK		= 27;
-	public static final int DEFERRED	= 28;
-	public static final int DROWSY      = 29;
-	public static final int MAGIC_SLEEP = 30;
-	public static final int THORNS      = 31;
-	public static final int FORESIGHT   = 32;
-	public static final int VERTIGO     = 33;
-	public static final int RECHARGING 	= 34;
-	public static final int LOCKED_FLOOR= 35;
-	public static final int CORRUPT     = 36;
-	public static final int BLESS       = 37;
-	public static final int RAGE		= 38;
-	public static final int SACRIFICE	= 39;
-	public static final int BERSERK     = 40;
-	public static final int MOMENTUM    = 41;
-	public static final int PREPARATION = 42;
-	public static final int WELL_FED    = 43;
-	public static final int HEALING     = 44;
-	public static final int WEAPON      = 45;
+	public static final int WEAK		= 12;
+	public static final int FRAIL		= 13;
+	public static final int VERTIGO		= 14;
+	
+	public static final int LEVITATION	= 18;
+	public static final int INVISIBLE	= 19;
+	public static final int SHADOWMELD	= 20;
+	public static final int VISION		= 21;
+	public static final int BLIND		= 22;
+	public static final int DROWSY		= 23;
+	public static final int SLEEP		= 24;
+	public static final int PURITY		= 25;
+	public static final int TOXIC		= 26;
+	public static final int HASTE		= 27;
+	public static final int FUROR		= 28;
+	public static final int CHALLENGE	= 29;
+	public static final int TERROR		= 30;
+	public static final int CHARM		= 31;
+	public static final int RECHARGE	= 32;
+	public static final int LIGHT		= 33;
+	public static final int BLESS		= 34;
+	public static final int REGEN		= 35;
+	public static final int HEALTH		= 36;
+	public static final int ARMOR		= 37;
+	public static final int BARKSKIN	= 38;
+	public static final int MAGIC_IMMUNE= 39;
+	public static final int GUARD		= 40;
+	
+	public static final int FOOD_GREEN	= 54;
+	public static final int FOOD_YELLOW	= 55;
+	public static final int FOOD_ORANGE	= 56;
+	public static final int FOOD_RED	= 57;
+	public static final int KINETIC		= 58;
+	public static final int NOVA		= 59;
+	public static final int VISCOSITY	= 60;
+	public static final int FORESIGHT	= 61;
+	public static final int COMBO		= 62;
+	public static final int RAGE		= 63;
+	public static final int CORRUPT		= 64;
+	public static final int MOMENTUM	= 65;
+	public static final int PREPARATION	= 66;
+	public static final int MARK		= 67;
 
 	public static final int SIZE	= 7;
 	

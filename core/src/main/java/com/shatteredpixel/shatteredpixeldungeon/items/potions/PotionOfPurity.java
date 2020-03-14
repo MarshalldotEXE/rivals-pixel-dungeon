@@ -102,9 +102,4 @@ public class PotionOfPurity extends Potion {
 		Buff.prolong( hero, BlobImmunity.class, BlobImmunity.DURATION );
 		setKnown();
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
 }

@@ -27,22 +27,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.HallsPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlazingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CorrosionTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CursingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisarmingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisintegrationTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlashingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.InfernoTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GuardianTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PitfallTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.RockfallTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlizzardTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.StormTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ParalyticTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.VenomTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CorrosionTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisintegrationTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlashingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.MeltingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GuardianTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WarpingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.RockfallTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PitfallTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WeakeningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisarmingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CursingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.glwrap.Blending;
@@ -56,7 +62,7 @@ public class HallsLevel extends RegularLevel {
 
 	{
 		
-		viewDistance = Math.min( 26 - Dungeon.depth, viewDistance );
+		viewDistance = Math.min( 22 - Dungeon.depth, viewDistance );
 		
 		color1 = 0x801500;
 		color2 = 0xa68521;
@@ -64,14 +70,14 @@ public class HallsLevel extends RegularLevel {
 	
 	@Override
 	protected int standardRooms() {
-		//8 to 10, average 8.67
-		return 8+Random.chances(new float[]{3, 2, 1});
+		//7 to 9
+		return 7+Random.chances(new float[]{1, 2, 1});
 	}
 	
 	@Override
 	protected int specialRooms() {
-		//2 to 3, average 2.5
-		return 2 + Random.chances(new float[]{1, 1});
+		//2 to 3
+		return 2+Random.chances(new float[]{1, 2});
 	}
 	
 	@Override
@@ -100,18 +106,23 @@ public class HallsLevel extends RegularLevel {
 	
 	@Override
 	protected Class<?>[] trapClasses() {
-		return new Class[]{ FrostTrap.class, StormTrap.class, CorrosionTrap.class, BlazingTrap.class, DisintegrationTrap.class,
-				ExplosiveTrap.class, RockfallTrap.class, FlashingTrap.class, GuardianTrap.class, WeakeningTrap.class,
-				SummoningTrap.class, WarpingTrap.class, CursingTrap.class, GrimTrap.class,
-				PitfallTrap.class, DisarmingTrap.class, DistortionTrap.class };
+		return new Class[]{
+			BlazingTrap.class, InfernoTrap.class, FrostTrap.class, BlizzardTrap.class, StormTrap.class, ParalyticTrap.class, VenomTrap.class, CorrosionTrap.class,
+			DisintegrationTrap.class, GrimTrap.class, FlashingTrap.class, MeltingTrap.class, GuardianTrap.class, WarpingTrap.class, ConfusionTrap.class,
+			
+			ExplosiveTrap.class, RockfallTrap.class,
+			SummoningTrap.class, PitfallTrap.class, WeakeningTrap.class, DisarmingTrap.class, CursingTrap.class, DistortionTrap.class
+		};
 	}
 
 	@Override
 	protected float[] trapChances() {
-		return new float[]{ 8, 8, 8, 8, 8,
-				4, 4, 4, 4, 4,
-				2, 2, 2, 2,
-				1, 1, 1 };
+		return new float[]{
+			4, 4, 4, 4, 4, 4, 4, 4,
+			4, 4, 4, 4, 4, 4, 4,
+			2, 2,
+			1, 1, 1, 1, 1, 1
+		};
 	}
 	
 	@Override

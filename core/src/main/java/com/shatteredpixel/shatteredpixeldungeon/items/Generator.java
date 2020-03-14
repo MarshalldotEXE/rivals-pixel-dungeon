@@ -33,6 +33,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.DiscArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RingArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
@@ -47,8 +52,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourg
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.UnstableSpellbook;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
@@ -81,7 +88,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -141,12 +147,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfVenom;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.LloydsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bludgeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Chainsaw;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
@@ -173,6 +177,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ArcaneKunai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
@@ -404,9 +409,9 @@ public class Generator {
 					WandOfTransfusion.class,
 					WandOfCorruption.class,
 					WandOfRegrowth.class,
-					WandOfVenom.class,
-					LloydsBeacon.class };
-			WAND.probs = new float[]{ 0, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, 3, 3 };
+					LloydsBeacon.class
+			};
+			WAND.probs = new float[]{ 0, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, 3 };
 			
 			//see generator.randomWeapon
 			WEAPON.classes = new Class<?>[]{};
@@ -452,10 +457,9 @@ public class Generator {
 					Greatshield.class,
 					Greataxe.class,
 					Glaive.class,
-					ChainWhip.class,
-					Chainsaw.class
+					ChainWhip.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 5, 4, 4 };
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 5, 4 };
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{};
@@ -463,19 +467,24 @@ public class Generator {
 			
 			ARMOR_T1.classes = new Class<?>[]{
 					ClothArmor.class,
-					LeatherArmor.class
+					LeatherArmor.class,
+					MageArmor.class,
+					RogueArmor.class,
+					HuntressArmor.class
 			};
-			ARMOR_T1.probs = new float[]{ 1, 1 };
+			ARMOR_T1.probs = new float[]{ 1, 1, 0, 0, 0 };
 			
 			ARMOR_T2.classes = new Class<?>[]{
+					DiscArmor.class,
 					MailArmor.class
 			};
-			ARMOR_T2.probs = new float[]{ 1 };
+			ARMOR_T2.probs = new float[]{ 1, 1 };
 			
 			ARMOR_T3.classes = new Class<?>[]{
-					ScaleArmor.class
+					ScaleArmor.class,
+					RingArmor.class
 			};
-			ARMOR_T3.probs = new float[]{ 1 };
+			ARMOR_T3.probs = new float[]{ 1, 1 };
 			
 			ARMOR_T4.classes = new Class<?>[]{
 					PlateArmor.class,
@@ -500,14 +509,15 @@ public class Generator {
 					Kunai.class,
 					Shuriken.class
 			};
-			MIS_T2.probs = new float[]{ 5, 4, 5, 4 };
+			MIS_T2.probs = new float[]{ 5, 5, 4, 4 };
 			
 			MIS_T3.classes = new Class<?>[]{
 					Javelin.class,
 					ThrowingHammer.class,
+					ArcaneKunai.class,
 					Tomahawk.class
 			};
-			MIS_T3.probs = new float[]{ 6, 5, 4 };
+			MIS_T3.probs = new float[]{ 6, 5, 4, 4 };
 			
 			MIS_T4.classes = new Class<?>[]{
 					Trident.class,
@@ -518,23 +528,25 @@ public class Generator {
 			
 			FOOD.classes = new Class<?>[]{
 					Food.class,
+					MeatPie.class,
 					Pasty.class,
-					MysteryMeat.class };
-			FOOD.probs = new float[]{ 4, 1, 0 };
+					SmallRation.class
+			};
+			FOOD.probs = new float[]{ 36, 1, 9, 4, };
 			
 			RING.classes = new Class<?>[]{
 					RingOfAccuracy.class,
 					RingOfEvasion.class,
 					RingOfElements.class,
-					RingOfForce.class,
 					RingOfFuror.class,
 					RingOfHaste.class,
 					RingOfEnergy.class,
 					RingOfMight.class,
 					RingOfSharpshooting.class,
 					RingOfTenacity.class,
-					RingOfWealth.class};
-			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+					RingOfWealth.class
+			};
+			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
 					ChaliceOfBlood.class,
@@ -552,13 +564,38 @@ public class Generator {
 			ARTIFACT.probs = INITIAL_ARTIFACT_PROBS.clone();
 		}
 	}
-
+	
+	//used within Generator only
+	//for tier-1, tier-2, tier-3, tier-4
 	private static final float[][] floorSetTierProbs = new float[][] {
-			{0, 70, 25, 5, 0},
-			{0, 50, 40, 10, 0},
-			{0, 20, 60, 20, 0},
-			{0, 10, 40, 50, 0},
-			{0,  5, 25, 70, 0}
+			{0, 80, 15, 5},
+			{0, 60, 30, 10},
+			{0, 30, 40, 30},
+			{0,  0, 40, 60},
+			{0,  0,  0, 100}
+	};
+	
+	//used within constructors
+	//for +0, +1, +2
+	public static final float[][] floorSetUpgradeProbs = new float[][] {
+			{90,  9,  1},
+			{76, 15,  9},
+			{62, 21, 17},
+			{48, 27, 25},
+			{34, 33, 33},
+			{ 0, 50, 50}, //demon halls treasure items only
+			{ 0,  0, 100}
+	};
+	
+	//for nothing, cursed, enched
+	public static final float[][] floorSetEffectProbs = new float[][] {
+			{90,  9,  1},
+			{76, 15,  9},
+			{62, 21, 17},
+			{48, 27, 25},
+			{34, 33, 33},
+			{ 0, 50, 50}, //demon halls treasure items only
+			{ 0,  0, 100}
 	};
 	
 	private static HashMap<Category,Float> categoryProbs = new LinkedHashMap<>();
@@ -626,7 +663,7 @@ public class Generator {
 	};
 	
 	public static Armor randomArmor(){
-		return randomArmor(Dungeon.depth / 5);
+		return randomArmor(Dungeon.depth / 4);
 	}
 	
 	public static Armor randomArmor(int floorSet) {
@@ -652,7 +689,7 @@ public class Generator {
 	};
 
 	public static MeleeWeapon randomWeapon(){
-		return randomWeapon(Dungeon.depth / 5);
+		return randomWeapon(Dungeon.depth / 4);
 	}
 	
 	public static MeleeWeapon randomWeapon(int floorSet) {
@@ -678,7 +715,7 @@ public class Generator {
 	};
 	
 	public static MissileWeapon randomMissile(){
-		return randomMissile(Dungeon.depth / 5);
+		return randomMissile(Dungeon.depth / 4);
 	}
 	
 	public static MissileWeapon randomMissile(int floorSet) {

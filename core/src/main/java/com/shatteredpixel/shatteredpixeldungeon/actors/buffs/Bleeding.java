@@ -61,7 +61,7 @@ public class Bleeding extends Buff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.BLEEDING;
+		return BuffIndicator.BLEED;
 	}
 	
 	@Override

@@ -152,6 +152,9 @@ public abstract class Scroll extends Item {
 		anonymous = true;
 	}
 	
+	public boolean anonymous(){
+		return anonymous;
+	}
 	
 	@Override
 	public void reset(){
@@ -267,7 +270,7 @@ public abstract class Scroll extends Item {
 	
 	@Override
 	public int price() {
-		return 30 * quantity;
+		return 10 * quantity;
 	}
 	
 	public static class PlaceHolder extends Scroll {

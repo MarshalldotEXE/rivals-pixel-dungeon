@@ -53,21 +53,12 @@ abstract public class ClassArmor extends Armor {
 		ClassArmor classArmor = null;
 		
 		switch (owner.heroClass) {
-		case WARRIOR:
+		default:
 			classArmor = new WarriorArmor();
 			BrokenSeal seal = armor.checkSeal();
 			if (seal != null) {
 				classArmor.affixSeal(seal);
 			}
-			break;
-		case ROGUE:
-			classArmor = new RogueArmor();
-			break;
-		case MAGE:
-			classArmor = new MageArmor();
-			break;
-		case HUNTRESS:
-			classArmor = new HuntressArmor();
 			break;
 		}
 		
@@ -119,7 +110,7 @@ abstract public class ClassArmor extends Armor {
 				GLog.w( Messages.get(this, "not_equipped") );
 			} else {
 				curUser = hero;
-				Invisibility.dispel();
+				curUser.dispel();
 				doSpecial();
 			}
 			

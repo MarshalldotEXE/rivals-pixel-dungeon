@@ -74,7 +74,7 @@ public class ArcaneArmor extends Buff {
 	
 	@Override
 	public void tintIcon(Image icon) {
-		icon.tint(0.5f, 0, 1, 0.5f);
+		icon.hardlight(1f, 0.4f, 1f);
 	}
 	
 	@Override

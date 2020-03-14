@@ -68,7 +68,7 @@ public class LockedFloor extends Buff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.LOCKED_FLOOR;
+		return BuffIndicator.CORRUPT;
 	}
 
 	@Override

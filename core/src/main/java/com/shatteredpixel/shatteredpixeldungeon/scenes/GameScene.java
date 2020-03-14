@@ -355,21 +355,18 @@ public class GameScene extends PixelScene {
 			case 1:
 				WndStory.showChapter( WndStory.ID_SEWERS );
 				break;
-			case 6:
+			case 5:
 				WndStory.showChapter( WndStory.ID_PRISON );
 				break;
-			case 11:
+			case 9:
 				WndStory.showChapter( WndStory.ID_CAVES );
 				break;
-			case 16:
+			case 13:
 				WndStory.showChapter( WndStory.ID_CITY );
 				break;
-			case 22:
+			case 18:
 				WndStory.showChapter( WndStory.ID_HALLS );
 				break;
-			}
-			if (Dungeon.hero.isAlive() && Dungeon.depth != 22) {
-				Badges.validateNoKilling();
 			}
 			break;
 		default:

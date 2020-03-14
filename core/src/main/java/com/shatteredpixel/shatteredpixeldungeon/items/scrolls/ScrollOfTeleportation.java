@@ -57,7 +57,7 @@ public class ScrollOfTeleportation extends Scroll {
 	public void doRead() {
 
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		teleportPreferringUnseen( curUser );
 		setKnown();
@@ -220,10 +220,5 @@ public class ScrollOfTeleportation extends Scroll {
 
 		ch.sprite.emitter().start( Speck.factory(Speck.LIGHT), 0.2f, 3 );
 		Sample.INSTANCE.play( Assets.SND_TELEPORT );
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
 	}
 }

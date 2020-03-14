@@ -98,16 +98,14 @@ public class SecretMazeRoom extends SecretRoom {
 		//1 floor set higher in probability, never cursed
 		do {
 			if (Random.Int(2) == 0) {
-				prize = Generator.randomWeapon((Dungeon.depth / 5) + 1);
+				prize = Generator.randomWeapon((Dungeon.depth / 4) + 1);
 			} else {
-				prize = Generator.randomArmor((Dungeon.depth / 5) + 1);
+				prize = Generator.randomArmor((Dungeon.depth / 4) + 1);
 			}
-		} while (prize.cursed || Challenges.isItemBlocked(prize));
+		} while (prize.cursed);
+		prize.cursedKnown = true;
 		
-		//33% chance for an extra update.
-		if (Random.Int(3) == 0){
-			prize.upgrade();
-		}
+		prize.level( Random.chances( Generator.floorSetUpgradeProbs[ Math.min((Dungeon.depth / 4) + 1, 4) ]));
 		
 		level.drop(prize, level.pointToCell(bestDistP)).type = Heap.Type.CHEST;
 		

@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Alchemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
@@ -75,7 +76,8 @@ public class SecretLaboratoryRoom extends SecretRoom {
 		Point pot = center();
 		Painter.set( level, pot, Terrain.ALCHEMY );
 		
-		Blob.seed( pot.x + level.width() * pot.y, 1+Random.NormalIntRange(20, 30), Alchemy.class, level );
+		int chapter = 1 + Dungeon.depth/4;
+		Blob.seed( pot.x + level.width() * pot.y, 2 + chapter*2 + Random.NormalIntRange(0, 4), Alchemy.class, level );
 		
 		int n = Random.IntRange( 2, 3 );
 		HashMap<Class<? extends Potion>, Float> chances = new HashMap<>(potionChances);

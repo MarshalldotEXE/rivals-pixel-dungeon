@@ -117,36 +117,30 @@ public class WndStartGame extends Window {
 		start.setRect(0, HEIGHT - 20, WIDTH, 20);
 		add(start);
 		
-		if (DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY)){
-			IconButton challengeButton = new IconButton(
-					Icons.get( SPDSettings.challenges() > 0 ? Icons.CHALLENGE_ON :Icons.CHALLENGE_OFF)){
-				@Override
-				protected void onClick() {
-					ShatteredPixelDungeon.scene().add(new WndChallenges(SPDSettings.challenges(), true) {
-						public void onBackPressed() {
-							super.onBackPressed();
-							icon( Icons.get( SPDSettings.challenges() > 0 ?
-									Icons.CHALLENGE_ON :Icons.CHALLENGE_OFF ) );
-						}
-					} );
-				}
-				
-				@Override
-				public void update() {
-					if( !visible && GamesInProgress.selectedClass != null){
-						visible = true;
+		IconButton challengeButton = new IconButton(
+				Icons.get( SPDSettings.challenges() > 0 ? Icons.CHALLENGE_ON :Icons.CHALLENGE_OFF)){
+			@Override
+			protected void onClick() {
+				ShatteredPixelDungeon.scene().add(new WndChallenges(SPDSettings.challenges(), true) {
+					public void onBackPressed() {
+						super.onBackPressed();
+						icon( Icons.get( SPDSettings.challenges() > 0 ?
+								Icons.CHALLENGE_ON :Icons.CHALLENGE_OFF ) );
 					}
-					super.update();
+				} );
+			}
+				
+			@Override
+			public void update() {
+				if( !visible && GamesInProgress.selectedClass != null){
+					visible = true;
 				}
-			};
-			challengeButton.setRect(WIDTH - 20, HEIGHT - 20, 20, 20);
-			challengeButton.visible = false;
-			add(challengeButton);
-			
-		} else {
-			Dungeon.challenges = 0;
-			SPDSettings.challenges(0);
-		}
+				super.update();
+			}
+		};
+		challengeButton.setRect(WIDTH - 20, HEIGHT - 20, 20, 20);
+		challengeButton.visible = false;
+		add(challengeButton);
 		
 		resize(WIDTH, HEIGHT);
 		
@@ -167,13 +161,13 @@ public class WndStartGame extends Window {
 			this.cl = cl;
 			
 			if (cl == HeroClass.WARRIOR){
-				hero = new Image(Assets.WARRIOR, 0, 90, 12, 15);
+				hero = new Image(Assets.WARRIOR, 0, 135, 12, 15);
 			} else if (cl == HeroClass.MAGE){
-				hero = new Image(Assets.MAGE, 0, 90, 12, 15);
+				hero = new Image(Assets.MAGE, 0, 135, 12, 15);
 			} else if (cl == HeroClass.ROGUE){
-				hero = new Image(Assets.ROGUE, 0, 90, 12, 15);
+				hero = new Image(Assets.ROGUE, 0, 135, 12, 15);
 			} else if (cl == HeroClass.HUNTRESS){
-				hero = new Image(Assets.HUNTRESS, 0, 90, 12, 15);
+				hero = new Image(Assets.HUNTRESS, 0, 135, 12, 15);
 			}
 			add(hero);
 			

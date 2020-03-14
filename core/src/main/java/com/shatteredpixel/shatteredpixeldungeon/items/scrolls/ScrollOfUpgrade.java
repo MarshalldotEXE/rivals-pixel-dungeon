@@ -98,8 +98,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		}
 		
 		Badges.validateItemLevelAquired( item );
-		Statistics.upgradesUsed++;
-		Badges.validateMageUnlock();
+		Statistics.upgradeUsed = true;
 	}
 	
 	public static void upgrade( Hero hero ) {
@@ -119,10 +118,5 @@ public class ScrollOfUpgrade extends InventoryScroll {
 	@Override
 	public void empoweredRead() {
 		//does nothing for now, this should never happen.
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 50 * quantity : super.price();
 	}
 }

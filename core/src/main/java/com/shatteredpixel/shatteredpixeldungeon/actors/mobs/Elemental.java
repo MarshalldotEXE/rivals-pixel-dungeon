@@ -27,7 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpectralFire;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFirebolt;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ElementalSprite;
 import com.watabou.utils.Random;
 
@@ -85,6 +87,11 @@ public class Elemental extends Mob {
 		} else {
 			super.add( buff );
 		}
+	}
+	
+	{
+		resistances.add( WandOfFirebolt.class );
+		resistances.add( SpectralFire.class );
 	}
 	
 }

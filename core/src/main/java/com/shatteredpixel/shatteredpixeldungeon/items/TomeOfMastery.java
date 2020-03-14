@@ -1,4 +1,5 @@
 /*
+/*
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -88,12 +89,6 @@ public class TomeOfMastery extends Item {
 			GameScene.show( new WndChooseWay( this, way1, way2 ) );
 			
 		}
-	}
-	
-	@Override
-	public boolean doPickUp( Hero hero ) {
-		Badges.validateMastery();
-		return super.doPickUp( hero );
 	}
 	
 	@Override

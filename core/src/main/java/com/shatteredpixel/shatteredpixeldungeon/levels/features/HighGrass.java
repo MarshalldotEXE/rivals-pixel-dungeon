@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.features;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
@@ -71,7 +72,8 @@ public class HighGrass {
 				if (naturalism != null) {
 					if (!naturalism.isCursed()) {
 						naturalismLevel = naturalism.itemLevel() + 1;
-						naturalism.charge();
+						//artifact recharge raises effective level of sandals by 1
+						if (ch.buff(ArtifactRecharge.class) != null) naturalismLevel++;
 					} else {
 						naturalismLevel = -1;
 					}
@@ -79,13 +81,13 @@ public class HighGrass {
 			}
 			
 			if (naturalismLevel >= 0) {
-				// Seed, scales from 1/20 to 1/4
-				if (Random.Int(20 - (naturalismLevel * 4)) == 0) {
+				// Seed, scales from 1/20 to 1/4 (guaranteed  with greaves and artifact recharge)
+				if (Random.Int(20 - (naturalismLevel*4)) == 0) {
 					level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
 				}
 				
-				// Dew, scales from 1/6 to 1/3
-				if (Random.Int(24 - naturalismLevel*3) <= 3) {
+				// Dew, scales from 1/5 to 1/3 (2/5 with greaves and artifact recharge)
+				if (Random.Int(20 - naturalismLevel*2) <= 3) {
 					level.drop(new Dewdrop(), pos).sprite.drop();
 				}
 			}

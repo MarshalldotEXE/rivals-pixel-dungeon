@@ -52,11 +52,12 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 			updateQuickslot();
 			
-			cursedKnown = true;
+			identify();
 			if (cursed) {
 				equipCursed( hero );
-				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed") );
-			}
+				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed", this) );
+			} else
+				GLog.i( Messages.get(KindOfWeapon.class, "equip", this) );
 			
 			hero.spendAndNext( TIME_TO_EQUIP );
 			return true;

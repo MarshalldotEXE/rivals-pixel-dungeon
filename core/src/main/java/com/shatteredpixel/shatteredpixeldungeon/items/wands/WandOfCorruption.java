@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RedWraith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Yog;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -124,7 +125,7 @@ public class WandOfCorruption extends Wand {
 	}
 	
 	@Override
-	protected void onZap(Ballistica bolt) {
+	public void onZap(Ballistica bolt) {
 		Char ch = Actor.findChar(bolt.collisionPos);
 
 		if (ch != null){
@@ -135,17 +136,17 @@ public class WandOfCorruption extends Wand {
 
 			Mob enemy = (Mob) ch;
 
-			float corruptingPower = 2 + level();
+			float corruptingPower = 2 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
 			
 			//base enemy resistance is usually based on their exp, but in special cases it is based on other criteria
 			float enemyResist = 1 + enemy.EXP;
 			if (ch instanceof Mimic || ch instanceof Statue){
-				enemyResist = 2 + 3 * Dungeon.depth / 4;
+				enemyResist = 2 + Dungeon.depth;
 			} else if (ch instanceof Piranha || ch instanceof Bee) {
 				enemyResist = 1 + Dungeon.depth/2f;
 			} else if (ch instanceof Wraith || ch instanceof RedWraith) {
 				//this is so low because wraiths are always at max hp
-				enemyResist = 0.5f + Dungeon.depth/6f;
+				enemyResist = 0.5f + Dungeon.depth/5f;
 			} else if (ch instanceof Yog.BurningFist || ch instanceof Yog.RottingFist) {
 				enemyResist = 1 + 25;
 			} else if (ch instanceof Yog.Larva || ch instanceof King.Undead){
@@ -207,7 +208,7 @@ public class WandOfCorruption extends Wand {
 		Class<?extends FlavourBuff> debuffCls = (Class<? extends FlavourBuff>) Random.chances(debuffs);
 		
 		if (debuffCls != null){
-			Buff.append(enemy, debuffCls, 6 + level()*3);
+			Buff.append(enemy, debuffCls, 6 + ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )*3);
 		} else {
 			//if no debuff can be applied (all are present), then go up one tier
 			if (category == MINOR_DEBUFFS)          debuffEnemy( enemy, MAJOR_DEBUFFS);
@@ -240,7 +241,6 @@ public class WandOfCorruption extends Wand {
 			
 			Statistics.enemiesSlain++;
 			Badges.validateMonstersSlain();
-			Statistics.qualifiedForNoKilling = false;
 			if (enemy.EXP > 0 && curUser.lvl <= enemy.maxLvl) {
 				curUser.sprite.showStatus(CharSprite.POSITIVE, Messages.get(enemy, "exp", enemy.EXP));
 				curUser.earnExp(enemy.EXP, enemy.getClass());
@@ -263,10 +263,10 @@ public class WandOfCorruption extends Wand {
 	}
 
 	@Override
-	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar( curUser.sprite.parent,
+	public void fx(Ballistica bolt, Char caster, Callback callback) {
+		MagicMissile.boltFromChar( caster.sprite.parent,
 				MagicMissile.SHADOW,
-				curUser.sprite,
+				caster.sprite,
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play( Assets.SND_ZAP );

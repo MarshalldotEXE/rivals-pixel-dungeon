@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -62,7 +63,7 @@ public class WandOfBlastWave extends DamageWand {
 	}
 
 	@Override
-	protected void onZap(Ballistica bolt) {
+	public void onZap(Ballistica bolt) {
 		Sample.INSTANCE.play( Assets.SND_BLAST );
 		BlastWave.blast(bolt.collisionPos);
 
@@ -83,7 +84,7 @@ public class WandOfBlastWave extends DamageWand {
 
 				if (ch.isAlive()) {
 					Ballistica trajectory = new Ballistica(ch.pos, ch.pos + i, Ballistica.MAGIC_BOLT);
-					int strength = 1 + Math.round(level() / 2f);
+					int strength = 1 + Math.round(( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) / 2f);
 					throwChar(ch, trajectory, strength);
 				} else if (ch == Dungeon.hero){
 					Dungeon.fail( getClass() );
@@ -100,7 +101,7 @@ public class WandOfBlastWave extends DamageWand {
 
 			if (ch.isAlive() && bolt.path.size() > bolt.dist+1) {
 				Ballistica trajectory = new Ballistica(ch.pos, bolt.path.get(bolt.dist + 1), Ballistica.MAGIC_BOLT);
-				int strength = level() + 3;
+				int strength = ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) + 3;
 				throwChar(ch, trajectory, strength);
 			}
 		}
@@ -153,10 +154,10 @@ public class WandOfBlastWave extends DamageWand {
 	}
 
 	@Override
-	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar( curUser.sprite.parent,
+	public void fx(Ballistica bolt, Char caster, Callback callback) {
+		MagicMissile.boltFromChar( caster.sprite.parent,
 				MagicMissile.FORCE,
-				curUser.sprite,
+				caster.sprite,
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play(Assets.SND_ZAP);

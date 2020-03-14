@@ -205,8 +205,8 @@ public class WndRanking extends WndTabbed {
 			pos += GAP;
 			
 			pos = statSlot( this, Messages.get(this, "food"), Integer.toString( Statistics.foodEaten ), pos );
-			pos = statSlot( this, Messages.get(this, "alchemy"), Integer.toString( Statistics.potionsCooked ), pos );
-			pos = statSlot( this, Messages.get(this, "ankhs"), Integer.toString( Statistics.ankhsUsed ), pos );
+			pos = statSlot( this, Messages.get(this, "merchant"), Integer.toString( Statistics.itemsBought ), pos );
+			pos = statSlot( this, Messages.get(this, "alchemy"), Integer.toString( Statistics.itemsCrafted ), pos );
 		}
 		
 		private float statSlot( Group parent, String label, String value, float pos ) {

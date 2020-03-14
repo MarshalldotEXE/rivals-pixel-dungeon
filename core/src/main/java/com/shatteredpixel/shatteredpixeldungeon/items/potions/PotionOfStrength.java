@@ -43,9 +43,4 @@ public class PotionOfStrength extends Potion {
 		
 		Badges.validateStrengthAttained();
 	}
-
-	@Override
-	public int price() {
-		return isKnown() ? 50 * quantity : super.price();
-	}
 }

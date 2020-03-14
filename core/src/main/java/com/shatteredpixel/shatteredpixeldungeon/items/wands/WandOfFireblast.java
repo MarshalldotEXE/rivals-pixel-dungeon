@@ -51,7 +51,7 @@ import java.util.HashSet;
 public class WandOfFireblast extends DamageWand {
 
 	{
-		image = ItemSpriteSheet.WAND_FIREBOLT;
+		image = ItemSpriteSheet.WAND_FIREBLAST;
 
 		collisionProperties = Ballistica.STOP_TERRAIN;
 	}
@@ -73,7 +73,7 @@ public class WandOfFireblast extends DamageWand {
 	private int direction = 0;
 	
 	@Override
-	protected void onZap( Ballistica bolt ) {
+	public void onZap( Ballistica bolt ) {
 		
 		ArrayList<Char> affectedChars = new ArrayList<>();
 		for( int cell : affectedCells){
@@ -141,7 +141,7 @@ public class WandOfFireblast extends DamageWand {
 	}
 
 	@Override
-	protected void fx( Ballistica bolt, Callback callback ) {
+	public void fx( Ballistica bolt, Char caster, Callback callback ) {
 		//need to perform flame spread logic here so we can determine what cells to put flames in.
 		affectedCells = new HashSet<>();
 		visualCells = new HashSet<>();
@@ -175,16 +175,16 @@ public class WandOfFireblast extends DamageWand {
 
 		for (int cell : visualCells){
 			//this way we only get the cells at the tip, much better performance.
-			((MagicMissile)curUser.sprite.parent.recycle( MagicMissile.class )).reset(
+			((MagicMissile)caster.sprite.parent.recycle( MagicMissile.class )).reset(
 					MagicMissile.FIRE_CONE,
-					curUser.sprite,
+					caster.sprite,
 					cell,
 					null
 			);
 		}
-		MagicMissile.boltFromChar( curUser.sprite.parent,
+		MagicMissile.boltFromChar( caster.sprite.parent,
 				MagicMissile.FIRE_CONE,
-				curUser.sprite,
+				caster.sprite,
 				bolt.path.get(dist/2),
 				callback );
 		Sample.INSTANCE.play( Assets.SND_ZAP );

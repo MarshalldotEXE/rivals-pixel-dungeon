@@ -66,7 +66,7 @@ public class ScrollOfRage extends Scroll {
 		
 		curUser.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
 		Sample.INSTANCE.play( Assets.SND_CHALLENGE );
-		Invisibility.dispel();
+		curUser.dispel();
 
 		readAnimation();
 	}
@@ -83,13 +83,8 @@ public class ScrollOfRage extends Scroll {
 		
 		curUser.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		readAnimation();
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
 	}
 }

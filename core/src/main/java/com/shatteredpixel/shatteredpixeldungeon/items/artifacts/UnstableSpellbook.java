@@ -54,14 +54,14 @@ public class UnstableSpellbook extends Artifact {
 
 	{
 		image = ItemSpriteSheet.ARTIFACT_SPELLBOOK;
-
+		defaultAction = AC_READ;
+		
+		//no exp
 		levelCap = 10;
 
 		charge = (int)(level()*0.6f)+2;
 		partialCharge = 0;
 		chargeCap = (int)(level()*0.6f)+2;
-
-		defaultAction = AC_READ;
 	}
 
 	public static final String AC_READ = "READ";
@@ -236,18 +236,21 @@ public class UnstableSpellbook extends Artifact {
 	public class bookRecharge extends ArtifactBuff{
 		@Override
 		public boolean act() {
-			LockedFloor lock = target.buff(LockedFloor.class);
-			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
-				partialCharge += 1 / (120f - (chargeCap - charge)*5f);
+			if (charge < chargeCap && !cursed) {
+				
+				float missing = chargeCap - charge;
+				partialCharge += 1 / (120f - missing * 5);
 
 				if (partialCharge >= 1) {
-					partialCharge --;
-					charge ++;
-
+					charge++;
+					partialCharge--;
 					if (charge == chargeCap){
 						partialCharge = 0;
 					}
 				}
+				
+			} else {
+				partialCharge = 0;
 			}
 
 			updateQuickslot();

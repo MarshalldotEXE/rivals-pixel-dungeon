@@ -25,8 +25,21 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.InfernoBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.BlizzardBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ParalyticBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.StormBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.CorrosiveBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.VenomousBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.DisplacingBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlockBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ArcaneBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShrapnelBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
@@ -45,6 +58,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMi
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.alternate.AlternateScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.alternate.ScrollOfDoom;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.alternate.ScrollOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.alternate.ScrollOfNecromancy;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
@@ -151,6 +168,8 @@ public abstract class Recipe {
 				}
 			}
 			
+			Statistics.itemsCrafted++;
+			
 			//sample output and real output are identical in this case.
 			return sampleOutput(null);
 		}
@@ -180,20 +199,32 @@ public abstract class Recipe {
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
 		new Blandfruit.CookFruit(),
-		new Bomb.EnhanceBomb(),
 		new AlchemicalCatalyst.Recipe(),
 		new ArcaneCatalyst.Recipe(),
 		new ExoticPotion.PotionToExotic(),
 		new ExoticScroll.ScrollToExotic(),
-		new AlchemicalCatalyst.Recipe(),
-		new ArcaneCatalyst.Recipe(),
-		new StewedMeat.twoMeat()
+		new StewedMeat.twoMeat(),
+		new ScrollOfEnchantment.Recipe(),
+		new ScrollOfDoom.Recipe(),
+		new ScrollOfNecromancy.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
 		new Potion.SeedToPotion(),
 		new StewedMeat.threeMeat(),
-		new MeatPie.Recipe()
+		new MeatPie.Recipe(),
+		new InfernoBomb.Recipe(),
+		new BlizzardBomb.Recipe(),
+		new ParalyticBomb.Recipe(),
+		new StormBomb.Recipe(),
+		new CorrosiveBomb.Recipe(),
+		new VenomousBomb.Recipe(),
+		new Noisemaker.Recipe(),
+		new DisplacingBomb.Recipe(),
+		new FlockBomb.Recipe(),
+		new HolyBomb.Recipe(),
+		new ArcaneBomb.Recipe(),
+		new ShrapnelBomb.Recipe()
 	};
 	
 	public static Recipe findRecipe(ArrayList<Item> ingredients){

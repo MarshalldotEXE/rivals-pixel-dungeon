@@ -28,16 +28,18 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Ripple;
 import com.shatteredpixel.shatteredpixeldungeon.items.DewVial;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.SewerPainter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.AlarmTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ToxicTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.OozeTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.AlarmTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.TeleportationTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlockTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.OozeTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.TeleportationTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ToxicTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
@@ -58,14 +60,14 @@ public class SewerLevel extends RegularLevel {
 	
 	@Override
 	protected int standardRooms() {
-		//5 to 7, average 5.57
-		return 5+Random.chances(new float[]{4, 2, 1});
+		//5 to 7
+		return 5+Random.chances(new float[]{1, 2, 1});
 	}
 	
 	@Override
 	protected int specialRooms() {
-		//1 to 3, average 1.67
-		return 1+Random.chances(new float[]{4, 4, 2});
+		//1 to 3
+		return 1+Random.chances(new float[]{1, 2, 1});
 	}
 	
 	@Override
@@ -88,20 +90,23 @@ public class SewerLevel extends RegularLevel {
 	
 	@Override
 	protected Class<?>[] trapClasses() {
-		return Dungeon.depth == 1 ?
-				new Class<?>[]{ WornDartTrap.class } :
-				new Class<?>[]{ ChillingTrap.class, ShockingTrap.class, ToxicTrap.class, WornDartTrap.class,
-						AlarmTrap.class, OozeTrap.class,
-						ConfusionTrap.class, FlockTrap.class, SummoningTrap.class, TeleportationTrap.class };
-}
+		return new Class[]{
+			BurningTrap.class, ChillingTrap.class, ShockingTrap.class, ToxicTrap.class, OozeTrap.class,
+			WornDartTrap.class, GrippingTrap.class, AlarmTrap.class, TeleportationTrap.class, ConfusionTrap.class,
+			
+			FlockTrap.class,
+			SummoningTrap.class
+		};
+	}
 
 	@Override
 	protected float[] trapChances() {
-		return Dungeon.depth == 1 ?
-				new float[]{1} :
-				new float[]{8, 8, 8, 8,
-						4, 4,
-						2, 2, 2, 2};
+		return new float[]{
+			8, 8, 8, 8, 8,
+			4, 4, 4, 4, 4,
+			2,
+			1
+		};
 	}
 	
 	@Override

@@ -84,7 +84,6 @@ public class Food extends Item {
 			hero.spend( TIME_TO_EAT );
 			
 			Statistics.foodEaten++;
-			Badges.validateFoodEaten();
 			
 		}
 	}
@@ -124,6 +123,6 @@ public class Food extends Item {
 	
 	@Override
 	public int price() {
-		return 10 * quantity;
+		return 15 * quantity;
 	}
 }

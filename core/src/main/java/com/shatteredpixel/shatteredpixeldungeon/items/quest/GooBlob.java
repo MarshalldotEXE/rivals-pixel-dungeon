@@ -32,9 +32,4 @@ public class GooBlob extends Material {
 	{
 		image = ItemSpriteSheet.BLOB;
 	}
-
-	@Override
-	public int price() {
-		return quantity * 60;
-	}
 }

@@ -28,6 +28,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HalfPlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.WarriorArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.DiscArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RingArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.Key;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
@@ -105,7 +117,19 @@ public class Belongings implements Iterable<Item> {
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
 		if (bundle.contains( ARMOR )){
-			info.armorTier = ((Armor)bundle.get( ARMOR )).tier;
+			Armor bundleArmor = (Armor)bundle.get( ARMOR );
+			if (bundleArmor instanceof ClothArmor)		info.armorTier = 1;
+			if (bundleArmor instanceof LeatherArmor)	info.armorTier = 2;
+			if (bundleArmor instanceof DiscArmor)		info.armorTier = 3;
+			if (bundleArmor instanceof MailArmor)		info.armorTier = 4;
+			if (bundleArmor instanceof ScaleArmor)		info.armorTier = 5;
+			if (bundleArmor instanceof RingArmor)		info.armorTier = 6;
+			if (bundleArmor instanceof PlateArmor)		info.armorTier = 7;
+			if (bundleArmor instanceof HalfPlateArmor)	info.armorTier = 8;
+			if (bundleArmor instanceof WarriorArmor)	info.armorTier = 9;
+			if (bundleArmor instanceof MageArmor)		info.armorTier = 9;
+			if (bundleArmor instanceof RogueArmor)		info.armorTier = 9;
+			if (bundleArmor instanceof HuntressArmor)	info.armorTier = 9;
 		} else {
 			info.armorTier = 0;
 		}

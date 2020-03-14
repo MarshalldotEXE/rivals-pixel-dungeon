@@ -208,14 +208,14 @@ public class RingOfWealth extends Ring {
 			return result;
 		} else { //10% chance
 			if (Random.Int(3) != 0){
-				Weapon weapon = Generator.randomWeapon((Dungeon.depth / 5) + 1);
+				Weapon weapon = Generator.randomWeapon((Dungeon.depth / 4) + 1);
 				weapon.upgrade(1);
 				weapon.enchant(Weapon.Enchantment.random());
 				weapon.cursed = false;
 				weapon.cursedKnown = true;
 				return weapon;
 			} else {
-				Armor armor = Generator.randomArmor((Dungeon.depth / 5) + 1);
+				Armor armor = Generator.randomArmor((Dungeon.depth / 4) + 1);
 				armor.upgrade();
 				armor.inscribe(Armor.Glyph.random());
 				armor.cursed = false;

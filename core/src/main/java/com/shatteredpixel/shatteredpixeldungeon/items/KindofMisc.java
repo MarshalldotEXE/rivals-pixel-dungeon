@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -31,7 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 public abstract class KindofMisc extends EquipableItem {
 
 	private static final float TIME_TO_EQUIP = 1f;
-
+	
 	@Override
 	public boolean doEquip(final Hero hero) {
 
@@ -69,17 +70,18 @@ public abstract class KindofMisc extends EquipableItem {
 			} else {
 				hero.belongings.misc2 = this;
 			}
-
+			
 			detach( hero.belongings.backpack );
-
+			
 			activate( hero );
-
-			cursedKnown = true;
+			
+			identify();
 			if (cursed) {
 				equipCursed( hero );
 				GLog.n( Messages.get(this, "equip_cursed", this) );
-			}
-
+			} else
+				GLog.i( Messages.get(this, "equip", this) );
+			
 			hero.spendAndNext( TIME_TO_EQUIP );
 			return true;
 

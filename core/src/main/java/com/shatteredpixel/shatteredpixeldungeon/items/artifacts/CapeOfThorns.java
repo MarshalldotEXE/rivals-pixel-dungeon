@@ -137,7 +137,7 @@ public class CapeOfThorns extends Artifact {
 			if (cooldown == 0)
 				return BuffIndicator.NONE;
 			else
-				return BuffIndicator.THORNS;
+				return BuffIndicator.BARKSKIN;
 		}
 
 		@Override

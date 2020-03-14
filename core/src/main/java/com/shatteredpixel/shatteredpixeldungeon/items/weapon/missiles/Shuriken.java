@@ -34,13 +34,13 @@ public class Shuriken extends MissileWeapon {
 		image = ItemSpriteSheet.SHURIKEN;
 		
 		tier = 2;
-		baseUses = 5;
+		baseUses = 7;
 	}
 	
 	@Override
 	public int max(int lvl) {
 		return  4 * tier +                      //8 base, down from 10
-				(tier == 1 ? 2*lvl : tier*lvl); //scaling unchanged
+				tier * lvl;						//scaling unchanged
 	}
 	
 	@Override

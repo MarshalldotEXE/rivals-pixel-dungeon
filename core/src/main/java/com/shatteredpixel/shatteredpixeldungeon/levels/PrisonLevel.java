@@ -29,18 +29,19 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.PrisonPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.AlarmTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlockTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ToxicTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.OozeTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PoisonDartTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.AlarmTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.TeleportationTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ToxicTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlockTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WeakeningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Group;
@@ -64,14 +65,14 @@ public class PrisonLevel extends RegularLevel {
 	
 	@Override
 	protected int standardRooms() {
-		//6 to 8, average 6.66
-		return 6+Random.chances(new float[]{4, 2, 2});
+		//5 to 8
+		return 5+Random.chances(new float[]{1, 2, 2, 1});
 	}
 	
 	@Override
 	protected int specialRooms() {
-		//1 to 3, average 1.83
-		return 1+Random.chances(new float[]{3, 4, 3});
+		//1 to 3
+		return 1+Random.chances(new float[]{1, 2, 2});
 	}
 	
 	@Override
@@ -94,16 +95,23 @@ public class PrisonLevel extends RegularLevel {
 	
 	@Override
 	protected Class<?>[] trapClasses() {
-		return new Class[]{ ChillingTrap.class, ShockingTrap.class, ToxicTrap.class, BurningTrap.class, PoisonDartTrap.class,
-				AlarmTrap.class, OozeTrap.class, GrippingTrap.class,
-				ConfusionTrap.class, FlockTrap.class, SummoningTrap.class, TeleportationTrap.class, };
+		return new Class[]{
+			BurningTrap.class, ChillingTrap.class, ShockingTrap.class, ToxicTrap.class, OozeTrap.class,
+			PoisonDartTrap.class, GrippingTrap.class, AlarmTrap.class, TeleportationTrap.class, ConfusionTrap.class,
+			
+			FlockTrap.class,
+			SummoningTrap.class, WeakeningTrap.class
+		};
 	}
 
 	@Override
 	protected float[] trapChances() {
-		return new float[]{ 8, 8, 8, 8, 8,
-				4, 4, 4,
-				2, 2, 2, 2 };
+		return new float[]{
+			8, 8, 8, 8, 8,
+			4, 4, 4, 4, 4,
+			2,
+			1, 1
+		};
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.TomeOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.MazeRoom;
@@ -132,17 +133,48 @@ public class PrisonBossLevel extends Level {
 		
 		setSize(32, 32);
 		
-		map = MAP_START.clone();
-
+		map = MAP_END.clone();
+		
 		buildFlagMaps();
 		cleanWalls();
 
-		state = State.START;
+		state = State.WON;
 		entrance = 5+2*32;
-		exit = 0;
-
-		resetTraps();
-
+		exit = 21+15*32;
+		
+		boolean[] patch = Patch.generate( width, height, 0.30f, 6, true );
+		for (int i=0; i < length(); i++) {
+			if (map[i] == Terrain.EMPTY && patch[i]) {
+				map[i] = Terrain.HIGH_GRASS;
+			}
+		}
+		
+		//10% special, 20% grass, 10% high grass, 20% water, 20% embers, 20% empty
+		for (int i=0; i < length(); i++) {
+			if (map[i] == Terrain.EMPTY) {
+				switch(Random.Int(10)) {
+					case 0: 
+						map[i] = Terrain.EMPTY_SP;
+						break;
+					case 1: case 2:
+						map[i] = Terrain.GRASS;
+						break;
+					case 3:
+						map[i] = Terrain.HIGH_GRASS;
+						break;
+					case 4: case 5:
+						map[i] = Terrain.WATER;
+						break;
+					case 6: case 7:
+						map[i] = Terrain.EMBERS;
+						break;
+					default:
+						map[i] = Terrain.EMPTY;
+						break;
+				}
+			}
+		}
+		
 		return true;
 	}
 	
@@ -161,7 +193,7 @@ public class PrisonBossLevel extends Level {
 		if (item != null) {
 			drop( item, randomRespawnCell() ).setHauntedIfCursed(1f).type = Heap.Type.REMAINS;
 		}
-		drop(new IronKey(10), randomPrisonCell());
+		drop(new TomeOfMastery(), ARENA_CENTER);
 	}
 
 	private int randomPrisonCell(){
@@ -252,7 +284,7 @@ public class PrisonBossLevel extends Level {
 			}
 		}
 	}
-
+	
 	private void changeMap(int[] map){
 		this.map = map.clone();
 		buildFlagMaps();

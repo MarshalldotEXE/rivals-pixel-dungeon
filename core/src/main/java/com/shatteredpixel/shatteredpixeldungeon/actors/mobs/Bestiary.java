@@ -24,6 +24,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.rivals.Rival;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -48,195 +49,245 @@ public class Bestiary {
 				//10x rat
 				return new ArrayList<Class<? extends Mob>>(Arrays.asList(
 						Rat.class, Rat.class, Rat.class, Rat.class, Rat.class,
-						Rat.class, Rat.class, Rat.class, Rat.class, Rat.class));
+						Rat.class, Rat.class, Rat.class, Rat.class, Rat.class
+						));
+						
 			case 2:
-				//3x rat, 3x gnoll
-				return new ArrayList<>(Arrays.asList(
-						Rat.class, Rat.class, Rat.class,
-						Gnoll.class, Gnoll.class, Gnoll.class));
-			case 3:
-				//1x rat, 2x albino, 4x gnoll, 1x crab, 1x swarm
+				//3x rat, 3x gnoll, 1x swarm
 				return new ArrayList<>(Arrays.asList(
 						Rat.class,
-						Albino.class, Albino.class,
-						Gnoll.class, Gnoll.class, Gnoll.class, Gnoll.class,
-						Crab.class, Swarm.class));
-			case 4: case 5:
-				//1x albino, 2x gnoll, 3x crab, 1x swarm
+						Rat.class,
+						Rat.class,
+						Gnoll.class,
+						Gnoll.class,
+						Gnoll.class,
+						Swarm.class
+						));
+						
+			case 3: case 4:
+				//1x rat, 1x albino, 2x gnoll, 1x swarm, 2x crab, 2x spawn
 				return new ArrayList<>(Arrays.asList(
+						Rat.class,
 						Albino.class,
-						Gnoll.class, Gnoll.class,
-						Crab.class, Crab.class, Crab.class,
-						Swarm.class));
+						Gnoll.class,
+						Gnoll.class,
+						Swarm.class,
+						Crab.class,
+						Crab.class,
+						GooSpawn.class,
+						GooSpawn.class
+						));
 				
 			// Prison
-			case 6:
-				//2x skeleton, 1x thief, 1x tribesman, 1x swarm
+			case 5:
+				//1x swarm, 3x skeleton, 2x thief
 				return new ArrayList<>(Arrays.asList(
-						Skeleton.class, Skeleton.class,
-						Tribesman.class,
+						Swarm.class,
+						Skeleton.class,
+						Skeleton.class,
+						Skeleton.class,
 						Thief.class,
-						Fireflies.class));
-			case 7:
-				//2x skeleton, 1x thief, 1x tribesman, 1x shaman, 1x guard
+						Thief.class
+						));
+						
+			case 6:
+				//2x skeleton, 2x thief, 2x shaman, 1x guard
 				return new ArrayList<>(Arrays.asList(
-						Skeleton.class, Skeleton.class,
-						Tribesman.class,
+						Skeleton.class,
+						Skeleton.class,
+						Thief.class,
 						Thief.class,
 						Shaman.class,
-						Guard.class));
-			case 8:
-				//2x skeleton, 1x bandit, 1x elite, 2x shaman, 1x guard, 1x blue wraith
+						Shaman.class,
+						Guard.class
+						));
+						
+			case 7: case 8:
+				//2x skeleton, 1x thief, 1x bandit, 2x shaman, 3x guard
 				return new ArrayList<>(Arrays.asList(
-						Skeleton.class, Skeleton.class,
-						Elite.class,
+						Skeleton.class,
+						Skeleton.class,
+						Thief.class,
 						Bandit.class,
-						Shaman.class, Shaman.class,
+						Shaman.class,
+						Shaman.class,
 						Guard.class,
-						BlueWraith.class));
-			case 9: case 10:
-				//2x skeleton, 1x bandit, 1x elite, 2x shaman, 2x guard, 1x blue wraith
-				return new ArrayList<>(Arrays.asList(
-						Skeleton.class, Skeleton.class,
-						Elite.class,
-						Bandit.class,
-						Shaman.class, Shaman.class,
-						Guard.class, Guard.class,
-						BlueWraith.class));
+						Guard.class,
+						Guard.class
+						));
 				
 			// Caves
-			case 11:
-				//5x bat, 1x brute
-				return new ArrayList<>(Arrays.asList(
-						Bat.class, Bat.class, Bat.class, Bat.class, Bat.class,
-						Brute.class));
-			case 12:
-				//5x bat, 5x brute, 1x spinner
-				return new ArrayList<>(Arrays.asList(
-						Bat.class, Bat.class, Bat.class, Bat.class, Bat.class,
-						Brute.class, Brute.class, Brute.class, Brute.class, Brute.class,
-						Spinner.class));
-			case 13:
-				//1x bat, 3x shielded, 1x battlemage, 1x spinner
+			case 9:
+				//3x bat, 3x brute
 				return new ArrayList<>(Arrays.asList(
 						Bat.class,
-						Shielded.class, Shielded.class, Shielded.class,
-						Battlemage.class,
-						Spinner.class));
-			case 14: case 15:
-				//1x bat, 3x shielded, 1x battlemage, 4x spinner
+						Bat.class,
+						Bat.class,
+						Brute.class,
+						Brute.class,
+						Brute.class
+						));
+						
+			case 10:
+				//2x bat, 2x brute, 1x battlemage, 2x spinner
 				return new ArrayList<>(Arrays.asList(
 						Bat.class,
-						Shielded.class, Shielded.class, Shielded.class,
+						Bat.class,
+						Brute.class,
+						Brute.class,
 						Battlemage.class,
-						Spinner.class, Spinner.class, Spinner.class, Spinner.class));
+						Spinner.class,
+						Spinner.class
+						));
+						
+			case 11: case 12:
+				//1x bat, 2x brute, 1x shielded, 2x battlemage, 1x spinner, 2x DM-150
+				return new ArrayList<>(Arrays.asList(
+						Bat.class,
+						Brute.class,
+						Brute.class,
+						Shielded.class,
+						Battlemage.class,
+						Battlemage.class,
+						Spinner.class,
+						DM150.class,
+						DM150.class
+						));
 				
 			// City
-			case 16:
-				//5x elemental, 5x warlock, 1x monk
+			case 13:
+				//3x elemental, 1x warlock, 2x monk
 				return new ArrayList<>(Arrays.asList(
-						Elemental.class, Elemental.class, Elemental.class, Elemental.class, Elemental.class,
-						Warlock.class, Warlock.class, Warlock.class, Warlock.class, Warlock.class,
-						Monk.class));
-			case 17:
-				//2x elemental, 2x warlock, 2x monk
-				return new ArrayList<>(Arrays.asList(
-						Elemental.class, Elemental.class,
-						Warlock.class, Warlock.class,
-						Monk.class, Monk.class));
-			case 18:
-				//1x elemental, 1x warlock, 1x monk, 1x senior, 1x golem
-				return new ArrayList<>(Arrays.asList(
+						Elemental.class,
+						Elemental.class,
 						Elemental.class,
 						Warlock.class,
 						Monk.class,
-						Senior.class,
-						Golem.class));
-			case 19: case 20:
-				//1x elemental, 1x warlock, 1x senior, 2x golem, 1x red wraith, 1x gold mimic
+						Monk.class
+						));
+						
+			case 14:
+				//2x elemental, 1x warlock, 2x monk, 2x golem
+				return new ArrayList<>(Arrays.asList(
+						Elemental.class,
+						Elemental.class,
+						Warlock.class,
+						Monk.class,
+						Monk.class,
+						Golem.class,
+						Golem.class
+						));
+						
+			case 15: case 16:
+				//1x elemental, 2x warlock, 2x monk, 1x senior, 3x golem
 				return new ArrayList<>(Arrays.asList(
 						Elemental.class,
 						Warlock.class,
-						Senior.class, Senior.class,
-						Golem.class, Golem.class,
-						RedWraith.class,
-						GoldMimic.class));
+						Warlock.class,
+						Monk.class,
+						Monk.class,
+						Senior.class,
+						Golem.class,
+						Golem.class,
+						Golem.class
+						));
 				
 			// Halls
-			case 21: case 22:
-				//2x succubus, 2x purple wraith, 1x wisp, 2x evil eye,
+			case 17: case 18:
+				//3x imp, 2x succubus, 1x eye
 				return new ArrayList<>(Arrays.asList(
-						Succubus.class, Succubus.class,
-						PurpleWraith.class, PurpleWraith.class,
-						Wisp.class,
-						Eye.class, Eye.class));
-			case 23:
-				//2x succubus, 1x purple wraith, 1x wisp, 2x evil eye, 2x scorpio
-				return new ArrayList<>(Arrays.asList(
-						Succubus.class, Succubus.class,
-						PurpleWraith.class,
-						Wisp.class,
-						Eye.class, Eye.class,
-						Scorpio.class, Scorpio.class));
-			case 24: case 25: case 26:
-				//1x succubus, 1x purple wraith, 1x wisp, 1x evil eye, 1x scorpio, 1x acidic, 1x monster box
-				return new ArrayList<>(Arrays.asList(
+						EvilImp.class,
+						EvilImp.class,
+						EvilImp.class,
 						Succubus.class,
-						PurpleWraith.class,
-						Wisp.class,
+						Succubus.class,
+						Eye.class
+						));
+						
+			case 19:
+				//2x imp, 1x succubus, 2x eye, 2x scorpio
+				return new ArrayList<>(Arrays.asList(
+						EvilImp.class,
+						EvilImp.class,
+						Succubus.class,
+						Eye.class,
 						Eye.class,
 						Scorpio.class,
-						Acidic.class,
-						MonsterBox.class));
+						Scorpio.class
+						));
+						
+			case 20: case 21:
+				//2x imp, 1x succubus, 3x eye, 2x scorpio, 1x acidic
+				return new ArrayList<>(Arrays.asList(
+						EvilImp.class,
+						EvilImp.class,
+						Succubus.class,
+						Eye.class,
+						Eye.class,
+						Eye.class,
+						Scorpio.class,
+						Scorpio.class,
+						Acidic.class
+						));
+						
 		}
 		
 	}
 	
-	//has a chance to add a rarely spawned mobs to the rotation
+	//has a chance to add rarely spawned mobs to the rotation
 	public static void addRareMobs( int depth, ArrayList<Class<?extends Mob>> rotation ){
 		
 		switch (depth){
-			
-			// Sewers
 			default:
 				return;
-			case 4:
-				if (Random.Float() < 0.02f) rotation.add(Fireflies.class);
-				if (Random.Float() < 0.01f) rotation.add(Thief.class);
-				if (Random.Float() < 0.01f) rotation.add(Skeleton.class);
+			
+			// Sewers
+			case 1:
+				return;
+			case 2:
+				if (Random.Float() < 0.3f) rotation.add(GooSpawn.class);
+				return;
+			case 3:
+				if (Random.Float() < 0.03f) rotation.add(Thief.class);
 				return;
 				
 			// Prison
+			case 5:
+				if (Random.Float() < 0.3f) rotation.add(Shaman.class);
+				return;
 			case 6:
-				if (Random.Float() < 0.2f)  rotation.add(Shaman.class);
 				return;
-			case 8:
-				if (Random.Float() < 0.02f) rotation.add(Bat.class);
-				return;
-			case 9:
-				if (Random.Float() < 0.02f) rotation.add(Bat.class);
-				if (Random.Float() < 0.01f) rotation.add(Brute.class);
-				if (Random.Float() < 0.01f) rotation.add(Battlemage.class);
+			case 7:
+				if (Random.Float() < 0.03f) rotation.add(Bat.class);
 				return;
 				
 			// Caves
-			case 12:
-				if (Random.Float() < 0.2f)  rotation.add(Battlemage.class);
+			case 9:
+				if (Random.Float() < 0.3f) rotation.add(Battlemage.class);
 				return;
-			case 13:
-				if (Random.Float() < 0.02f) rotation.add(Elemental.class);
+			case 10:
+				if (Random.Float() < 0.3f) rotation.add(DM150.class);
 				return;
-			case 14:
-				if (Random.Float() < 0.02f) rotation.add(Elemental.class);
-				if (Random.Float() < 0.01f) rotation.add(Monk.class);
+			case 11:
 				return;
 				
 			// City
-			case 17:
-				if (Random.Float() < 0.2f)  rotation.add(Golem.class);
+			case 13:
+				if (Random.Float() < 0.3f) rotation.add(Golem.class);
+				return;
+			case 14:
+				return;
+			case 15:
+				if (Random.Float() < 0.03f) rotation.add(Succubus.class);
+				return;
+				
+			// Halls
+			case 18:
+				if (Random.Float() < 0.3f) rotation.add(Scorpio.class);
 				return;
 			case 19:
-				if (Random.Float() < 0.02f) rotation.add(Succubus.class);
+				return;
+			case 20:
 				return;
 		}
 	}
@@ -244,12 +295,14 @@ public class Bestiary {
 	//switches out regular mobs for their alt versions when appropriate
 	private static void swapMobAlts(ArrayList<Class<?extends Mob>> rotation){
 		for (int i = 0; i < rotation.size(); i++){
-			if (Random.Int( 50 ) == 0) {
+			if (Random.Int( 33 ) == 0) {
 				Class<? extends Mob> cl = rotation.get(i);
 				if (cl == Rat.class) {
 					cl = Albino.class;
 				} else if (cl == Thief.class) {
 					cl = Bandit.class;
+				} else if (cl == Tribesman.class) {
+					cl = Elite.class;
 				} else if (cl == Brute.class) {
 					cl = Shielded.class;
 				} else if (cl == Monk.class) {

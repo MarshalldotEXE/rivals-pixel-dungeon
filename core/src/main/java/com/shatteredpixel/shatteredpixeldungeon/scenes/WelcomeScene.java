@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Rankings;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
@@ -170,17 +169,6 @@ public class WelcomeScene extends PixelScene {
 				//if we encounter a fatal error, then just clear the rankings
 				FileUtils.deleteFile( Rankings.RANKINGS_FILE );
 			}
-		}
-		
-		//give classes to people with saves that have previously unlocked them
-		if (previousVersion <= ShatteredPixelDungeon.v0_7_0c){
-			Badges.loadGlobal();
-			Badges.addGlobal(Badges.Badge.UNLOCK_MAGE);
-			Badges.addGlobal(Badges.Badge.UNLOCK_ROGUE);
-			if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3)){
-				Badges.addGlobal(Badges.Badge.UNLOCK_HUNTRESS);
-			}
-			Badges.saveGlobal();
 		}
 		
 		if (previousVersion <= ShatteredPixelDungeon.v0_6_5c){

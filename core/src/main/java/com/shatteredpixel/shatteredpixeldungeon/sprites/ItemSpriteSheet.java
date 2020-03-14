@@ -99,7 +99,8 @@ public class ItemSpriteSheet {
 	public static final int CHEST           = CONTAINERS+4;
 	public static final int LOCKED_CHEST    = CONTAINERS+5;
 	public static final int CRYSTAL_CHEST   = CONTAINERS+6;
-	public static final int EBONY_CHEST     = CONTAINERS+7;
+	public static final int MONSTER_BOX     = CONTAINERS+7;
+	public static final int EBONY_CHEST     = CONTAINERS+8;
 	static{
 		assignItemRect(BONES,           14, 11);
 		assignItemRect(REMAINS,         14, 11);
@@ -108,6 +109,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CHEST,           16, 14);
 		assignItemRect(LOCKED_CHEST,    16, 14);
 		assignItemRect(CRYSTAL_CHEST,   16, 14);
+		assignItemRect(MONSTER_BOX,     16, 14);
 		assignItemRect(EBONY_CHEST,     16, 14);
 	}
 
@@ -283,7 +285,7 @@ public class ItemSpriteSheet {
 	public static final int FLAIL           = WEP_TIER3+10;
 	public static final int JAVELIN         = WEP_TIER3+12;
 	public static final int THROWING_HAMMER = WEP_TIER3+13;
-	//public static final int ARCANE_KUNAI    = WEP_TIER3+14;
+	public static final int ARCANE_KUNAI    = WEP_TIER3+14;
 	public static final int TOMAHAWK        = WEP_TIER3+15;
 	static{
 		assignItemRect(LONGSWORD,       15, 15);
@@ -299,7 +301,7 @@ public class ItemSpriteSheet {
 		assignItemRect(FLAIL,           14, 14);
 		assignItemRect(JAVELIN,         16, 16);
 		assignItemRect(THROWING_HAMMER, 12, 12);
-		//assignItemRect(ARCANE_KUNAI,    12, 12);
+		assignItemRect(ARCANE_KUNAI,    12, 12);
 		assignItemRect(TOMAHAWK,        13, 13);
 	}
 
@@ -371,19 +373,23 @@ public class ItemSpriteSheet {
 	private static final int ARMOR          =                               xy(1, 11);  //16 slots
 	public static final int ARMOR_CLOTH     = ARMOR+0;
 	public static final int ARMOR_LEATHER   = ARMOR+1;
-	public static final int ARMOR_MAIL      = ARMOR+2;
-	public static final int ARMOR_SCALE     = ARMOR+3;
-	public static final int ARMOR_PLATE     = ARMOR+4;
-	public static final int ARMOR_HALF_PLATE= ARMOR+5;
+	public static final int ARMOR_DISC      = ARMOR+2;
+	public static final int ARMOR_MAIL      = ARMOR+3;
+	public static final int ARMOR_SCALE     = ARMOR+4;
+	public static final int ARMOR_RING      = ARMOR+5;
+	public static final int ARMOR_PLATE     = ARMOR+6;
+	public static final int ARMOR_HALF_PLATE= ARMOR+7;
 	public static final int ARMOR_WARRIOR   = ARMOR+6;
-	public static final int ARMOR_MAGE      = ARMOR+7;
-	public static final int ARMOR_ROGUE     = ARMOR+8;
-	public static final int ARMOR_HUNTRESS  = ARMOR+9;
+	public static final int ARMOR_MAGE      = ARMOR+8;
+	public static final int ARMOR_ROGUE     = ARMOR+9;
+	public static final int ARMOR_HUNTRESS  = ARMOR+10;
 	static{
 		assignItemRect(ARMOR_CLOTH,      15, 12);
 		assignItemRect(ARMOR_LEATHER,    14, 13);
+		assignItemRect(ARMOR_DISC,       14, 13);
 		assignItemRect(ARMOR_MAIL,       14, 12);
 		assignItemRect(ARMOR_SCALE,      14, 11);
+		assignItemRect(ARMOR_RING,       14, 13);
 		assignItemRect(ARMOR_PLATE,      12, 12);
 		assignItemRect(ARMOR_HALF_PLATE, 13, 13);
 		assignItemRect(ARMOR_WARRIOR,    12, 12);
@@ -396,7 +402,7 @@ public class ItemSpriteSheet {
 
 	private static final int WANDS              =                           xy(1, 12);  //16 slots
 	public static final int WAND_MAGIC_MISSILE  = WANDS+0;
-	public static final int WAND_FIREBOLT       = WANDS+1;
+	public static final int WAND_FIREBLAST      = WANDS+1;
 	public static final int WAND_FROST          = WANDS+2;
 	public static final int WAND_LIGHTNING      = WANDS+3;
 	public static final int WAND_DISINTEGRATION = WANDS+4;
@@ -409,7 +415,8 @@ public class ItemSpriteSheet {
 	public static final int WAND_VENOM          = WANDS+11;
 	public static final int WAND_TRANSFUSION    = WANDS+12;
 	public static final int LLOYDS_BEACON       = WANDS+13;
-	//public static final int WAND_CHAOS          = WANDS+14;
+	public static final int WAND_CHAOS          = WANDS+14;
+	public static final int WAND_FIREBOLT       = WANDS+15;
 	public static final int WAND_REGROWTH1      = WANDS+16;
 	public static final int WAND_REGROWTH2      = WANDS+17;
 	public static final int WAND_REGROWTH3      = WANDS+18;
@@ -528,11 +535,11 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_DAGAZ    = EXOTIC_SCROLLS+20;
 	public static final int EXOTIC_SKULL    = EXOTIC_SCROLLS+21;
 	static {
-		for (int i = EXOTIC_SCROLLS; i < EXOTIC_SCROLLS+16; i++)
+		for (int i = EXOTIC_SCROLLS; i < EXOTIC_SCROLLS+24; i++)
 			assignItemRect(i, 15, 14);
 	}
 	
-	private static final int STONES             =                           xy(1, 27);  //16 slots
+	private static final int STONES             =                           xy(1, 32);  //16 slots
 	public static final int STONE_AGGRESSION    = STONES+0;
 	public static final int STONE_AUGMENTATION  = STONES+1;
 	public static final int STONE_AFFECTION     = STONES+2;

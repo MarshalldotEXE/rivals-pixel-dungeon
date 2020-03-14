@@ -46,7 +46,7 @@ public class Fury extends Buff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.FURY;
+		return BuffIndicator.RAGE;
 	}
 	
 	@Override

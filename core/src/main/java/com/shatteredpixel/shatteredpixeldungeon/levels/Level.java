@@ -57,9 +57,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.AlchemicalCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.RosePetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MagicSandBag;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.alternate.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -105,7 +112,7 @@ public abstract class Level implements Bundlable {
 	protected int height;
 	protected int length;
 	
-	protected static final float TIME_TO_RESPAWN	= 50;
+	protected static final float TIME_TO_RESPAWN	= 80;
 
 	public int version;
 	
@@ -114,7 +121,7 @@ public abstract class Level implements Bundlable {
 	public boolean[] mapped;
 	public boolean[] discoverable;
 
-	public int viewDistance = Dungeon.isChallenged( Challenges.DARKNESS ) ? 2 : 8;
+	public int viewDistance = Dungeon.isChallenged( Challenges.INTO_DARKNESS ) ? 2 : 8;
 	
 	public boolean[] heroFOV;
 	
@@ -172,15 +179,11 @@ public abstract class Level implements Bundlable {
 
 		Random.seed( Dungeon.seedCurDepth() );
 		
-		if (!(Dungeon.bossLevel() || Dungeon.depth == 21) /*final shop floor*/) {
+		if (!(Dungeon.bossLevel() || Dungeon.depth == 17) /*final shop floor*/) {
 
-			if (Dungeon.isChallenged(Challenges.NO_FOOD)){
-				addItemToSpawn( new SmallRation() );
-			} else {
-				addItemToSpawn(Generator.random(Generator.Category.FOOD));
-			}
+			addItemToSpawn(Generator.random(Generator.Category.FOOD));
 
-			if (Dungeon.isChallenged(Challenges.DARKNESS)){
+			if (Dungeon.isChallenged(Challenges.INTO_DARKNESS)){
 				addItemToSpawn( new Torch() );
 			}
 
@@ -192,15 +195,59 @@ public abstract class Level implements Bundlable {
 				addItemToSpawn( new ScrollOfUpgrade() );
 				Dungeon.LimitedDrops.UPGRADE_SCROLLS.count++;
 			}
-			if (Dungeon.asNeeded()) {
-				addItemToSpawn( new Stylus() );
-				Dungeon.LimitedDrops.ARCANE_STYLI.count++;
-			}
+			
+			/*
+			(Dungeon.seed / 10)	
+			% X					X		= min chapter
+			+ Y					Y		= total chapters in range
+			*/
+			
 			//one scroll of transmutation is guaranteed to spawn somewhere on chapter 2-4
-			int enchChapter = (int)((Dungeon.seed / 10) % 3) + 1;
-			if ( Dungeon.depth / 5 == enchChapter &&
-					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
+			int transChapter = (int)((Dungeon.seed / 10) % 3) + 1;
+			if ( Dungeon.depth / 4 == transChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
 				addItemToSpawn( new ScrollOfTransmutation() );
+			}
+			
+			//one scroll of enchantment is guaranteed to spawn somewhere on chapter 3-5
+			int enchChapter = (int)((Dungeon.seed / 11) % 3) + 2;
+			if ( Dungeon.depth / 4 == enchChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new ScrollOfEnchantment() );
+			}
+			
+			//alchemical catalyst; chapter 1-3
+			int alchChapter = (int)((Dungeon.seed / 9) % 3);
+			if ( Dungeon.depth / 4 == alchChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new AlchemicalCatalyst() );
+			}
+			
+			//arcane catalyst; chapter 1-3
+			int arcaneChapter = (int)((Dungeon.seed / 8) % 3);
+			if ( Dungeon.depth / 4 == arcaneChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new ArcaneCatalyst() );
+			}
+			
+			//rose petal; chapter 2-4
+			int petalChapter = (int)((Dungeon.seed / 7) % 3) + 1;
+			if ( Dungeon.depth / 4 == petalChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new RosePetal() );
+			}
+			
+			//sand bag; chapter 2-4
+			int bagChapter = (int)((Dungeon.seed / 6) % 3) + 1;
+			if ( Dungeon.depth / 4 == bagChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new MagicSandBag() );
+			}
+			
+			//goo blob; chapter 2-5
+			int blobChapter = (int)((Dungeon.seed / 5) % 4) + 1;
+			if ( Dungeon.depth / 4 == blobChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new GooBlob() );
+			}
+			
+			//metal shard; chapter 2-5
+			int shardChapter = (int)((Dungeon.seed / 4) % 4) + 1;
+			if ( Dungeon.depth / 4 == shardChapter && Dungeon.seed % 3 + 1 == Dungeon.depth % 4){
+				addItemToSpawn( new MetalShard() );
 			}
 			
 			//one scroll of identify is guaranteed to spawn somewhere on chapter 1
@@ -223,19 +270,19 @@ public abstract class Level implements Bundlable {
 			}
 			
 			if (Dungeon.depth > 1) {
-				switch (Random.Int( 12 )) {
-				case 0: case 1:
+				switch (Random.Int( 6 )) {
+				case 0:
 					if (!Dungeon.bossLevel( Dungeon.depth + 1 )) {
 						feeling = Feeling.CHASM;
 					}
 					break;
-				case 2: case 3:
+				case 1:
 					feeling = Feeling.WATER;
 					break;
-				case 4: case 5:
+				case 2:
 					feeling = Feeling.GRASS;
 					break;
-				case 6: case 7:
+				case 3:
 					feeling = Feeling.DARK;
 					addItemToSpawn(new Torch());
 					viewDistance = Math.round(viewDistance/2f);
@@ -537,7 +584,7 @@ public abstract class Level implements Bundlable {
 		if (Statistics.amuletObtained){
 			return TIME_TO_RESPAWN/2f;
 		} else if (Dungeon.level.feeling == Feeling.DARK){
-			return 2*TIME_TO_RESPAWN/3f;
+			return TIME_TO_RESPAWN/2f;
 		} else {
 			return TIME_TO_RESPAWN;
 		}
@@ -724,7 +771,7 @@ public abstract class Level implements Bundlable {
 	
 	public Plant plant( Plant.Seed seed, int pos ) {
 		
-		if (Dungeon.isChallenged(Challenges.NO_HERBALISM)){
+		if (Dungeon.isChallenged(Challenges.BARREN_LAND)){
 			return null;
 		}
 

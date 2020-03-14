@@ -32,12 +32,14 @@ public class ThrowingHammer extends MissileWeapon {
 		image = ItemSpriteSheet.THROWING_HAMMER;
 		
 		tier = 3;
+		baseUses = 9;
+		
 		sticky = false;
 	}
 	
 	@Override
 	public int max(int lvl) {
 		return  4 * tier +                  //12 base, down from 15
-				(tier) * lvl;               //scaling unchanged
+				tier * lvl;					//scaling unchanged
 	}
 }

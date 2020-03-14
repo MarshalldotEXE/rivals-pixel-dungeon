@@ -51,13 +51,15 @@ public class EtherealChains extends Artifact {
 
 	{
 		image = ItemSpriteSheet.ARTIFACT_CHAINS;
-
-		levelCap = 5;
-		exp = 0;
-
-		charge = 5;
-
 		defaultAction = AC_CAST;
+		
+		exp = 0;
+		levelCap = 10;
+		
+		charge = 0;
+		partialCharge = 0;
+		chargeCap = 50;
+		
 		usesTargeting = true;
 	}
 
@@ -233,8 +235,7 @@ public class EtherealChains extends Artifact {
 	
 	@Override
 	public void charge(Hero target) {
-		int chargeTarget = 5+(level()*2);
-		if (charge < chargeTarget*2){
+		if (charge < chargeCap) {
 			partialCharge += 0.5f;
 			if (partialCharge >= 1){
 				partialCharge--;
@@ -262,17 +263,8 @@ public class EtherealChains extends Artifact {
 
 		@Override
 		public boolean act() {
-			int chargeTarget = 5+(level()*2);
-			LockedFloor lock = target.buff(LockedFloor.class);
-			if (charge < chargeTarget && !cursed && (lock == null || lock.regenOn())) {
-				partialCharge += 1 / (40f - (chargeTarget - charge)*2f);
-			} else if (cursed && Random.Int(100) == 0){
+			if (cursed && Random.Int(100) == 0){
 				Buff.prolong( target, Cripple.class, 10f);
-			}
-
-			if (partialCharge >= 1) {
-				partialCharge --;
-				charge ++;
 			}
 
 			updateQuickslot();
@@ -283,20 +275,37 @@ public class EtherealChains extends Artifact {
 		}
 
 		public void gainExp( float levelPortion ) {
-			if (cursed || levelPortion == 0) return;
-
+			if (cursed) return;
+			
+			//+1 level per hero level
+			//levelPortion is percentage of exp to hero's next level
 			exp += Math.round(levelPortion*100);
-
-			//past the soft charge cap, gaining  charge from leveling is slowed.
-			if (charge > 5+(level()*2)){
-				levelPortion *= (5+((float)level()*2))/charge;
-			}
-			partialCharge += levelPortion*10f;
-
-			if (exp > 100+level()*50 && level() < levelCap){
-				exp -= 100+level()*50;
+			
+			if (exp >= 100 && level() < levelCap) {
+				exp -= 100;
 				GLog.p( Messages.get(this, "levelup") );
 				upgrade();
+			}
+			
+			//50% of excess exp is converted to charge
+			if (level() == levelCap) {
+				charge += exp/2f;
+				exp = 0;
+			}
+			
+			//+5 charge per hero level
+			partialCharge += 5 * levelPortion;
+			
+			while (partialCharge >= 1) {
+				
+				partialCharge -= 1;
+				charge++;
+				
+				if (charge >= chargeCap){
+					charge = chargeCap;
+					partialCharge = 0;
+					break;
+				}
 			}
 
 		}

@@ -86,7 +86,7 @@ public class MagicalSleep extends Buff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.MAGIC_SLEEP;
+		return BuffIndicator.SLEEP;
 	}
 
 	@Override

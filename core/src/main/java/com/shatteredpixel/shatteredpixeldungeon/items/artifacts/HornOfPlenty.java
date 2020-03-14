@@ -44,21 +44,20 @@ import java.util.ArrayList;
 
 public class HornOfPlenty extends Artifact {
 
-
 	{
 		image = ItemSpriteSheet.ARTIFACT_HORN1;
-
+		defaultAction = AC_EAT;
+		
+		exp = 0;
 		levelCap = 10;
 
 		charge = 0;
 		partialCharge = 0;
 		chargeCap = 10 + level();
-
-		defaultAction = AC_EAT;
 	}
 	
 	private int storedFoodEnergy = 0;
-
+	
 	public static final String AC_EAT = "EAT";
 	public static final String AC_STORE = "STORE";
 
@@ -89,7 +88,7 @@ public class HornOfPlenty extends Artifact {
 				int chargesToUse = Math.max( 1, hunger.hunger() / (int)(Hunger.STARVING/10));
 				if (chargesToUse > charge) chargesToUse = charge;
 				hunger.satisfy((Hunger.STARVING/10) * chargesToUse);
-
+				
 				Food.foodProc( hero );
 
 				Statistics.foodEaten++;
@@ -103,8 +102,6 @@ public class HornOfPlenty extends Artifact {
 				GLog.i( Messages.get(this, "eat") );
 
 				hero.spend(Food.TIME_TO_EAT);
-
-				Badges.validateFoodEaten();
 
 				if (charge >= 15)       image = ItemSpriteSheet.ARTIFACT_HORN4;
 				else if (charge >= 10)  image = ItemSpriteSheet.ARTIFACT_HORN3;
@@ -128,7 +125,7 @@ public class HornOfPlenty extends Artifact {
 	
 	@Override
 	public void charge(Hero target) {
-		if (charge < chargeCap){
+		if (charge < chargeCap) {
 			partialCharge += 0.25f;
 			if (partialCharge >= 1){
 				partialCharge--;
@@ -221,16 +218,17 @@ public class HornOfPlenty extends Artifact {
 			if (cursed) return;
 			
 			if (charge < chargeCap) {
-
-				//generates 0.2x max hunger value every hero level, +0.1x max value per horn level
-				//to a max of 1.2x max hunger value per hero level
-				//This means that a standard ration will be recovered in 6.67 hero levels
-				partialCharge += Hunger.STARVING * levelPortion * (0.2f + (0.1f*level()));
+				
+				//+2.5 charge per hero level
+				//levelPortion is percentage of exp to hero's next level
+				partialCharge += 5 * levelPortion / 2;
+				//+0.75 bonus charge per horn level
+				partialCharge += (3 * level() / 4f) * levelPortion;
 
 				//charge is in increments of 1/10 max hunger value.
-				while (partialCharge >= Hunger.STARVING/10) {
+				while (partialCharge >= 1) {
 					charge++;
-					partialCharge -= Hunger.STARVING/10;
+					partialCharge--;
 
 					if (charge >= 15)       image = ItemSpriteSheet.ARTIFACT_HORN4;
 					else if (charge >= 10)  image = ItemSpriteSheet.ARTIFACT_HORN3;
@@ -244,8 +242,10 @@ public class HornOfPlenty extends Artifact {
 
 					updateQuickslot();
 				}
-			} else
+				
+			} else {
 				partialCharge = 0;
+			}
 		}
 
 	}

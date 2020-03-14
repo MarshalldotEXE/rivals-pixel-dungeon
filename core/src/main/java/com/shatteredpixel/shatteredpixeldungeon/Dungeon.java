@@ -88,7 +88,6 @@ public class Dungeon {
 		//limited world drops
 		STRENGTH_POTIONS,
 		UPGRADE_SCROLLS,
-		ARCANE_STYLI,
 
 		//Health potion sources
 		//enemies
@@ -231,11 +230,6 @@ public class Dungeon {
 		if (depth > Statistics.deepestFloor) {
 			Statistics.deepestFloor = depth;
 			
-			if (Statistics.qualifiedForNoKilling) {
-				Statistics.completedWithNoKilling = true;
-			} else {
-				Statistics.completedWithNoKilling = false;
-			}
 		}
 		
 		Level level;
@@ -243,51 +237,44 @@ public class Dungeon {
 		case 1:
 		case 2:
 		case 3:
-		case 4:
 			level = new SewerLevel();
 			break;
-		case 5:
+		case 4:
 			level = new SewerBossLevel();
 			break;
+		case 5:
 		case 6:
 		case 7:
-		case 8:
-		case 9:
 			level = new PrisonLevel();
 			break;
-		case 10:
+		case 8:
 			level = new PrisonBossLevel();
 			break;
+		case 9:
+		case 10:
 		case 11:
-		case 12:
-		case 13:
-		case 14:
 			level = new CavesLevel();
 			break;
-		case 15:
+		case 12:
 			level = new CavesBossLevel();
 			break;
-		case 16:
-		case 17:
-		case 18:
-		case 19:
+		case 13:
+		case 14:
+		case 15:
 			level = new CityLevel();
 			break;
-		case 20:
+		case 16:
 			level = new CityBossLevel();
 			break;
-		case 21:
+		case 17:
 			level = new LastShopLevel();
 			break;
-		case 22:
-		case 23:
-		case 24:
+		case 18:
+		case 19:
+		case 20:
 			level = new HallsLevel();
 			break;
-		case 25:
-			level = new HallsBossLevel();
-			break;
-		case 26:
+		case 21:
 			level = new LastLevel();
 			break;
 		default:
@@ -296,8 +283,6 @@ public class Dungeon {
 		}
 		
 		level.create();
-		
-		Statistics.qualifiedForNoKilling = !bossLevel();
 		
 		return level;
 	}
@@ -324,7 +309,7 @@ public class Dungeon {
 	}
 	
 	public static boolean shopOnLevel() {
-		return depth == 6 || depth == 11 || depth == 16;
+		return depth == 5 || depth == 9 || depth == 13;
 	}
 	
 	public static boolean bossLevel() {
@@ -332,7 +317,7 @@ public class Dungeon {
 	}
 	
 	public static boolean bossLevel( int depth ) {
-		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
+		return depth == 4 || depth == 8 || depth == 12 || depth == 16 || depth == 21;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -424,37 +409,23 @@ public class Dungeon {
 
 	public static boolean posNeeded() {
 		//1 POS each floor set
-		int posLeftThisSet = 1 - (LimitedDrops.STRENGTH_POTIONS.count - (depth / 5));
+		int posLeftThisSet = 1 - (LimitedDrops.STRENGTH_POTIONS.count - (depth / 4));
 		if (posLeftThisSet <= 0) return false;
 
-		int floorThisSet = (depth % 5);
+		int floorThisSet = (depth % 4);
 		//chance is floors left / scrolls left
-		return Random.Int(5 - floorThisSet) < posLeftThisSet;
+		//spawns on first or second floor of a region
+		return Random.Int(3 - floorThisSet) < posLeftThisSet;
 	}
 	
 	public static boolean souNeeded() {
-		int souLeftThisSet;
-		//1.5 SOU each floor set, 1.5 (rounded) on forbidden runes challenge
-		if (isChallenged(Challenges.NO_SCROLLS)){
-			souLeftThisSet = Math.round(1.5f - (LimitedDrops.UPGRADE_SCROLLS.count - (depth / 5) * 1.5f));
-		} else {
-			souLeftThisSet = Math.round(1.5f - (LimitedDrops.UPGRADE_SCROLLS.count - (depth / 5) * 1.5f));
-		}
+		//1.5 SOU each floor set
+		int souLeftThisSet = Math.round(1.5f - (LimitedDrops.UPGRADE_SCROLLS.count - (depth / 4) * 1.5f));
 		if (souLeftThisSet <= 0) return false;
 
-		int floorThisSet = (depth % 5);
+		int floorThisSet = (depth % 4);
 		//chance is floors left / scrolls left
-		return Random.Int(5 - floorThisSet) < souLeftThisSet;
-	}
-	
-	public static boolean asNeeded() {
-		//1 AS each floor set
-		int asLeftThisSet = 1 - (LimitedDrops.ARCANE_STYLI.count - (depth / 5));
-		if (asLeftThisSet <= 0) return false;
-
-		int floorThisSet = (depth % 5);
-		//chance is floors left / scrolls left
-		return Random.Int(5 - floorThisSet) < asLeftThisSet;
+		return Random.Int(4 - floorThisSet) < souLeftThisSet;
 	}
 	
 	private static final String VERSION		= "version";
@@ -715,10 +686,6 @@ public class Dungeon {
 		int chCount = 0;
 		for (int ch : Challenges.MASKS){
 			if ((challenges & ch) != 0) chCount++;
-		}
-		
-		if (chCount != 0) {
-			Badges.validateChampion(chCount);
 		}
 
 		Rankings.INSTANCE.submit( true, cause );

@@ -81,7 +81,8 @@ public class Swiftthistle extends Plant {
 		
 		@Override
 		public void tintIcon(Image icon) {
-			FlavourBuff.greyIcon(icon, 5f, left);
+			icon.hardlight(1f, 0.8f, 0.4f);
+			if (left < 5f) FlavourBuff.greyIcon(icon, 5f, left);
 		}
 		
 		public void reset(){

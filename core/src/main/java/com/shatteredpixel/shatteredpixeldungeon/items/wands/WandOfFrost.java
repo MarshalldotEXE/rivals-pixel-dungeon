@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -54,7 +55,7 @@ public class WandOfFrost extends DamageWand {
 	}
 
 	@Override
-	protected void onZap(Ballistica bolt) {
+	public void onZap(Ballistica bolt) {
 
 		Heap heap = Dungeon.level.heaps.get(bolt.collisionPos);
 		if (heap != null) {
@@ -74,7 +75,7 @@ public class WandOfFrost extends DamageWand {
 				float chill = ch.buff(Chill.class).cooldown();
 				damage = (int)Math.round(damage * Math.pow(0.9f, chill));
 			} else {
-				ch.sprite.burst( 0xFF99CCFF, level() / 2 + 2 );
+				ch.sprite.burst( 0xFF99CCFF, ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) / 2 + 2 );
 			}
 
 			processSoulMark(ch, chargesPerCast());
@@ -82,9 +83,9 @@ public class WandOfFrost extends DamageWand {
 
 			if (ch.isAlive()){
 				if (Dungeon.level.water[ch.pos])
-					Buff.prolong(ch, Chill.class, 4+level());
+					Buff.prolong(ch, Chill.class, 4+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ));
 				else
-					Buff.prolong(ch, Chill.class, 2+level());
+					Buff.prolong(ch, Chill.class, 2+( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ));
 			}
 		} else {
 			Dungeon.level.press(bolt.collisionPos, null, true);
@@ -92,10 +93,10 @@ public class WandOfFrost extends DamageWand {
 	}
 
 	@Override
-	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar(curUser.sprite.parent,
+	public void fx(Ballistica bolt, Char caster, Callback callback) {
+		MagicMissile.boltFromChar(caster.sprite.parent,
 				MagicMissile.FROST,
-				curUser.sprite,
+				caster.sprite,
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play(Assets.SND_ZAP);

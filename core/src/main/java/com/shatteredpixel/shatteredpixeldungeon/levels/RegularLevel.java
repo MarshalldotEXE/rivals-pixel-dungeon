@@ -44,11 +44,14 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.EntranceRo
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ExitRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlazingTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlizzardTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisintegrationTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.InfernoTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.MeltingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
 import com.watabou.utils.Bundle;
@@ -156,7 +159,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected int nTraps() {
-		return Random.NormalIntRange( 1, 3+(Dungeon.depth/3) );
+		return Random.NormalIntRange( 2, 4+(Dungeon.depth/2) );
 	}
 	
 	protected Class<?>[] trapClasses(){
@@ -174,7 +177,10 @@ public abstract class RegularLevel extends Level {
 				//mobs are not randomly spawned on floor 1.
 				return 0;
 			default:
-				return 2 + Dungeon.depth % 5 + Random.Int(5);
+				//first floor	5-7 mobs
+				//second floor	6-8 mobs
+				//third floor	8-10 mobs
+				return 4 + (int)(Dungeon.depth % 4 * 1.35) + Random.Int(3);
 		}
 	}
 	
@@ -285,26 +291,27 @@ public abstract class RegularLevel extends Level {
 	@Override
 	protected void createItems() {
 		
-		// drops 3/4/5 items 60%/30%/10% of the time
-		int nItems = 3 + Random.chances(new float[]{6, 3, 1});
+		// drops 4/5/6 items 50%/30%/20% of the time
+		int nItems = 4 + Random.chances(new float[]{5, 3, 2});
 		
+		//5% bones, 20% chest, 5% mimic, 70% normal
 		for (int i=0; i < nItems; i++) {
 			Heap.Type type = null;
 			switch (Random.Int( 20 )) {
-			case 0:
-				type = Heap.Type.SKELETON;
-				break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				type = Heap.Type.CHEST;
-				break;
-			case 5:
-				type = Dungeon.depth > 1 ? Heap.Type.MIMIC : Heap.Type.CHEST;
-				break;
-			default:
-				type = Heap.Type.HEAP;
+				case 0:
+					type = Heap.Type.SKELETON;
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+					type = Heap.Type.CHEST;
+					break;
+				case 5:
+					type = Dungeon.depth > 1 ? Heap.Type.MIMIC : Heap.Type.CHEST;
+					break;
+				default:
+					type = Heap.Type.HEAP;
 			}
 			int cell = randomDropCell();
 			if (map[cell] == Terrain.HIGH_GRASS || map[cell] == Terrain.FURROWED_GRASS) {
@@ -320,14 +327,20 @@ public abstract class RegularLevel extends Level {
 					(toDrop.isUpgradable() && Random.Int(4 - toDrop.level()) == 0)){
 				Heap dropped = drop( toDrop, cell );
 				if (heaps.get(cell) == dropped) {
-					dropped.type = Heap.Type.LOCKED_CHEST;
-					addItemToSpawn(new GoldenKey(Dungeon.depth));
+					//80% locked chest, 20% gold mimic
+					/* chance increased for testing, set back to 5 when done */
+					if (Random.Int(1) == 0) {
+						dropped.type = Heap.Type.GOLD_MIMIC;
+					} else {
+						dropped.type = Heap.Type.LOCKED_CHEST;
+						addItemToSpawn(new GoldenKey(Dungeon.depth));
+					}
 				}
 			} else {
 				Heap dropped = drop( toDrop, cell );
 				dropped.type = type;
 				if (type == Heap.Type.SKELETON){
-					dropped.setHauntedIfCursed(0.75f);
+					dropped.setHauntedIfCursed(1f);
 				}
 			}
 			
@@ -430,7 +443,9 @@ public abstract class RegularLevel extends Level {
 					if (t == null ||
 							! (t instanceof BurningTrap || t instanceof BlazingTrap
 							|| t instanceof ChillingTrap || t instanceof FrostTrap
-							|| t instanceof ExplosiveTrap || t instanceof DisintegrationTrap)) {
+							|| t instanceof ExplosiveTrap || t instanceof DisintegrationTrap
+							|| t instanceof InfernoTrap || t instanceof BlizzardTrap
+							|| t instanceof MeltingTrap)) {
 						
 						return pos;
 					}

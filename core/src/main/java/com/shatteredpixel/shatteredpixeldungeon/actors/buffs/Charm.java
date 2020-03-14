@@ -50,7 +50,7 @@ public class Charm extends FlavourBuff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.HEART;
+		return BuffIndicator.CHARM;
 	}
 	
 	@Override

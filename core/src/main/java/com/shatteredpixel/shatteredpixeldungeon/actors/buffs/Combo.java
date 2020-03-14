@@ -59,10 +59,24 @@ public class Combo extends Buff implements ActionIndicator.Action {
 	
 	@Override
 	public void tintIcon(Image icon) {
-		if (comboTime >= 3f){
-			icon.resetColor();
-		} else {
-			icon.tint(0xb3b3b3, 0.5f + 0.5f*(3f + 1 - comboTime)/3f);
+		switch(count){
+			case 0: case 1:
+				break;
+			case 2: case 3:
+				icon.hardlight(0f, 1f, 0f);
+				break;
+			case 4: case 5:
+				icon.hardlight(1f, 1f, 0f);
+				break;
+			case 6: case 7:
+				icon.hardlight(1f, 0.7f, 0f);
+				break;
+			case 8: case 9:
+				icon.hardlight(1f, 0.3f, 0f);
+				break;
+			default:
+				icon.hardlight(1f, 0f, 0f);
+				break;
 		}
 	}
 	
@@ -81,7 +95,6 @@ public class Combo extends Buff implements ActionIndicator.Action {
 		if (count >= 2) {
 
 			ActionIndicator.setAction( this );
-			Badges.validateMasteryCombo( count );
 
 			GLog.p( Messages.get(this, "combo", count) );
 			

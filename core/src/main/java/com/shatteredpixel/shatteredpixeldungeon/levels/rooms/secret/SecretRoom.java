@@ -52,12 +52,6 @@ public abstract class SecretRoom extends SpecialRoom {
 		
 		float[] regionChances = baseRegionSecrets.clone();
 		
-		if (GamesInProgress.selectedClass == HeroClass.ROGUE){
-			for (int i = 0; i < regionChances.length; i++){
-				regionChances[i] += 0.6f;
-			}
-		}
-		
 		for (int i = 0; i < regionSecretsThisRun.length; i++){
 			regionSecretsThisRun[i] = (int)regionChances[i];
 			if (Random.Float() < regionChances[i] % 1f){

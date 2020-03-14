@@ -67,7 +67,24 @@ public class Amulet extends Item {
 			
 			if (!Statistics.amuletObtained) {
 				Statistics.amuletObtained = true;
+				
+				//validate victory
 				Badges.validateVictory();
+				
+				//validate challenges
+				Badges.validatePharmacophobia();
+				Badges.validateForbiddenRunes();
+				Badges.validateOnDiet();
+				Badges.validateFaithArmor();
+				Badges.validateMerchantWars();
+				Badges.validateClassicist();
+				Badges.validateSpeedrun();
+				Badges.validatePacifist();
+				
+				Badges.validateBarrenLand();
+				Badges.validateSwarmIntelligence();
+				Badges.validateIntoDarkness();
+				
 				hero.spend(-TIME_TO_PICK_UP);
 
 				//add a delayed actor here so pickup behaviour can fully process.

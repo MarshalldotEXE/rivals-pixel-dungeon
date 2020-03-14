@@ -27,6 +27,7 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.DarkBlock;
 import com.shatteredpixel.shatteredpixeldungeon.effects.EmoIcon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
@@ -37,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TorchHalo;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SacrificialParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -83,7 +85,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, SPECTRAL
+		BURNING, LEVITATING, INVISIBLE, TRANSLUCENT, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, SPECTRAL, SACRIFICE
 	}
 	
 	protected Animation idle;
@@ -91,6 +93,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Animation attack;
 	protected Animation operate;
 	protected Animation zap;
+	protected Animation toss;
 	protected Animation die;
 	
 	protected Callback animCallback;
@@ -103,12 +106,14 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter levitation;
 	protected Emitter healing;
 	protected Emitter spectral;
+	protected Emitter sacrifice;
 	
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
 	protected TorchHalo light;
 	protected ShieldHalo shield;
 	protected AlphaTweener invisible;
+	protected AlphaTweener translucent;
 	
 	protected EmoIcon emo;
 	protected CharHealthIndicator health;
@@ -250,6 +255,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		play( operate );
 	}
 	
+	//for magic attacks
 	public void zap( int cell ) {
 		turnTo( ch.pos, cell );
 		play( zap );
@@ -258,6 +264,17 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	public void zap( int cell, Callback callback ) {
 		animCallback = callback;
 		zap( cell );
+	}
+	
+	//for missile attacks
+	public void toss( int cell ) {
+		turnTo( ch.pos, cell );
+		play( toss );
+	}
+	
+	public void toss( int cell, Callback callback ) {
+		animCallback = callback;
+		toss( cell );
 	}
 	
 	public void turnTo( int from, int to ) {
@@ -351,6 +368,13 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					Sample.INSTANCE.play( Assets.SND_BURNING );
 				}
 				break;
+			case SACRIFICE:
+				sacrifice = emitter();
+				sacrifice.pour( SacrificialParticle.FACTORY, 0.06f );
+				if (visible) {
+					Sample.INSTANCE.play( Assets.SND_BURNING );
+				}
+				break;
 			case LEVITATING:
 				levitation = emitter();
 				levitation.pour( Speck.factory( Speck.JET ), 0.02f );
@@ -359,9 +383,19 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				if (invisible != null) {
 					invisible.killAndErase();
 				}
-				invisible = new AlphaTweener( this, 0.4f, 0.4f );
+				invisible = new AlphaTweener( this, 0.04f, 0.04f );
 				if (parent != null){
 					parent.add(invisible);
+				} else
+					alpha( 0.04f );
+				break;
+			case TRANSLUCENT:
+				if (translucent != null) {
+					translucent.killAndErase();
+				}
+				translucent = new AlphaTweener( this, 0.4f, 0.4f );
+				if (parent != null){
+					parent.add(translucent);
 				} else
 					alpha( 0.4f );
 				break;
@@ -410,6 +444,12 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					spectral = null;
 				}
 				break;
+			case SACRIFICE:
+				if (sacrifice != null) {
+					sacrifice.on = false;
+					sacrifice = null;
+				}
+				break;
 			case LEVITATING:
 				if (levitation != null) {
 					levitation.on = false;
@@ -420,6 +460,13 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				if (invisible != null) {
 					invisible.killAndErase();
 					invisible = null;
+				}
+				alpha( 1f );
+				break;
+			case TRANSLUCENT:
+				if (translucent != null) {
+					translucent.killAndErase();
+					translucent = null;
 				}
 				alpha( 1f );
 				break;
@@ -490,6 +537,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		if (spectral != null) {
 			spectral.visible = visible;
 		}
+		if (sacrifice != null) {
+			sacrifice.visible = visible;
+		}
 		if (levitation != null) {
 			levitation.visible = visible;
 		}
@@ -516,6 +566,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	public void resetColor() {
 		super.resetColor();
 		if (invisible != null){
+			alpha(0.04f);
+		}
+		if (translucent != null){
 			alpha(0.4f);
 		}
 	}

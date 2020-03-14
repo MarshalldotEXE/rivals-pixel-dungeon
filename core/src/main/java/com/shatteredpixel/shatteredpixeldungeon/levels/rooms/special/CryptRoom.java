@@ -78,11 +78,7 @@ public class CryptRoom extends SpecialRoom {
 	private static Item prize( Level level ) {
 		
 		//1 floor set higher than normal
-		Armor prize = Generator.randomArmor( (Dungeon.depth / 5) + 1);
-		
-		if (Challenges.isItemBlocked(prize)){
-			return new Gold().random();
-		}
+		Armor prize = Generator.randomArmor( (Dungeon.depth / 4) + 1);
 
 		//if it isn't already cursed, then...
 		if (!prize.cursed){
@@ -91,10 +87,12 @@ public class CryptRoom extends SpecialRoom {
 				prize.inscribe(Armor.Glyph.randomCurse());
 			}
 		}
-		prize.level(1);
-		//33% chance to be +2 instead of +1
-		if (Random.Int(3) == 0) prize.upgrade();
 		prize.cursed = prize.cursedKnown = true;
+		
+		prize.level( Random.chances( Generator.floorSetUpgradeProbs[ Math.min((Dungeon.depth / 4) + 1, 4) ]));
+		
+		if (prize.level() == 0)
+			prize.level(1);
 		
 		return prize;
 	}

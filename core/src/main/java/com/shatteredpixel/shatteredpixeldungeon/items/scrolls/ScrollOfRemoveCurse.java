@@ -52,7 +52,7 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 			}
 		}
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		doRead();
 	}
 	
@@ -120,10 +120,5 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 		} else {
 			return false;
 		}
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
 	}
 }

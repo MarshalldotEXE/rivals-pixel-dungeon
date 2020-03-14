@@ -35,7 +35,7 @@ public class Weakness extends FlavourBuff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.WEAKNESS;
+		return BuffIndicator.WEAK;
 	}
 	
 	@Override

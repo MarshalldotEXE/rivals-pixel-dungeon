@@ -100,13 +100,7 @@ public class SewerBossLevel extends SewerLevel {
 
 	@Override
 	protected void createMobs() {
-		Goo boss = new Goo();
-		Room room;
-		do {
-			room = randomRoom(StandardRoom.class);
-		} while (room == roomEntrance);
-		boss.pos = pointToCell(room.random());
-		mobs.add( boss );
+		//do nothing
 	}
 	
 	public Actor respawner() {

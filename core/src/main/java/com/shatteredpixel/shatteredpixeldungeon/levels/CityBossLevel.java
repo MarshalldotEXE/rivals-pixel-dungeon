@@ -26,8 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Bones;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.King;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.rivals.Rival;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey;
@@ -129,12 +129,30 @@ public class CityBossLevel extends Level {
 		entrance = (TOP + HALL_HEIGHT + 3 + Random.Int( CHAMBER_HEIGHT - 2 )) * width() + LEFT + (/*1 +*/ Random.Int( HALL_WIDTH-2 ));
 		map[entrance] = Terrain.ENTRANCE;
 		
+		//20% special, 30% high grass, 30% water, 20% empty
+		for (int i=0; i < length(); i++) {
+			if (map[i] == Terrain.EMPTY) {
+				switch(Random.Int(10)) {
+					case 0: case 1:
+						map[i] = Terrain.EMPTY_SP;
+						break;
+					case 2: case 3: case 4:
+						map[i] = Terrain.HIGH_GRASS;
+						break;
+					case 5: case 6: case 7:
+						map[i] = Terrain.WATER;
+						break;
+					default:
+						map[i] = Terrain.EMPTY;
+						break;
+				}
+			}
+		}
+		
 		for (int i=0; i < length() - width(); i++) {
-			if (map[i] == Terrain.EMPTY && Random.Int( 10 ) == 0) {
+			if (map[i] == Terrain.EMPTY && Random.Int( 4 ) == 0) {
 				map[i] = Terrain.EMPTY_DECO;
-			} else if (map[i] == Terrain.WALL
-					&& DungeonTileSheet.floorTile(map[i + width()])
-					&& Random.Int( 21 - Dungeon.depth ) == 0) {
+			} else if (map[i] == Terrain.WALL && Random.Int( 4 ) == 0) {
 				map[i] = Terrain.WALL_DECO;
 			}
 		}
@@ -189,7 +207,6 @@ public class CityBossLevel extends Level {
 		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.hero) {
 			
 			enteredArena = true;
-			seal();
 			
 			for (Mob m : mobs){
 				//bring the first ally with you
@@ -200,7 +217,7 @@ public class CityBossLevel extends Level {
 				}
 			}
 			
-			King boss = new King();
+			Rival boss = new Rival();
 			boss.state = boss.WANDERING;
 			int count = 0;
 			do {
@@ -229,7 +246,6 @@ public class CityBossLevel extends Level {
 		if (!keyDropped && item instanceof SkeletonKey) {
 			
 			keyDropped = true;
-			unseal();
 			
 			set( arenaDoor, Terrain.DOOR );
 			GameScene.updateMap( arenaDoor );

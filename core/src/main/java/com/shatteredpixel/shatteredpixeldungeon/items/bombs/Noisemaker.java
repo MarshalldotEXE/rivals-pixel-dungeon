@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -23,6 +26,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.bombs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
@@ -31,9 +35,14 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfConfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+
+import java.util.ArrayList;
 
 public class Noisemaker extends Bomb {
 	
@@ -152,7 +161,54 @@ public class Noisemaker extends Bomb {
 	
 	@Override
 	public int price() {
-		//prices of ingredients
-		return quantity * (20 + 40);
+		return 25 * quantity;
+	}
+	
+	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe {
+		
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			boolean bomb = false;
+			boolean main = false;
+			boolean material = false;
+			
+			for (Item ingredient : ingredients){
+				if (ingredient.quantity() > 0) {
+					if (ingredient.getClass().equals(Bomb.class)) {
+						bomb = true;
+					} else if (ingredient instanceof ScrollOfRage
+							|| ingredient instanceof ScrollOfConfusion) {
+						main = true;
+					} else if (ingredient instanceof ArcaneCatalyst) {
+						material = true;
+					}
+				}
+			}
+			
+			return bomb && main && material;
+		}
+		
+		@Override
+		public int cost(ArrayList<Item> ingredients) {
+			return 5;
+		}
+		
+		@Override
+		public Item brew(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+			
+			for (Item ingredient : ingredients){
+				ingredient.quantity(ingredient.quantity() - 1);
+			}
+			
+			Statistics.itemsCrafted++;
+			
+			return sampleOutput(null);
+		}
+		
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			return new Noisemaker();
+		}
 	}
 }

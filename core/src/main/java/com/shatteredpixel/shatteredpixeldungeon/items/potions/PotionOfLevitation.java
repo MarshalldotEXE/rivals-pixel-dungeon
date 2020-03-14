@@ -58,9 +58,4 @@ public class PotionOfLevitation extends Potion {
 		Buff.affect( hero, Levitation.class, Levitation.DURATION );
 		GLog.i( Messages.get(this, "float") );
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
 }

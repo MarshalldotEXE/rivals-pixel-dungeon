@@ -35,13 +35,13 @@ public class Tomahawk extends MissileWeapon {
 		image = ItemSpriteSheet.TOMAHAWK;
 
 		tier = 3;
-		baseUses = 5;
+		baseUses = 9;
 	}
 	
 	@Override
 	public int max(int lvl) {
 		return  4 * tier +                  //12 base, down from 15
-				(tier) * lvl;                 //scaling unchanged
+				tier * lvl;					//scaling unchanged
 	}
 	
 	@Override

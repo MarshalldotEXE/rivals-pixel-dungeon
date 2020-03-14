@@ -39,13 +39,7 @@ public class ThrowingKnife extends MissileWeapon {
 		bones = false;
 		
 		tier = 1;
-		baseUses = 5;
-	}
-	
-	@Override
-	public int max(int lvl) {
-		return  6 * tier +                      //6 base, up from 5
-				(tier == 1 ? 2*lvl : tier*lvl); //scaling unchanged
+		baseUses = 6;
 	}
 	
 	private Char enemy;
@@ -61,10 +55,10 @@ public class ThrowingKnife extends MissileWeapon {
 		if (owner instanceof Hero) {
 			Hero hero = (Hero)owner;
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				//deals 75% toward max to max on surprise, instead of min to max.
+				//deals 80% toward max to max on surprise, instead of min to max.
 				int diff = max() - min();
 				int damage = augment.damageFactor(Random.NormalIntRange(
-						min() + Math.round(diff*0.75f),
+						min() + Math.round(diff*0.8f),
 						max()));
 				int exStr = hero.STR() - STRReq();
 				if (exStr > 0) {

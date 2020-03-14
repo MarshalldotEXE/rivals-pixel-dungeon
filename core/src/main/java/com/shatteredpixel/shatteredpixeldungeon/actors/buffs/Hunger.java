@@ -156,9 +156,9 @@ public class Hunger extends Buff implements Hero.Doom {
 		if (level < HUNGRY) {
 			return BuffIndicator.NONE;
 		} else if (level < STARVING) {
-			return BuffIndicator.HUNGER;
+			return BuffIndicator.FOOD_ORANGE;
 		} else {
-			return BuffIndicator.STARVATION;
+			return BuffIndicator.FOOD_RED;
 		}
 	}
 

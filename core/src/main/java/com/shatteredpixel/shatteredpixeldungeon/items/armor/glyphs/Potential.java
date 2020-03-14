@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -32,20 +35,21 @@ import com.watabou.utils.Random;
 
 public class Potential extends Glyph {
 	
-	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF, 0.6f );
+	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF, 0.5f );
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
 
-		int level = Math.max( 0, armor.level() );
+		int lvl = Math.max( 0, armor.level() );
 		
-		// lvl 0 - 16.7%
-		// lvl 1 - 28.6%
-		// lvl 2 - 37.5%
-		if (defender instanceof Hero && Random.Int( level + 6 ) >= 5 ) {
-			int wands = ((Hero) defender).belongings.charge( 1f );
+		float chanceA = (lvl + 1) * LEVEL_SCALING;
+		float numberB = lvl * 0.1f + 1f;
+		
+		//A% chance to recharge wands
+		if (defender instanceof Hero && Random.Float() < chanceA) {
+			int wands = ((Hero) defender).belongings.charge( numberB );
 			if (wands > 0) {
-				defender.sprite.centerEmitter().burst(EnergyParticle.FACTORY, 10);
+				defender.sprite.centerEmitter().burst(EnergyParticle.FACTORY, lvl + 10);
 			}
 		}
 		

@@ -22,10 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.bombs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Point;
@@ -81,7 +86,54 @@ public class ShrapnelBomb extends Bomb {
 	
 	@Override
 	public int price() {
-		//prices of ingredients
-		return quantity * (20 + 100);
+		return 25 * quantity;
+	}
+	
+	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe {
+		
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			boolean bomb = false;
+			boolean main = false;
+			boolean material = false;
+			
+			for (Item ingredient : ingredients){
+				if (ingredient.quantity() > 0) {
+					if (ingredient.getClass().equals(Bomb.class)) {
+						bomb = true;
+					} else if (ingredient instanceof ScrollOfRetribution
+							|| ingredient instanceof ScrollOfPsionicBlast) {
+						main = true;
+					} else if (ingredient instanceof MetalShard) {
+						material = true;
+					}
+				}
+			}
+			
+			return bomb && main && material;
+		}
+		
+		@Override
+		public int cost(ArrayList<Item> ingredients) {
+			return 8;
+		}
+		
+		@Override
+		public Item brew(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+			
+			for (Item ingredient : ingredients){
+				ingredient.quantity(ingredient.quantity() - 1);
+			}
+			
+			Statistics.itemsCrafted++;
+			
+			return sampleOutput(null);
+		}
+		
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			return new ShrapnelBomb();
+		}
 	}
 }

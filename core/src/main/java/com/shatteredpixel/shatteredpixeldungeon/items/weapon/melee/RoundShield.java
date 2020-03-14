@@ -44,12 +44,12 @@ public class RoundShield extends MeleeWeapon {
 
 	@Override
 	public int defenseFactor( Char owner ) {
-		return 6+2*level();    //6 extra defence, plus 2 per level;
+		return 6+level();    //6 extra defence, plus 1 per level;
 	}
 	
 	public String statsInfo(){
 		if (isIdentified()){
-			return Messages.get(this, "stats_desc", 6+2*level());
+			return Messages.get(this, "stats_desc", 6+level());
 		} else {
 			return Messages.get(this, "typical_stats_desc", 6);
 		}

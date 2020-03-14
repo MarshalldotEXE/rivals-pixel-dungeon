@@ -40,9 +40,4 @@ public class PotionOfHaste extends Potion {
 		GLog.w( Messages.get(this, "energetic") );
 		Buff.prolong( hero, Haste.class, Haste.DURATION);
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
 }

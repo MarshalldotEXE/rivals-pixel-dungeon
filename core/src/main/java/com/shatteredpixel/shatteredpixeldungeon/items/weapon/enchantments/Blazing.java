@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -33,31 +36,32 @@ import com.watabou.utils.Random;
 
 public class Blazing extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing ORANGE = new ItemSprite.Glowing( 0xFF4400 );
+	private static ItemSprite.Glowing ORANGE = new ItemSprite.Glowing( 0xFF3300 );
 	
 	@Override
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
-		// lvl 0 - 33%
-		// lvl 1 - 50%
-		// lvl 2 - 60%
-		int level = Math.max( 0, weapon.level() );
 		
-		if (Random.Int( level + 3 ) >= 2) {
+		int lvl = Math.max( 0, weapon.level() );
+		
+		float chanceA = (lvl + damage) * ONE_PERCENT;
+		float chanceB = (lvl + 1) * LEVEL_SCALING;
+		
+		//A% chance to ignite defender
+		//B% chance to deal bonus damage
+		int bonusDamage = 0;
+		
+		if (Random.Float() < chanceA) {
 			
-			if (defender.buff(Burning.class) != null){
-				Buff.affect(defender, Burning.class).reignite(defender, 8f);
-				int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
-				defender.damage( Math.round(burnDamage * 0.67f), this );
-			} else {
-				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+			Buff.affect(defender, Burning.class).reignite(defender);
+			defender.sprite.emitter().burst( FlameParticle.FACTORY, lvl + 1 );
+			
+			if (Random.Float() < chanceB) {
+				bonusDamage = Random.NormalIntRange( 1, 2 + Dungeon.depth/4 + lvl );
 			}
-			
-			defender.sprite.emitter().burst( FlameParticle.FACTORY, level + 1 );
 			
 		}
 
-		return damage;
-
+		return damage + bonusDamage;
 	}
 	
 	@Override

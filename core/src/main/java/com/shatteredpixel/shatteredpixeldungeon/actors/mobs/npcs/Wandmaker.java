@@ -268,24 +268,27 @@ public class Wandmaker extends NPC {
 				given = false;
 				wand1 = (Wand) Generator.random(Generator.Category.WAND);
 				wand1.cursed = false;
-				wand1.level(1);
-				//33% chance to be +2 instead of +1
-				if (Random.Int(3) == 0) wand1.upgrade();
-
+				wand1.identify();
+				
+				//wand1 and wand2 are never the same wand
 				do {
 					wand2 = (Wand) Generator.random(Generator.Category.WAND);
 				} while (wand2.getClass().equals(wand1.getClass()));
 				wand2.cursed = false;
-				wand2.level(1);
-				//33% chance to be +2 instead of +1
-				if (Random.Int(3) == 0) wand2.upgrade();
+				wand2.identify();
+				
+				//upgrade chances are that of caves
+				//wands are at least +1
+				int itemLevel = Math.max( 1, Random.chances( Generator.floorSetUpgradeProbs[ 3 ]) );
+				wand1.level( itemLevel );
+				wand2.level( itemLevel );
 				
 			}
 		}
 		
 		public static ArrayList<Room> spawnRoom( ArrayList<Room> rooms) {
 			questRoomSpawned = false;
-			if (!spawned && (type != 0 || (Dungeon.depth > 6 && Random.Int( 10 - Dungeon.depth ) == 0))) {
+			if (!spawned && (type != 0 || (Dungeon.depth >= 6 && Random.Int( 8 - Dungeon.depth ) == 0))) {
 				
 				// decide between 1,2, or 3 for quest type.
 				if (type == 0) type = Random.Int(3)+1;

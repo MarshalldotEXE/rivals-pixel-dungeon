@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.AntiEntropy;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
@@ -45,19 +46,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Metabolism;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Multiplicity;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Overgrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Stench;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Affection;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Entanglement;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Flow;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Obfuscation;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Nova;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Repulsion;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Stone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Weightlessness;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -75,6 +74,10 @@ import java.util.Arrays;
 public class Armor extends EquipableItem {
 
 	protected static final String AC_DETACH       = "DETACH";
+	
+	public static final String AC_NOVA	= "NOVA";
+	
+	public static final float TIME_TO_MINE = 1;
 	
 	public float    EVA = 1f;	// Evasion modifier
 	
@@ -165,6 +168,7 @@ public class Armor extends EquipableItem {
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
+		if (hasGlyph(Nova.class, hero)) actions.add(AC_NOVA);
 		if (seal != null) actions.add(AC_DETACH);
 		return actions;
 	}
@@ -187,6 +191,17 @@ public class Armor extends EquipableItem {
 				Dungeon.level.drop(seal, hero.pos);
 			}
 			seal = null;
+		} else if (action.equals(AC_NOVA) && hasGlyph(Nova.class, hero)) {
+			
+			Nova.NovaBomb novaBomb = hero.buff(Nova.NovaBomb.class);
+			if (novaBomb != null) {
+				if (novaBomb.charge() < 3330) {
+					GLog.w( Messages.get(Nova.class, "charge_low") );
+				} else {
+					GLog.w( Messages.get(Nova.class, "explode") );
+					Nova.doNovaBomb(hero);
+				}
+			}
 		}
 	}
 
@@ -199,16 +214,19 @@ public class Armor extends EquipableItem {
 			
 			hero.belongings.armor = this;
 			
-			cursedKnown = true;
+			identify();
 			if (cursed) {
 				equipCursed( hero );
-				GLog.n( Messages.get(Armor.class, "equip_cursed") );
-			}
+				GLog.n( Messages.get(Armor.class, "equip_cursed", this) );
+			} else
+				GLog.i( Messages.get(Armor.class, "equip", this) );
 			
 			((HeroSprite)hero.sprite).updateArmor();
 			activate(hero);
 
 			hero.spendAndNext( time2equip( hero ) );
+			
+			Badges.validateItemLevelAquired( this );
 			return true;
 			
 		} else {
@@ -287,9 +305,9 @@ public class Armor extends EquipableItem {
 	
 	public float evasionFactor( Char owner, float evasion ){
 		
-		if (hasGlyph(Stone.class, owner) && !((Stone)glyph).testingEvasion()){
-			return 0;
-		}
+		Brimstone.MagmaArmor magma = owner.buff(Brimstone.MagmaArmor.class);
+		if (magma != null)
+			evasion = Math.max(0, evasion * (1 - magma.strength() * 0.067f));
 		
 		if (owner instanceof Hero){
 			int aEnc = STRReq() - ((Hero) owner).STR();
@@ -321,15 +339,15 @@ public class Armor extends EquipableItem {
 					break;
 				}
 			}
-			if (!enemyNear) speed *= (1.2f + 0.04f * level());
+			if (!enemyNear) speed *= (1.2f + 0.03f * level());
 		} else if (hasGlyph(Flow.class, owner) && Dungeon.level.water[owner.pos]){
-			speed *= 2f;
+			speed *= (1.8f + 0.06f * level());
 		}
 		
 		if (hasGlyph(Bulk.class, owner) &&
 				(Dungeon.level.map[owner.pos] == Terrain.DOOR
 						|| Dungeon.level.map[owner.pos] == Terrain.OPEN_DOOR )) {
-			speed /= 3f;
+			speed /= 2f;
 		}
 		
 		return speed;
@@ -338,9 +356,16 @@ public class Armor extends EquipableItem {
 	
 	public float stealthFactor( Char owner, float stealth ){
 		
-		if (hasGlyph(Obfuscation.class, owner)){
-			stealth += 1 + level()/3f;
+		if (owner instanceof Hero){
+			return stealthFactor( (Hero)owner, stealth );
 		}
+		
+		return stealth;
+	}
+	
+	public float stealthFactor( Hero hero, float stealth ){
+		
+		if (hero.belongings.armor instanceof RogueArmor) stealth += 1 + level()/2f;
 		
 		return stealth;
 	}
@@ -468,28 +493,17 @@ public class Armor extends EquipableItem {
 
 	@Override
 	public Item random() {
-		//+0: 67% (6/9)
-		//+1: 22% (2/9)
-		//+2: 11% (1/9)
-		int n = 0;
-		if (Random.Int(3) == 0) {
-			n++;
-			if (Random.Int(3) == 0) {
-				n++;
-			}
-		}
-		level(n);
 		
-		//33% (1/3) chance to be cursed
-		//17% (1/6) chance to be inscribed
-		float effectRoll = Random.Float();
-		if (effectRoll < 0.33f) {
+		level( Random.chances( Generator.floorSetUpgradeProbs[ Dungeon.depth / 4 ]));
+		
+		int effectRoll = Random.chances( Generator.floorSetEffectProbs[ Dungeon.depth / 4 ]);
+		if (effectRoll == 1) {
 			inscribe(Glyph.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.83f){
+		} else if (effectRoll == 2){
 			inscribe();
 		}
-
+		
 		return this;
 	}
 
@@ -508,15 +522,15 @@ public class Armor extends EquipableItem {
 	public int price() {
 		if (seal != null) return 0;
 
-		int price = 20 * tier;
+		int price = 15 + 5 * tier;
 		if (hasGoodGlyph()) {
-			price *= 1.5;
+			price += 10;
 		}
 		if (cursedKnown && (cursed || hasCurseGlyph())) {
-			price /= 2;
+			price -= 10;
 		}
 		if (levelKnown && level() > 0) {
-			price *= (level() + 1);
+			price += 5 * level();
 		}
 		if (price < 1) {
 			price = 1;
@@ -560,25 +574,27 @@ public class Armor extends EquipableItem {
 	public static abstract class Glyph implements Bundlable {
 		
 		private static final Class<?>[] common = new Class<?>[]{
-				Obfuscation.class, Swiftness.class, Viscosity.class, Potential.class };
+				Potential.class, Swiftness.class, Repulsion.class, Flow.class };
 		
 		private static final Class<?>[] uncommon = new Class<?>[]{
-				Brimstone.class, Stone.class, Entanglement.class,
-				Repulsion.class, Camouflage.class, Flow.class };
+				Weightlessness.class, Brimstone.class, Camouflage.class };
 		
 		private static final Class<?>[] rare = new Class<?>[]{
-				Affection.class, AntiMagic.class, Thorns.class };
+				Viscosity.class, Thorns.class, Nova.class };
 		
 		private static final float[] typeChances = new float[]{
 				50, //12.5% each
-				40, //6.67% each
-				10  //3.33% each
+				35, //11.67% each
+				15  //5% each
 		};
 
 		private static final Class<?>[] curses = new Class<?>[]{
 				AntiEntropy.class, Corrosion.class, Displacement.class, Metabolism.class,
 				Multiplicity.class, Stench.class, Overgrowth.class, Bulk.class
 		};
+		
+		protected static final float ONE_PERCENT = 0.01f;
+		protected static final float LEVEL_SCALING = 0.091f;
 		
 		public abstract int proc( Armor armor, Char attacker, Char defender, int damage );
 		

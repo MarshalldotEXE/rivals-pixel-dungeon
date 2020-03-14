@@ -39,7 +39,7 @@ public class RotDart extends TippedDart {
 		
 		if (defender.properties().contains(Char.Property.BOSS)
 				|| defender.properties().contains(Char.Property.MINIBOSS)){
-			Buff.affect(defender, Corrosion.class).set(5f, Dungeon.depth/3);
+			Buff.affect(defender, Corrosion.class).set(5f, Dungeon.depth/2);
 		} else{
 			Buff.affect(defender, Corrosion.class).set(10f, Dungeon.depth);
 		}

@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
@@ -51,14 +52,14 @@ public class Ring extends KindofMisc {
 		RingOfAccuracy.class,
 		RingOfEvasion.class,
 		RingOfElements.class,
-		RingOfForce.class,
 		RingOfFuror.class,
 		RingOfHaste.class,
 		RingOfEnergy.class,
 		RingOfMight.class,
+		RingOfPower.class,
 		RingOfSharpshooting.class,
 		RingOfTenacity.class,
-		RingOfWealth.class,
+		RingOfWealth.class
 	};
 
 	private static final HashMap<String, Integer> gems = new HashMap<String, Integer>() {
@@ -130,7 +131,31 @@ public class Ring extends KindofMisc {
 		buff = buff();
 		buff.attachTo( ch );
 	}
-
+	
+	@Override
+	public boolean doPickUp( Hero hero ) {
+		if (super.doPickUp( hero )) {
+			Badges.validateAllRingsObtained();
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean doEquip( final Hero hero ) {
+		if (super.doEquip( hero )) {
+			
+			setKnown();
+			Badges.validateItemLevelAquired( this );
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
+	}
+	
 	@Override
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
@@ -173,6 +198,10 @@ public class Ring extends KindofMisc {
 		
 		String desc = isKnown() ? super.desc() : Messages.get(this, "unknown_desc");
 		
+		if (isKnown()) {
+			desc += "\n\n" + statsInfo();
+		}
+		
 		if (cursed && isEquipped( Dungeon.hero )) {
 			desc += "\n\n" + Messages.get(Ring.class, "cursed_worn");
 			
@@ -182,10 +211,6 @@ public class Ring extends KindofMisc {
 		} else if (!isIdentified() && cursedKnown){
 			desc += "\n\n" + Messages.get(Ring.class, "not_cursed");
 			
-		}
-		
-		if (isKnown()) {
-			desc += "\n\n" + statsInfo();
 		}
 		
 		return desc;
@@ -220,22 +245,12 @@ public class Ring extends KindofMisc {
 	
 	@Override
 	public Item random() {
-		//+0: 67% (6/9)
-		//+1: 22% (2/9)
-		//+2: 11% (1/9)
-		int n = 0;
-		if (Random.Int(3) == 0) {
-			n++;
-			if (Random.Int(3) == 0) {
-				n++;
-			}
-		}
-		level(n);
 		
-		//33% chance to be cursed
-		if (Random.Float() < 0.33f) {
+		level( Random.chances( Generator.floorSetUpgradeProbs[ Dungeon.depth / 4 ]));
+		
+		int effectRoll = Random.chances( Generator.floorSetEffectProbs[ Dungeon.depth / 4 ]);
+		if (effectRoll == 1)
 			cursed = true;
-		}
 		
 		return this;
 	}
@@ -254,16 +269,12 @@ public class Ring extends KindofMisc {
 	
 	@Override
 	public int price() {
-		int price = 75;
+		int price = 20;
 		if (cursed && cursedKnown) {
-			price /= 2;
+			price -= 10;
 		}
-		if (levelKnown) {
-			if (level() > 0) {
-				price *= (level() + 1);
-			} else if (level() < 0) {
-				price /= (1 - level());
-			}
+		if (levelKnown && level() > 0) {
+			price += 5 * level();
 		}
 		if (price < 1) {
 			price = 1;

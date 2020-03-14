@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -30,19 +33,26 @@ import com.watabou.utils.Random;
 
 public class Thorns extends Armor.Glyph {
 
-	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
+	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x990000 );
 
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-		int level = Math.max(0, armor.level());
+		int lvl = Math.max(0, armor.level());
+		
+		float chanceA = (lvl + 1) * LEVEL_SCALING;
+		float chanceB = (lvl + 1) * LEVEL_SCALING;
 
-		// lvl 0 - 16.7%
-		// lvl 1 - 28.6%
-		// lvl 2 - 37.5%
-		if ( Random.Int( level + 6) >= 5) {
-
-			Buff.affect( attacker, Bleeding.class).set( 4 + level );
+		//A% chance to causing bleeding
+		//B% chance to cause more severe bleeding
+		if (Random.Float() < chanceA) {
+			
+			float severity = 5;
+			if (Random.Float() < chanceB) {
+				severity = 10;
+			}
+			
+			Buff.affect( attacker, Bleeding.class).set( severity + lvl );
 
 		}
 

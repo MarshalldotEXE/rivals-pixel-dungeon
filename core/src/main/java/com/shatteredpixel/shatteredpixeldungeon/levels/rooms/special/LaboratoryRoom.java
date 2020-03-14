@@ -61,8 +61,8 @@ public class LaboratoryRoom extends SpecialRoom {
 		}
 		Painter.set( level, pot, Terrain.ALCHEMY );
 		
-		int chapter = 1 + Dungeon.depth/5;
-		Blob.seed( pot.x + level.width() * pot.y, 1 + chapter*10 + Random.NormalIntRange(0, 10), Alchemy.class, level );
+		int chapter = 1 + Dungeon.depth/4;
+		Blob.seed( pot.x + level.width() * pot.y, 3 + chapter*3 + Random.NormalIntRange(0, 4), Alchemy.class, level );
 		
 		int n = Random.NormalIntRange( 1, 3 );
 		for (int i=0; i < n; i++) {
@@ -75,7 +75,7 @@ public class LaboratoryRoom extends SpecialRoom {
 			level.drop( prize( level ), pos );
 		}
 		
-		//guide pages
+		/*//guide pages
 		Collection<String> allPages = Document.ALCHEMY_GUIDE.pages();
 		ArrayList<String> missingPages = new ArrayList<>();
 		for ( String page : allPages){
@@ -110,7 +110,7 @@ public class LaboratoryRoom extends SpecialRoom {
 								level.heaps.get(pos) != null);
 				level.drop(p, pos);
 			}
-		}
+		}*/
 		
 		if (level instanceof RegularLevel && ((RegularLevel)level).hasPitRoom()){
 			entrance.set( Door.Type.REGULAR );

@@ -51,6 +51,8 @@ public class Speck extends Image {
 	public static final int BUBBLE      = 12;
 	public static final int STEAM       = 13;
 	public static final int COIN        = 14;
+	public static final int MAGIC_UP    = 15;
+	public static final int DOWN        = 16;
 	
 	public static final int DISCOVER    = 101;
 	public static final int EVOKE       = 102;
@@ -282,6 +284,16 @@ public class Speck extends Image {
 			lifespan = 1f;
 			break;
 			
+		case MAGIC_UP:
+			speed.set( 0, -20 );
+			lifespan = 1f;
+			break;
+			
+		case DOWN:
+			speed.set( 0, 20 );
+			lifespan = 1f;
+			break;
+			
 		case JET:
 			speed.y = +32;
 			acc.y = -64;
@@ -464,7 +476,15 @@ public class Speck extends Image {
 			case BUBBLE:
 				am = p < 0.2f ? p * 5 : 1;
 				break;
+			
+			case MAGIC_UP:
+				scale.set( (float)(Math.sqrt( p < 0.5f ? p : 1 - p ) * 2) );
+				break;
 				
+			case DOWN:
+				scale.set( (float)(Math.sqrt( p < 0.5f ? p : 1 - p ) * 2) );
+				break;
+			
 			case STEAM:
 			case TOXIC:
 			case PARALYSIS:

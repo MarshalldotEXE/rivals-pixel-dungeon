@@ -42,7 +42,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".indev"
-            versionNameSuffix '-INDEV'
+            versionNameSuffix ''
         }
         release {
 

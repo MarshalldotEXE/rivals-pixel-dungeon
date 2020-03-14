@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -39,20 +42,20 @@ import com.watabou.utils.Random;
 
 public class Corrupting extends Weapon.Enchantment {
 	
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x440066 );
+	private static ItemSprite.Glowing VIOLET = new ItemSprite.Glowing( 0x330066 );
 	
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 		if (defender.buff(Corruption.class) != null || !(defender instanceof Mob)) return damage;
 		
-		int level = Math.max( 0, weapon.level() );
+		int lvl = Math.max( 0, weapon.level() );
 		
-		// lvl 0 - 15%
-		// lvl 1 ~ 17%
-		// lvl 2 ~ 19%
+		float chanceA = (lvl + damage) * ONE_PERCENT;
+		
+		//A% chance to corrupt enemy on death
 		if (damage >= defender.HP
 				&& !defender.isImmune(Corruption.class)
-				&& Random.Int( level + 40 ) >= 34){
+				&& Random.Float() < chanceA) {
 			
 			Mob enemy = (Mob) defender;
 			Hero hero = (attacker instanceof Hero) ? (Hero) attacker : Dungeon.hero;
@@ -74,7 +77,6 @@ public class Corrupting extends Weapon.Enchantment {
 			
 			Statistics.enemiesSlain++;
 			Badges.validateMonstersSlain();
-			Statistics.qualifiedForNoKilling = false;
 			if (enemy.EXP > 0 && hero.lvl <= enemy.maxLvl) {
 				hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(enemy, "exp", enemy.EXP));
 				hero.earnExp(enemy.EXP, enemy.getClass());
@@ -90,6 +92,6 @@ public class Corrupting extends Weapon.Enchantment {
 	
 	@Override
 	public ItemSprite.Glowing glowing() {
-		return BLACK;
+		return VIOLET;
 	}
 }

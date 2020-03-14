@@ -36,6 +36,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.WarriorArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.DiscArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RingArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -65,13 +67,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAffection;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -99,6 +101,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfVenom;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.LloydsBeacon;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFirebolt;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bludgeon;
@@ -164,44 +167,49 @@ public enum Catalog {
 	
 	static {
 		WEAPONS.seen.put( Shortsword.class,                 true);
+		WEAPONS.seen.put( Hammer.class,                     false);
 		WEAPONS.seen.put( Gloves.class,                     true);
 		WEAPONS.seen.put( Dagger.class,                     true);
+		WEAPONS.seen.put( SmallShield.class,                false);
 		WEAPONS.seen.put( MagesStaff.class,                 true);
-		//WEAPONS.seen.put( Boomerang.class,                  true);
+		
 		WEAPONS.seen.put( Sword.class,                      true);
 		WEAPONS.seen.put( Mace.class,                       true);
-		WEAPONS.seen.put( Qatars.class,                     true);
+		WEAPONS.seen.put( Qatars.class,                     false);
 		WEAPONS.seen.put( Dirk.class,                       true);
 		WEAPONS.seen.put( RoundShield.class,                true);
 		WEAPONS.seen.put( Spear.class,                      true);
 		WEAPONS.seen.put( Whip.class,                       true);
+		
 		WEAPONS.seen.put( Longsword.class,                  true);
-		WEAPONS.seen.put( Bludgeon.class,                   true);
+		WEAPONS.seen.put( Bludgeon.class,                   false);
 		WEAPONS.seen.put( Sai.class,                        true);
 		WEAPONS.seen.put( AssassinsBlade.class,             true);
-		WEAPONS.seen.put( BattleAxe.class,                  true);
+		WEAPONS.seen.put( BattleAxe.class,                  false);
 		WEAPONS.seen.put( RunicBlade.class,                 true);
 		WEAPONS.seen.put( Crossbow.class,                   true);
 		WEAPONS.seen.put( Flail.class,                      true);
+		
 		WEAPONS.seen.put( Greatsword.class,                 true);
 		WEAPONS.seen.put( WarHammer.class,                  true);
 		WEAPONS.seen.put( Gauntlet.class,                   true);
 		WEAPONS.seen.put( Greatshield.class,                true);
-		WEAPONS.seen.put( Greataxe.class,                   true);
+		WEAPONS.seen.put( Greataxe.class,                   false);
 		WEAPONS.seen.put( Glaive.class,                     true);
-		WEAPONS.seen.put( ChainWhip.class,                  true);
-		WEAPONS.seen.put( Chainsaw.class,                   true);
+		WEAPONS.seen.put( ChainWhip.class,                  false);
+		WEAPONS.seen.put( Chainsaw.class,                   false);
 	
 		ARMOR.seen.put( ClothArmor.class,                   true);
 		ARMOR.seen.put( LeatherArmor.class,                 true);
-		ARMOR.seen.put( MailArmor.class,                    true);
-		ARMOR.seen.put( ScaleArmor.class,                   true);
-		ARMOR.seen.put( PlateArmor.class,                   true);
-		ARMOR.seen.put( HalfPlateArmor.class,               true);
-		ARMOR.seen.put( WarriorArmor.class,                 true);
 		ARMOR.seen.put( MageArmor.class,                    true);
 		ARMOR.seen.put( RogueArmor.class,                   true);
 		ARMOR.seen.put( HuntressArmor.class,                true);
+		ARMOR.seen.put( DiscArmor.class,                    false);
+		ARMOR.seen.put( MailArmor.class,                    false);
+		ARMOR.seen.put( ScaleArmor.class,                   true);
+		ARMOR.seen.put( RingArmor.class,                    false);
+		ARMOR.seen.put( PlateArmor.class,                   false);
+		ARMOR.seen.put( HalfPlateArmor.class,               false);
 	
 		WANDS.seen.put( WandOfMagicMissile.class,           true);
 		WANDS.seen.put( WandOfLightning.class,              true);
@@ -213,26 +221,26 @@ public enum Catalog {
 		WANDS.seen.put( WandOfFrost.class,                  true);
 		WANDS.seen.put( WandOfPrismaticLight.class,         true);
 		WANDS.seen.put( WandOfWarding.class,                true);
-		WANDS.seen.put( WandOfVenom.class,                  true);
+		WANDS.seen.put( WandOfVenom.class,                  false);
 		WANDS.seen.put( WandOfTransfusion.class,            true);
 		WANDS.seen.put( WandOfCorruption.class,             true);
-		WANDS.seen.put( LloydsBeacon.class,                 true);
+		WANDS.seen.put( LloydsBeacon.class,                 false);
+		//WANDS.seen.put( WandOfFirebolt.class,               false);
 		WANDS.seen.put( WandOfRegrowth.class,               true);
 	
 		RINGS.seen.put( RingOfAccuracy.class,               true);
 		RINGS.seen.put( RingOfEnergy.class,                 true);
 		RINGS.seen.put( RingOfElements.class,               true);
 		RINGS.seen.put( RingOfEvasion.class,                true);
-		RINGS.seen.put( RingOfForce.class,                  true);
 		RINGS.seen.put( RingOfFuror.class,                  true);
 		RINGS.seen.put( RingOfHaste.class,                  true);
-		RINGS.seen.put( RingOfMight.class,                  true);
+		RINGS.seen.put( RingOfMight.class,                  false);
+		//RINGS.seen.put( RingOfPower.class,                  false);
 		RINGS.seen.put( RingOfSharpshooting.class,          true);
 		RINGS.seen.put( RingOfTenacity.class,               true);
 		RINGS.seen.put( RingOfWealth.class,                 true);
 	
 		ARTIFACTS.seen.put( AlchemistsToolkit.class,        true);
-		//ARTIFACTS.seen.put( CapeOfThorns.class,             true);
 		ARTIFACTS.seen.put( ChaliceOfBlood.class,           true);
 		ARTIFACTS.seen.put( CloakOfShadows.class,           true);
 		ARTIFACTS.seen.put( DriedRose.class,                true);
@@ -246,15 +254,15 @@ public enum Catalog {
 	
 		POTIONS.seen.put( PotionOfStrength.class,           true);
 		POTIONS.seen.put( PotionOfLiquidFlame.class,        true);
-		POTIONS.seen.put( PotionOfElectricity.class,        true);
+		POTIONS.seen.put( PotionOfElectricity.class,        false);
 		POTIONS.seen.put( PotionOfHaste.class,              true);
 		POTIONS.seen.put( PotionOfHealing.class,            true);
-		POTIONS.seen.put( PotionOfCausticOoze.class,        true);
+		POTIONS.seen.put( PotionOfCausticOoze.class,        false);
 		POTIONS.seen.put( PotionOfFrost.class,              true);
 		POTIONS.seen.put( PotionOfLevitation.class,         true);
 		POTIONS.seen.put( PotionOfToxicGas.class,           true);
 		POTIONS.seen.put( PotionOfPurity.class,             true);
-		POTIONS.seen.put( PotionOfShielding.class,          true);
+		POTIONS.seen.put( PotionOfShielding.class,          false);
 		POTIONS.seen.put( PotionOfExperience.class,         true);
 		POTIONS.seen.put( PotionOfMindVision.class,         true);
 		POTIONS.seen.put( PotionOfInvisibility.class,       true);
@@ -300,7 +308,7 @@ public enum Catalog {
 				Journal.saveNeeded = true;
 			}
 		}
-		Badges.validateItemsIdentified();
+		Badges.validateCatalogComplete();
 	}
 	
 	private static final String CATALOGS = "catalogs";
@@ -312,7 +320,7 @@ public enum Catalog {
 		ArrayList<String> seen = new ArrayList<>();
 		
 		//if we have identified all items of a set, we use the badge to keep track instead.
-		if (!Badges.isUnlocked(Badges.Badge.ALL_ITEMS_IDENTIFIED)) {
+		if (!Badges.isUnlocked(Badges.Badge.CATALOG_COMPLETE)) {
 			for (Catalog cat : values()) {
 				if (!Badges.isUnlocked(catalogBadges.get(cat))) {
 					for (Class<? extends Item> item : cat.items()) {
@@ -331,7 +339,7 @@ public enum Catalog {
 		Badges.loadGlobal();
 		
 		//logic for if we have all badges
-		if (Badges.isUnlocked(Badges.Badge.ALL_ITEMS_IDENTIFIED)){
+		if (Badges.isUnlocked(Badges.Badge.CATALOG_COMPLETE)){
 			for ( Catalog cat : values()){
 				for (Class<? extends Item> item : cat.items()){
 					cat.seen.put(item, true);

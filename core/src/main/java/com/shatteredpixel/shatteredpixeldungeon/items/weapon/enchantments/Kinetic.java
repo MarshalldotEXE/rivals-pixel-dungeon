@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -37,10 +40,13 @@ public class Kinetic extends Weapon.Enchantment {
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 		
+		int lvl = Math.max( 0, weapon.level() );
+		
 		int conservedDamage = 0;
 		if (attacker.buff(ConservedDamage.class) != null) {
 			conservedDamage = attacker.buff(ConservedDamage.class).damageBonus();
 			attacker.buff(ConservedDamage.class).detach();
+			conservedDamage += lvl;
 		}
 		
 		if (damage > defender.HP){
@@ -61,7 +67,7 @@ public class Kinetic extends Weapon.Enchantment {
 		
 		@Override
 		public int icon() {
-			return BuffIndicator.WEAPON;
+			return BuffIndicator.KINETIC;
 		}
 		
 		@Override

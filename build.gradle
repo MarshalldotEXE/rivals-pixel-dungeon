@@ -14,8 +14,8 @@ allprojects {
         appName = 'Rivals Pixel Dungeon'
         appPackageName = 'com.marshalldotexe.rivalspixeldungeon'
 
-        appVersionCode = 500
-        appVersionName = '0.1.1'
+        appVersionCode = 700
+        appVersionName = '0.2.0'
 
         appAndroidCompileSDK = 28
         appAndroidMinSDK = 9

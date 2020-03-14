@@ -21,10 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -66,16 +68,7 @@ public class Artifact extends KindofMisc {
 
 		} else {
 
-			if (super.doEquip( hero )){
-
-				identify();
-				return true;
-
-			} else {
-
-				return false;
-
-			}
+			return super.doEquip( hero );
 
 		}
 
@@ -85,7 +78,16 @@ public class Artifact extends KindofMisc {
 		passiveBuff = passiveBuff();
 		passiveBuff.attachTo(ch);
 	}
-
+	
+	@Override
+	public boolean doPickUp( Hero hero ) {
+		if (super.doPickUp( hero )) {
+			Badges.validateAllArtifactsObtained();
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
@@ -167,22 +169,23 @@ public class Artifact extends KindofMisc {
 
 	@Override
 	public Item random() {
+		
 		//always +0
 		
-		//30% chance to be cursed
-		if (Random.Float() < 0.3f) {
+		int effectRoll = Random.chances( Generator.floorSetEffectProbs[ Dungeon.depth / 4 ]);
+		if (effectRoll == 1)
 			cursed = true;
-		}
+		
 		return this;
 	}
 
 	@Override
 	public int price() {
-		int price = 100;
+		int price = 25;
 		if (level() > 0)
-			price += 20*visiblyUpgraded();
+			price += 5 * visiblyUpgraded();
 		if (cursed && cursedKnown) {
-			price /= 2;
+			price -= 10;
 		}
 		if (price < 1) {
 			price = 1;

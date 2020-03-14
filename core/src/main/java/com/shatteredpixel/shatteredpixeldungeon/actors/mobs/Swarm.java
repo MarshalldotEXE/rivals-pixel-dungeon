@@ -48,11 +48,11 @@ public class Swarm extends Mob {
 	{
 		spriteClass = SwarmSprite.class;
 		
-		HP = HT = 45;
+		HP = HT = (Dungeon.depth > 4) ? 50 : 45;
 		defenseSkill = 7;
 			
-		EXP = 3;
-		maxLvl = 4;
+		EXP = (Dungeon.depth > 4) ? 4 : 3;
+		maxLvl = (Dungeon.depth > 4) ? 5 : 4;
 		
 		flying = true;
 

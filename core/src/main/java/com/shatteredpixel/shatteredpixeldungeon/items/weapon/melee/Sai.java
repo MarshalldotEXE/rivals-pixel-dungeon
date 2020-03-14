@@ -35,7 +35,13 @@ public class Sai extends MeleeWeapon {
 		tier = 3;
 		DLY = 0.5f; //2x speed
 	}
-
+	
+	@Override
+	public int min(int lvl) {
+		return  Math.round(0.5f*(tier)) +  //2 base, down from 3
+				Math.round(0.5f*(lvl));    //+0.5 per level, down from +1
+	}
+	
 	@Override
 	public int max(int lvl) {
 		return  Math.round(2.5f*(tier+1)) +     //10 base, down from 20

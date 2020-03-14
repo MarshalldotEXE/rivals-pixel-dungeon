@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,65 +24,25 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.utils.Callback;
 
-import java.util.HashMap;
+public class HuntressArmor extends Armor {
 
-public class HuntressArmor extends ClassArmor {
-
-	
 	{
 		image = ItemSpriteSheet.ARMOR_HUNTRESS;
+
+		EVA = 1.5f; //50% boost to evasion
+		
+		bones = false; //Finding them in bones would be semi-frequent and disappointing.
 	}
 	
-	private HashMap<Callback, Mob> targets = new HashMap<>();
+	public HuntressArmor() {
+		super( 1 );
+	}
 	
 	@Override
-	public void doSpecial() {
-		
-		Item proto = new Shuriken();
-		
-		for (Mob mob : Dungeon.level.mobs) {
-			if (Dungeon.level.distance(curUser.pos, mob.pos) <= 12
-				&& Dungeon.level.heroFOV[mob.pos]
-				&& mob.alignment != Char.Alignment.ALLY) {
-				
-				Callback callback = new Callback() {
-					@Override
-					public void call() {
-						curUser.attack( targets.get( this ) );
-						targets.remove( this );
-						if (targets.isEmpty()) {
-							curUser.spendAndNext( curUser.attackDelay() );
-						}
-					}
-				};
-				
-				((MissileSprite)curUser.sprite.parent.recycle( MissileSprite.class )).
-					reset( curUser.pos, mob.pos, proto, callback );
-				
-				targets.put( callback, mob );
-			}
-		}
-		
-		if (targets.size() == 0) {
-			GLog.w( Messages.get(this, "no_enemies") );
-			return;
-		}
-		
-		curUser.HP -= (curUser.HP / 3);
-		
-		curUser.sprite.zap( curUser.pos );
-		curUser.busy();
+	public int DRMax(int lvl) {
+		return Math.round(0.5f * (tier * 2)) +  //1 base, down from 2
+			   Math.round(1f * (tier * lvl)); //+1 per level, unchanged
 	}
-
 }

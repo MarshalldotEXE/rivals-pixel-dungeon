@@ -8,6 +8,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -48,7 +49,7 @@ public class WandOfWarding extends Wand {
 		for (Buff buff : curUser.buffs()){
 			if (buff instanceof Wand.Charger){
 				if (((Charger) buff).wand() instanceof WandOfWarding){
-					maxWardEnergy += 3 + ((Charger) buff).wand().level();
+					maxWardEnergy += 3 + ((Charger) buff).wand().level() + RingOfPower.levelDamageBonus(Dungeon.hero);
 				}
 			}
 		}
@@ -72,7 +73,7 @@ public class WandOfWarding extends Wand {
 	}
 	
 	@Override
-	protected void onZap(Ballistica bolt) {
+	public void onZap(Ballistica bolt) {
 		
 		Char ch = Actor.findChar(bolt.collisionPos);
 		if (!curUser.fieldOfView[bolt.collisionPos] || !Dungeon.level.passable[bolt.collisionPos]){
@@ -81,9 +82,9 @@ public class WandOfWarding extends Wand {
 		} else if (ch != null){
 			if (ch instanceof Ward){
 				if (wardAvailable) {
-					((Ward) ch).upgrade(level());
+					((Ward) ch).upgrade( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
 				} else {
-					((Ward) ch).wandHeal( level() );
+					((Ward) ch).wandHeal( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
 				}
 				ch.sprite.emitter().burst(MagicMissile.WardParticle.UP, ((Ward) ch).tier);
 			} else {
@@ -92,7 +93,7 @@ public class WandOfWarding extends Wand {
 		} else if (canPlaceWard(bolt.collisionPos)){
 			Ward ward = new Ward();
 			ward.pos = bolt.collisionPos;
-			ward.wandLevel = level();
+			ward.wandLevel = level() + RingOfPower.levelDamageBonus(Dungeon.hero);
 			GameScene.add(ward, 1f);
 			Dungeon.level.press(ward.pos, ward);
 			ward.sprite.emitter().burst(MagicMissile.WardParticle.UP, ward.tier);
@@ -102,10 +103,10 @@ public class WandOfWarding extends Wand {
 	}
 
 	@Override
-	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile m = MagicMissile.boltFromChar(curUser.sprite.parent,
+	public void fx(Ballistica bolt, Char caster, Callback callback) {
+		MagicMissile m = MagicMissile.boltFromChar(caster.sprite.parent,
 				MagicMissile.WARD,
-				curUser.sprite,
+				caster.sprite,
 				bolt.collisionPos,
 				callback);
 		
@@ -158,7 +159,7 @@ public class WandOfWarding extends Wand {
 	@Override
 	public String statsDesc() {
 		if (levelKnown)
-			return Messages.get(this, "stats_desc", level()+3);
+			return Messages.get(this, "stats_desc", level() + RingOfPower.levelDamageBonus(Dungeon.hero)+3);
 		else
 			return Messages.get(this, "stats_desc", 3);
 	}

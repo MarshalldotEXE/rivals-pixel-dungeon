@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,6 +24,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class PlateArmor extends Armor {
@@ -39,5 +44,12 @@ public class PlateArmor extends Armor {
 	public int DRMax(int lvl) {
 		return Math.round(1.2f * (tier * 2)) +  //10 base, up from 8
 			   Math.round(1.2f * (tier * lvl)); //+4.8 per level, up from +4
+	}
+	
+	@Override
+	public boolean doEquip( Hero hero ) {
+		Statistics.armorEquipped = true;
+		
+		return super.doEquip(hero);
 	}
 }

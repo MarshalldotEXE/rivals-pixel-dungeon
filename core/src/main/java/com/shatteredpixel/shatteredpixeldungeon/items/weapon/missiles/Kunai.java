@@ -37,7 +37,7 @@ public class Kunai extends MissileWeapon {
 		image = ItemSpriteSheet.KUNAI;
 		
 		tier = 2;
-		baseUses = 5;
+		baseUses = 7;
 	}
 	
 	private Char enemy;
@@ -53,10 +53,10 @@ public class Kunai extends MissileWeapon {
 		if (owner instanceof Hero) {
 			Hero hero = (Hero)owner;
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				//deals 60% toward max to max on surprise, instead of min to max.
+				//deals 70% toward max to max on surprise, instead of min to max.
 				int diff = max() - min();
 				int damage = augment.damageFactor(Random.NormalIntRange(
-						min() + Math.round(diff*0.6f),
+						min() + Math.round(diff*0.7f),
 						max()));
 				int exStr = hero.STR() - STRReq();
 				if (exStr > 0) {

@@ -28,7 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.NewbornElemental;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SacrificialParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -119,7 +119,7 @@ public class CeremonialCandle extends Item {
 				GameScene.add(elemental, 1);
 
 				for (int i : PathFinder.NEIGHBOURS9){
-					CellEmitter.get(ritualPos+i).burst(ElmoParticle.FACTORY, 10);
+					CellEmitter.get(ritualPos+i).burst(SacrificialParticle.FACTORY, 10);
 				}
 				Sample.INSTANCE.play(Assets.SND_BURNING);
 			}

@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
@@ -42,15 +43,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Polarized;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Sacrificial;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Wayward;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Chilling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Corrupting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
@@ -202,7 +200,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 	@Override
 	public int reachFactor(Char owner) {
-		return hasEnchant(Projecting.class, owner) ? RCH+1 : RCH;
+		return RCH;
 	}
 
 	public int STRReq(){
@@ -247,28 +245,17 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public Item random() {
-		//+0: 67% (6/9)
-		//+1: 22% (2/9)
-		//+2: 11% (1/9)
-		int n = 0;
-		if (Random.Int(3) == 0) {
-			n++;
-			if (Random.Int(3) == 0) {
-				n++;
-			}
-		}
-		level(n);
 		
-		//33% (1/3) chance to be cursed
-		//17% (1/6) chance to be enchanted
-		float effectRoll = Random.Float();
-		if (effectRoll < 0.33f) {
+		level( Random.chances( Generator.floorSetUpgradeProbs[ Dungeon.depth / 4 ]));
+		
+		int effectRoll = Random.chances( Generator.floorSetEffectProbs[ Dungeon.depth / 4 ]);
+		if (effectRoll == 1) {
 			enchant(Enchantment.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.83f){
+		} else if (effectRoll == 2){
 			enchant();
 		}
-
+		
 		return this;
 	}
 	
@@ -308,19 +295,18 @@ abstract public class Weapon extends KindOfWeapon {
 	public static abstract class Enchantment implements Bundlable {
 		
 		private static final Class<?>[] common = new Class<?>[]{
-				Blazing.class, Chilling.class, Kinetic.class, Shocking.class};
+				Blazing.class, Chilling.class, Shocking.class, Kinetic.class};
 		
 		private static final Class<?>[] uncommon = new Class<?>[]{
-				Blocking.class, Blooming.class, Elastic.class,
-				Lucky.class, Projecting.class, Unstable.class};
+				Blooming.class, Elastic.class, Unstable.class};
 		
 		private static final Class<?>[] rare = new Class<?>[]{
-				Corrupting.class, Grim.class, Vampiric.class};
+				Vampiric.class, Corrupting.class, Grim.class};
 		
 		private static final float[] typeChances = new float[]{
 				50, //12.5% each
-				40, //6.67% each
-				10  //3.33% each
+				35, //11.67% each
+				15  //5% each
 		};
 		
 		private static final Class<?>[] curses = new Class<?>[]{
@@ -328,7 +314,9 @@ abstract public class Weapon extends KindOfWeapon {
 				Sacrificial.class, Wayward.class, Polarized.class, Friendly.class
 		};
 		
-			
+		protected static final float ONE_PERCENT = 0.01f;
+		protected static final float LEVEL_SCALING = 0.091f;
+		
 		public abstract int proc( Weapon weapon, Char attacker, Char defender, int damage );
 
 		public String name() {

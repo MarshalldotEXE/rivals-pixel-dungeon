@@ -26,8 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Bones;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM300;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.rivals.Rival;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -139,13 +139,36 @@ public class CavesBossLevel extends Level {
 				map[i] = Terrain.WATER;
 			}
 		}
-
+		
+		//20% trap, 10% special, 10% grass, 20% high grass, 20% water, 10% embers, 10% empty
 		for (int i=0; i < length(); i++) {
-			if (map[i] == Terrain.EMPTY && Random.Int( 6 ) == 0) {
-				map[i] = Terrain.INACTIVE_TRAP;
-				Trap t = new ToxicTrap().reveal();
-				t.active = false;
-				setTrap(t, i);
+			if (map[i] == Terrain.EMPTY) {
+				switch(Random.Int(10)) {
+					case 0: case 1:
+						map[i] = Terrain.INACTIVE_TRAP;
+						Trap t = new ToxicTrap().reveal();
+						t.active = false;
+						setTrap(t, i);
+						break;
+					case 2:
+						map[i] = Terrain.EMPTY_SP;
+						break;
+					case 3:
+						map[i] = Terrain.GRASS;
+						break;
+					case 4: case 5:
+						map[i] = Terrain.HIGH_GRASS;
+						break;
+					case 6: case 7:
+						map[i] = Terrain.WATER;
+						break;
+					case 8:
+						map[i] = Terrain.EMBERS;
+						break;
+					default:
+						map[i] = Terrain.EMPTY;
+						break;
+				}
 			}
 		}
 		
@@ -218,7 +241,6 @@ public class CavesBossLevel extends Level {
 		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.hero) {
 			
 			enteredArena = true;
-			seal();
 			
 			for (Mob m : mobs){
 				//bring the first ally with you
@@ -229,7 +251,7 @@ public class CavesBossLevel extends Level {
 				}
 			}
 			
-			DM300 boss = new DM300();
+			Rival boss = new Rival();
 			boss.state = boss.WANDERING;
 			do {
 				boss.pos = Random.Int( length() );
@@ -255,7 +277,6 @@ public class CavesBossLevel extends Level {
 		if (!keyDropped && item instanceof SkeletonKey) {
 			
 			keyDropped = true;
-			unseal();
 			
 			CellEmitter.get( arenaDoor ).start( Speck.factory( Speck.ROCK ), 0.07f, 10 );
 			

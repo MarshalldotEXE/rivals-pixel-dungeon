@@ -36,9 +36,4 @@ public class PotionOfExperience extends Potion {
 		setKnown();
 		hero.earnExp( hero.maxExp(), getClass() );
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 50 * quantity : super.price();
-	}
 }

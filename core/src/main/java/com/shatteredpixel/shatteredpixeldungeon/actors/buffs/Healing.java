@@ -102,7 +102,7 @@ public class Healing extends Buff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.HEALING;
+		return BuffIndicator.REGEN;
 	}
 	
 	@Override

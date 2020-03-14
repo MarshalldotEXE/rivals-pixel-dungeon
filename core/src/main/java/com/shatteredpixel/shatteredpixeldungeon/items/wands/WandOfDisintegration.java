@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -55,11 +56,11 @@ public class WandOfDisintegration extends DamageWand {
 	}
 	
 	@Override
-	protected void onZap( Ballistica beam ) {
+	public void onZap( Ballistica beam ) {
 		
 		boolean terrainAffected = false;
 		
-		int level = level();
+		int level = ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) );
 		
 		int maxDistance = Math.min(distance(), beam.dist);
 		
@@ -112,14 +113,14 @@ public class WandOfDisintegration extends DamageWand {
 	}
 
 	private int distance() {
-		return level()*2 + 6;
+		return ( level() + RingOfPower.levelDamageBonus(Dungeon.hero) )*2 + 4;
 	}
 	
 	@Override
-	protected void fx( Ballistica beam, Callback callback ) {
+	public void fx( Ballistica beam, Char caster, Callback callback ) {
 		
 		int cell = beam.path.get(Math.min(beam.dist, distance()));
-		curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cell )));
+		caster.sprite.parent.add(new Beam.DeathRay(caster.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cell )));
 		callback.call();
 	}
 

@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -38,30 +41,31 @@ import com.watabou.utils.Random;
 
 public class Viscosity extends Glyph {
 	
-	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing( 0x8844CC );
+	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing( 0x3300CC );
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage ) {
 
-		//FIXME this glyph should really just proc after DR is accounted for.
-		//should build in functionality for that, but this works for now
-		int realDamage = damage - Random.NormalIntRange( armor.DRMin(), armor.DRMax());
-
-		if (realDamage <= 0) {
+		if (damage <= 0) {
 			return 0;
 		}
 
-		int level = Math.max( 0, armor.level() );
+		int lvl = Math.max( 0, armor.level() );
 		
-		float percent = (level+1)/(float)(level+6);
-		int amount = (int)Math.ceil(realDamage * percent);
-
-		DeferedDamage deferred = Buff.affect( defender, DeferedDamage.class );
-		deferred.prolong( amount );
+		float chanceA = (lvl + 1) * LEVEL_SCALING;
 		
-		defender.sprite.showStatus( CharSprite.WARNING, Messages.get(this, "deferred", amount) );
+		//A% chance to defer damage
+		if (Random.Float() < chanceA){
+			
+			DeferedDamage deferred = Buff.affect( defender, DeferedDamage.class );
+			deferred.prolong( damage );
+			
+			defender.sprite.showStatus( CharSprite.WARNING, Messages.get(this, "deferred", damage) );
+			
+			return 0;
+		}
 		
-		return damage - amount;
+		return damage;
 		
 	}
 
@@ -109,7 +113,7 @@ public class Viscosity extends Glyph {
 		
 		@Override
 		public int icon() {
-			return BuffIndicator.DEFERRED;
+			return BuffIndicator.VISCOSITY;
 		}
 		
 		@Override
@@ -120,8 +124,12 @@ public class Viscosity extends Glyph {
 		@Override
 		public boolean act() {
 			if (target.isAlive()) {
-
-				int damageThisTick = Math.max(1, (int)(damage*0.1f));
+				
+				if (damage <= 1) {
+					detach();
+				}
+				
+				int damageThisTick = Math.max(1, (int)(damage*0.33f));
 				target.damage( damageThisTick, this );
 				if (target == Dungeon.hero && !target.isAlive()) {
 
@@ -132,7 +140,7 @@ public class Viscosity extends Glyph {
 				}
 				spend( TICK );
 
-				damage -= damageThisTick;
+				damage -= damageThisTick + 1;
 				if (damage <= 0) {
 					detach();
 				}

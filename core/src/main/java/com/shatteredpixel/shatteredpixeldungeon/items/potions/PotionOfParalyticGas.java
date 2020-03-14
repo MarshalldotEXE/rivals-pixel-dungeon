@@ -46,9 +46,4 @@ public class PotionOfParalyticGas extends Potion {
 
 		GameScene.add( Blob.seed( cell, 1000, ParalyticGas.class ) );
 	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
 }

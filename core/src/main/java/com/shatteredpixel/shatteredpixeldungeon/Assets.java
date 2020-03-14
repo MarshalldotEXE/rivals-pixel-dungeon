@@ -105,7 +105,11 @@ public class Assets {
 	
 	public static final String TRIBESMAN= "tribesman.png";
 	public static final String BATTLEMAGE   = "battlemage.png";
+	public static final String SHADOWBANDIT = "shadowbandit.png";
 	public static final String WISP     = "wisp.png";
+	public static final String GOOSPAWN = "goospawn.png";
+	public static final String DM150    = "dm150.png";
+	public static final String BOX		= "box.png";
 
 	public static final String ITEMS	        = "items.png";
 	public static final String TERRAIN_FEATURES	= "terrain_features.png";
@@ -115,6 +119,8 @@ public class Assets {
 	public static final String TILES_CAVES	= "tiles_caves.png";
 	public static final String TILES_CITY	= "tiles_city.png";
 	public static final String TILES_HALLS	= "tiles_halls.png";
+	public static final String TILES_LIBRARY= "tiles_library.png";
+	public static final String TILES_VAULT  = "tiles_vault.png";
 	
 	public static final String WATER_SEWERS	= "water0.png";
 	public static final String WATER_PRISON	= "water1.png";
@@ -127,6 +133,8 @@ public class Assets {
 	public static final String LOADING_CAVES	= "loading_caves.png";
 	public static final String LOADING_CITY	    = "loading_city.png";
 	public static final String LOADING_HALLS	= "loading_halls.png";
+	public static final String LOADING_LIBRARY	= "loading_library.png";
+	public static final String LOADING_VAULT	= "loading_vault.png";
 
 	public static final String WEAK_FLOOR   = "custom_tiles/weak_floor.png";
 	public static final String PRISON_QUEST = "custom_tiles/prison_quests.png";

@@ -57,7 +57,7 @@ public class MagicalInfusion extends InventorySpell {
 		Badges.validateItemLevelAquired(item);
 
 		curUser.sprite.emitter().start(Speck.factory(Speck.UP), 0.2f, 3);
-		Statistics.upgradesUsed++;
+		Statistics.upgradeUsed = true;
 	}
 	
 	@Override

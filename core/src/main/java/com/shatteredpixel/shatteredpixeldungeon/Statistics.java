@@ -29,19 +29,15 @@ public class Statistics {
 	public static int deepestFloor;
 	public static int enemiesSlain;
 	public static int foodEaten;
-	public static int potionsCooked;
-	public static int piranhasKilled;
-	public static int ankhsUsed;
+	public static int itemsBought;
+	public static int itemsCrafted;
 	
-	//used for hero unlock badges
-	public static int upgradesUsed;
-	public static int sneakAttacks;
-	public static int thrownAssists;
+	//used for challenge badges
+	public static boolean healingUsed;
+	public static boolean upgradeUsed;
+	public static boolean armorEquipped;
 	
 	public static float duration;
-	
-	public static boolean qualifiedForNoKilling = false;
-	public static boolean completedWithNoKilling = false;
 	
 	public static boolean amuletObtained = false;
 	
@@ -51,17 +47,14 @@ public class Statistics {
 		deepestFloor	= 0;
 		enemiesSlain	= 0;
 		foodEaten		= 0;
-		potionsCooked	= 0;
-		piranhasKilled	= 0;
-		ankhsUsed		= 0;
+		itemsBought		= 0;
+		itemsCrafted	= 0;
 		
-		upgradesUsed    = 0;
-		sneakAttacks    = 0;
-		thrownAssists   = 0;
+		healingUsed = false;
+		upgradeUsed = false;
+		armorEquipped = false;
 		
-		duration	= 0;
-		
-		qualifiedForNoKilling = false;
+		duration		= 0;
 		
 		amuletObtained = false;
 		
@@ -71,13 +64,12 @@ public class Statistics {
 	private static final String DEEPEST		= "maxDepth";
 	private static final String SLAIN		= "enemiesSlain";
 	private static final String FOOD		= "foodEaten";
-	private static final String ALCHEMY		= "potionsCooked";
-	private static final String PIRANHAS	= "priranhas";
-	private static final String ANKHS		= "ankhsUsed";
+	private static final String MERCHANT	= "itemsBought";
+	private static final String ALCHEMY		= "itemsCrafted";
 	
-	private static final String UPGRADES	= "upgradesUsed";
-	private static final String SNEAKS		= "sneakAttacks";
-	private static final String THROWN		= "thrownAssists";
+	private static final String HEALING		= "healingUsed";
+	private static final String UPGRADE		= "upgradeUsed";
+	private static final String ARMOR		= "armorEquipped";
 	
 	private static final String DURATION	= "duration";
 	
@@ -88,13 +80,12 @@ public class Statistics {
 		bundle.put( DEEPEST,	deepestFloor );
 		bundle.put( SLAIN,		enemiesSlain );
 		bundle.put( FOOD,		foodEaten );
-		bundle.put( ALCHEMY,	potionsCooked );
-		bundle.put( PIRANHAS,	piranhasKilled );
-		bundle.put( ANKHS,		ankhsUsed );
+		bundle.put( MERCHANT,	itemsBought );
+		bundle.put( ALCHEMY,	itemsCrafted );
 		
-		bundle.put( UPGRADES,   upgradesUsed );
-		bundle.put( SNEAKS,		sneakAttacks );
-		bundle.put( THROWN,		thrownAssists );
+		bundle.put( HEALING,	healingUsed );
+		bundle.put( UPGRADE,	upgradeUsed );
+		bundle.put( ARMOR,		armorEquipped );
 		
 		bundle.put( DURATION,	duration );
 		
@@ -106,13 +97,12 @@ public class Statistics {
 		deepestFloor	= bundle.getInt( DEEPEST );
 		enemiesSlain	= bundle.getInt( SLAIN );
 		foodEaten		= bundle.getInt( FOOD );
-		potionsCooked	= bundle.getInt( ALCHEMY );
-		piranhasKilled	= bundle.getInt( PIRANHAS );
-		ankhsUsed		= bundle.getInt( ANKHS );
+		itemsBought		= bundle.getInt( MERCHANT );
+		itemsCrafted	= bundle.getInt( ALCHEMY );
 		
-		upgradesUsed    = bundle.getInt( UPGRADES );
-		sneakAttacks    = bundle.getInt( SNEAKS );
-		thrownAssists   = bundle.getInt( THROWN );
+		healingUsed		= bundle.getBoolean( HEALING );
+		upgradeUsed		= bundle.getBoolean( UPGRADE );
+		armorEquipped	= bundle.getBoolean( ARMOR );
 		
 		duration		= bundle.getFloat( DURATION );
 		

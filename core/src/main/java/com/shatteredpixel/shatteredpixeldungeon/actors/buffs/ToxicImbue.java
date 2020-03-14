@@ -46,7 +46,6 @@ public class ToxicImbue extends Buff {
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( LEFT, left );
-
 	}
 
 	@Override
@@ -57,8 +56,7 @@ public class ToxicImbue extends Buff {
 
 	public void set( float duration ) {
 		this.left = duration;
-	};
-
+	}
 
 	@Override
 	public boolean act() {
@@ -77,7 +75,7 @@ public class ToxicImbue extends Buff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.IMMUNITY;
+		return BuffIndicator.TOXIC;
 	}
 	
 	@Override

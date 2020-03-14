@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.Rankings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -128,6 +129,7 @@ public class WndGameInProgress extends Window {
 							FileUtils.deleteDir(GamesInProgress.gameFolder(slot));
 							GamesInProgress.setUnknown(slot);
 							ShatteredPixelDungeon.switchNoFade(StartScene.class);
+							Rankings.INSTANCE.addErased();
 						}
 					}
 				} );

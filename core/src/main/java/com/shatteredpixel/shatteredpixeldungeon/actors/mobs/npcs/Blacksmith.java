@@ -31,8 +31,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
@@ -81,6 +81,7 @@ public class Blacksmith extends NPC {
 					Quest.completed = false;
 					
 					Pickaxe pick = new Pickaxe();
+					pick.identify();
 					if (pick.doPickUp( Dungeon.hero )) {
 						GLog.i( Messages.get(Dungeon.hero, "you_now_have", pick.name() ));
 					} else {
@@ -100,14 +101,11 @@ public class Blacksmith extends NPC {
 				} else if (!pick.bloodStained) {
 					tell( Messages.get(this, "blood_2") );
 				} else {
-					if (pick.isEquipped( Dungeon.hero )) {
-						pick.doUnequip( Dungeon.hero, false );
-					}
-					pick.detach( Dungeon.hero.belongings.backpack );
 					tell( Messages.get(this, "completed") );
 					
 					Quest.completed = true;
 					Quest.reforged = false;
+					pick.clean();
 				}
 				
 			} else {
@@ -119,10 +117,6 @@ public class Blacksmith extends NPC {
 				} else if (gold == null || gold.quantity() < 15) {
 					tell( Messages.get(this, "gold_2") );
 				} else {
-					if (pick.isEquipped( Dungeon.hero )) {
-						pick.doUnequip( Dungeon.hero, false );
-					}
-					pick.detach( Dungeon.hero.belongings.backpack );
 					gold.detachAll( Dungeon.hero.belongings.backpack );
 					tell( Messages.get(this, "completed") );
 					
@@ -148,76 +142,47 @@ public class Blacksmith extends NPC {
 		GameScene.show( new WndQuest( this, text ) );
 	}
 	
-	public static String verify( Item item1, Item item2 ) {
+	public static String verify( Item item ) {
 		
-		if (item1 == item2 && (item1.quantity() == 1 && item2.quantity() == 1)) {
-			return Messages.get(Blacksmith.class, "same_item");
-		}
-
-		if (item1.getClass() != item2.getClass()) {
-			return Messages.get(Blacksmith.class, "diff_type");
-		}
-		
-		if (!item1.isIdentified() || !item2.isIdentified()) {
+		if (!item.isIdentified()) {
 			return Messages.get(Blacksmith.class, "un_ided");
 		}
 		
-		if (item1.cursed || item2.cursed) {
+		if (item.cursed) {
 			return Messages.get(Blacksmith.class, "cursed");
 		}
 		
-		if (item1.level() < 0 || item2.level() < 0) {
-			return Messages.get(Blacksmith.class, "degraded");
+		if (item.level() >= 2) {
+			return Messages.get(Blacksmith.class, "upgraded");
 		}
 		
-		if (!item1.isUpgradable() || !item2.isUpgradable()) {
+		if (!item.isUpgradable()) {
 			return Messages.get(Blacksmith.class, "cant_reforge");
 		}
 		
 		return null;
 	}
 	
-	public static void upgrade( Item item1, Item item2 ) {
+	public static void upgrade( Item item ) {
 		
-		Item first, second;
-		if (item2.level() > item1.level()) {
-			first = item2;
-			second = item1;
-		} else {
-			first = item1;
-			second = item2;
-		}
-
 		Sample.INSTANCE.play( Assets.SND_EVOKE );
 		ScrollOfUpgrade.upgrade( Dungeon.hero );
 		Item.evoke( Dungeon.hero );
 		
-		if (first.isEquipped( Dungeon.hero )) {
-			((EquipableItem)first).doUnequip( Dungeon.hero, true );
+		if (item.isEquipped( Dungeon.hero )) {
+			((EquipableItem)item).doUnequip( Dungeon.hero, true );
 		}
-		if (first instanceof MissileWeapon && first.quantity() > 1){
-			first = first.split(1);
+		if (item instanceof MissileWeapon && item.quantity() > 1){
+			item = item.split(1);
 		}
-		first.level(first.level()+1); //prevents on-upgrade effects like enchant/glyph removal
-		if (first instanceof MissileWeapon && !Dungeon.hero.belongings.contains(first)) {
-			if (!first.collect()){
-				Dungeon.level.drop( first, Dungeon.hero.pos );
+		item.level(2); //prevents on-upgrade effects like enchant/glyph removal
+		if (item instanceof MissileWeapon && !Dungeon.hero.belongings.contains(item)) {
+			if (!item.collect()){
+				Dungeon.level.drop( item, Dungeon.hero.pos );
 			}
 		}
 		Dungeon.hero.spendAndNext( 2f );
-		Badges.validateItemLevelAquired( first );
-		
-		if (second.isEquipped( Dungeon.hero )) {
-			((EquipableItem)second).doUnequip( Dungeon.hero, false );
-		}
-		second.detach( Dungeon.hero.belongings.backpack );
-		
-		if (second instanceof Armor){
-			BrokenSeal seal = ((Armor) second).checkSeal();
-			if (seal != null){
-				Dungeon.level.drop( seal, Dungeon.hero.pos );
-			}
-		}
+		Badges.validateItemLevelAquired( item );
 		
 		Quest.reforged = true;
 		
@@ -297,7 +262,7 @@ public class Blacksmith extends NPC {
 		}
 		
 		public static ArrayList<Room> spawn( ArrayList<Room> rooms ) {
-			if (!spawned && Dungeon.depth > 11 && Random.Int( 15 - Dungeon.depth ) == 0) {
+			if (!spawned && Dungeon.depth >= 10 && Random.Int( 12 - Dungeon.depth ) == 0) {
 				
 				rooms.add(new BlacksmithRoom());
 				spawned = true;

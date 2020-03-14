@@ -21,16 +21,32 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class MailArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_MAIL;
+		
+		EVA = 1.2f; //20% boost to evasion
 	}
 	
 	public MailArmor() {
 		super( 2 );
 	}
-
+	
+	@Override
+	public int DRMax(int lvl) {
+		return Math.round(0.8f * (tier * 2)) +  //3.2 base, down from 4
+			   Math.round(0.8f * (tier * lvl)); //+1.6 per level, down from +2
+	}
+	
+	@Override
+	public boolean doEquip( Hero hero ) {
+		Statistics.armorEquipped = true;
+		
+		return super.doEquip(hero);
+	}
 }

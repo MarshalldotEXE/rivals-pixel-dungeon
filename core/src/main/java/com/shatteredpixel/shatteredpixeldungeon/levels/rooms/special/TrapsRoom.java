@@ -74,7 +74,7 @@ public class TrapsRoom extends SpecialRoom {
 				trapClass = null;
 				break;
 			default:
-				trapClass = Random.oneOf(levelTraps[Dungeon.depth/5]);
+				trapClass = Random.oneOf(levelTraps[ Math.min(Dungeon.depth / 4, 4) ]);
 				break;
 		}
 
@@ -147,26 +147,14 @@ public class TrapsRoom extends SpecialRoom {
 		//1 floor set higher in probability, never cursed
 		do {
 			if (Random.Int(2) == 0) {
-				prize = Generator.randomWeapon((Dungeon.depth / 5) + 1);
+				prize = Generator.randomWeapon((Dungeon.depth / 4) + 1);
 			} else {
-				prize = Generator.randomArmor((Dungeon.depth / 5) + 1);
+				prize = Generator.randomArmor((Dungeon.depth / 4) + 1);
 			}
-		} while (prize.cursed || Challenges.isItemBlocked(prize));
+		} while (prize.cursed);
 		prize.cursedKnown = true;
 
-		//33/33/33% chance to be +0/+1/+2
-		switch(Random.Int(3))
-		{
-			case 0:
-				prize.level(0);
-				break;
-			case 1:
-				prize.level(1);
-				break;
-			case 2:
-				prize.level(2);
-				break;
-		}
+		prize.level( Random.chances( Generator.floorSetUpgradeProbs[ Math.min((Dungeon.depth / 4) + 1, 4) ]));
 		
 		return prize;
 	}
@@ -174,14 +162,33 @@ public class TrapsRoom extends SpecialRoom {
 	@SuppressWarnings("unchecked")
 	private static Class<?extends Trap>[][] levelTraps = new Class[][]{
 			//sewers
-			{GrippingTrap.class, TeleportationTrap.class, OozeTrap.class, WornDartTrap.class, BurningTrap.class, ChillingTrap.class, ShockingTrap.class, FlockTrap.class},
+			{
+				GrippingTrap.class, AlarmTrap.class, TeleportationTrap.class, OozeTrap.class, FlockTrap.class,
+				WornDartTrap.class,
+				BurningTrap.class, ChillingTrap.class, ShockingTrap.class, ToxicTrap.class
+			},
 			//prison
-			{GrippingTrap.class, AlarmTrap.class, ExplosiveTrap.class, PoisonDartTrap.class, BurningTrap.class, ChillingTrap.class, ShockingTrap.class, ToxicTrap.class},
+			{
+				GrippingTrap.class, AlarmTrap.class, TeleportationTrap.class, OozeTrap.class,
+				PoisonDartTrap.class,
+				BurningTrap.class, ChillingTrap.class, ShockingTrap.class, ToxicTrap.class
+			},
 			//caves
-			{FlashingTrap.class, WarpingTrap.class, RockfallTrap.class, PoisonDartTrap.class, BlazingTrap.class, FrostTrap.class, StormTrap.class, VenomTrap.class},
+			{
+				FlashingTrap.class, AlarmTrap.class, WarpingTrap.class, ExplosiveTrap.class, RockfallTrap.class,
+				PoisonDartTrap.class,
+				BlazingTrap.class, FrostTrap.class, StormTrap.class, VenomTrap.class
+			},
 			//city
-			{FlashingTrap.class, GuardianTrap.class, ExplosiveTrap.class, DisintegrationTrap.class, BlazingTrap.class, FrostTrap.class, StormTrap.class, CorrosionTrap.class},
+			{
+				FlashingTrap.class, AlarmTrap.class, WarpingTrap.class, ExplosiveTrap.class, RockfallTrap.class,
+				DisintegrationTrap.class,
+				BlazingTrap.class, FrostTrap.class, StormTrap.class, VenomTrap.class, CorrosionTrap.class
+			},
 			//halls, muahahahaha
-			{GrimTrap.class, DistortionTrap.class}
+			{
+				DistortionTrap.class,
+				GrimTrap.class
+			}
 	};
 }

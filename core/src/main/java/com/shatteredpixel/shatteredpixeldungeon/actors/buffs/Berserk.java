@@ -152,7 +152,7 @@ public class Berserk extends Buff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.BERSERK;
+		return BuffIndicator.RAGE;
 	}
 	
 	@Override

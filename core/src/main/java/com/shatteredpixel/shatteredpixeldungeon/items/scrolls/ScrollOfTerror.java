@@ -45,7 +45,7 @@ public class ScrollOfTerror extends Scroll {
 		
 		new Flare( 5, 32 ).color( 0xFF0000, true ).show( curUser.sprite, 2f );
 		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		int count = 0;
 		Mob affected = null;
@@ -87,10 +87,5 @@ public class ScrollOfTerror extends Scroll {
 				}
 			}
 		}
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
 	}
 }

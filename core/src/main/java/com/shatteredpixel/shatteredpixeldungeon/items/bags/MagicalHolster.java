@@ -75,7 +75,7 @@ public class MagicalHolster extends Bag {
 	
 	@Override
 	public int price() {
-		return 60;
+		return 40;
 	}
 
 }

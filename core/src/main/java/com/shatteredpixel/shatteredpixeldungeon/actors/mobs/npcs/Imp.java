@@ -96,7 +96,7 @@ public class Imp extends NPC {
 		if (Quest.given) {
 			
 			DwarfToken tokens = Dungeon.hero.belongings.getItem( DwarfToken.class );
-			if (tokens != null && (tokens.quantity() >= 8 || (!Quest.alternative && tokens.quantity() >= 6))) {
+			if (tokens != null && (tokens.quantity() >= 4 || (!Quest.alternative && tokens.quantity() >= 3))) {
 				GameScene.show( new WndImp( this, tokens ) );
 			} else {
 				tell( Quest.alternative ?
@@ -183,7 +183,7 @@ public class Imp extends NPC {
 		}
 		
 		public static void spawn( CityLevel level ) {
-			if (!spawned && Dungeon.depth > 16 && Random.Int( 20 - Dungeon.depth ) == 0) {
+			if (!spawned && Dungeon.depth >= 13 && Random.Int( 15 - Dungeon.depth ) == 0) {
 				
 				Imp npc = new Imp();
 				do {

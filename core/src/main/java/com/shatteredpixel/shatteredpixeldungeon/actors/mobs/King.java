@@ -155,8 +155,6 @@ public class King extends Mob {
 		
 		super.die( cause );
 		
-		Badges.validateBossSlain();
-		
 		yell( Messages.get(this, "defeated", Dungeon.hero.givenName()) );
 	}
 

@@ -32,9 +32,4 @@ public class MetalShard extends Material {
 	{
 		image = ItemSpriteSheet.SHARD;
 	}
-
-	@Override
-	public int price() {
-		return quantity * 60;
-	}
 }

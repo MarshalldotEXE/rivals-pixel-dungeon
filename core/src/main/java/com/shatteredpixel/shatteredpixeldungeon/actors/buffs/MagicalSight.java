@@ -40,7 +40,7 @@ public class MagicalSight extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.MIND_VISION;
+		return BuffIndicator.VISION;
 	}
 	
 	@Override

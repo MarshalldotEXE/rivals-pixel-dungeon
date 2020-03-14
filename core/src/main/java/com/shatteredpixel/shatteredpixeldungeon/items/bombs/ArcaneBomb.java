@@ -22,12 +22,17 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.bombs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.GooWarn;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SacrificialParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfConfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
@@ -69,7 +74,7 @@ public class ArcaneBomb extends Bomb {
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				if (Dungeon.level.heroFOV[i]) {
-					CellEmitter.get(i).burst(ElmoParticle.FACTORY, 10);
+					CellEmitter.get(i).burst(SacrificialParticle.FACTORY, 10);
 				}
 				Char ch = Actor.findChar(i);
 				if (ch != null){
@@ -91,7 +96,54 @@ public class ArcaneBomb extends Bomb {
 	
 	@Override
 	public int price() {
-		//prices of ingredients
-		return quantity * (20 + 50);
+		return 25 * quantity;
+	}
+	
+	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe {
+		
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			boolean bomb = false;
+			boolean main = false;
+			boolean material = false;
+			
+			for (Item ingredient : ingredients){
+				if (ingredient.quantity() > 0) {
+					if (ingredient.getClass().equals(Bomb.class)) {
+						bomb = true;
+					} else if (ingredient instanceof ScrollOfRage
+							|| ingredient instanceof ScrollOfConfusion) {
+						main = true;
+					} else if (ingredient instanceof GooBlob) {
+						material = true;
+					}
+				}
+			}
+			
+			return bomb && main && material;
+		}
+		
+		@Override
+		public int cost(ArrayList<Item> ingredients) {
+			return 8;
+		}
+		
+		@Override
+		public Item brew(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+			
+			for (Item ingredient : ingredients){
+				ingredient.quantity(ingredient.quantity() - 1);
+			}
+			
+			Statistics.itemsCrafted++;
+			
+			return sampleOutput(null);
+		}
+		
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			return new ArcaneBomb();
+		}
 	}
 }

@@ -28,9 +28,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.rivals.Rival;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.ChargrilledMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
@@ -79,14 +81,17 @@ public class Burning extends Buff implements Hero.Doom {
 	@Override
 	public boolean act() {
 		
+		Hero hero;
+		Rival rival;
+		
 		if (target.isAlive() && !target.isImmune(getClass())) {
 			
-			int damage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
+			int damage = Random.NormalIntRange( 1, 2 + Dungeon.depth/4 );
 			Buff.detach( target, Chill.class);
 
 			if (target instanceof Hero) {
 				
-				Hero hero = (Hero)target;
+				hero = (Hero)target;
 
 				hero.damage( damage, this );
 				burnIncrement++;
@@ -136,6 +141,19 @@ public class Burning extends Buff implements Hero.Doom {
 
 			}
 
+		} else if (target.isAlive()){
+			
+			if (target instanceof Hero) {
+				hero = (Hero)target;
+				if (hero.belongings.armor != null
+				&& hero.belongings.armor.hasGlyph(Brimstone.class, hero))
+					Buff.affect(hero, Brimstone.MagmaArmor.class).set( (int)(hero.belongings.armor.level() * 1.3 + 2) );
+			} else if (target instanceof Rival) {
+				rival = (Rival)target;
+				if (rival.armor.hasGlyph(Brimstone.class, rival))
+					Buff.affect(rival, Brimstone.MagmaArmor.class).set( (int)(rival.armor.level() * 1.3 + 2) );
+			}
+			
 		} else {
 
 			detach();
@@ -167,7 +185,7 @@ public class Burning extends Buff implements Hero.Doom {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.FIRE;
+		return BuffIndicator.BURN;
 	}
 
 	@Override

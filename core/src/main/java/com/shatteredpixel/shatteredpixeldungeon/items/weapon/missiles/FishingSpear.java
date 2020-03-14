@@ -32,6 +32,7 @@ public class FishingSpear extends MissileWeapon {
 		image = ItemSpriteSheet.FISHING_SPEAR;
 		
 		tier = 1;
+		baseUses = 6;
 	}
 
 }

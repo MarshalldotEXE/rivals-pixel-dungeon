@@ -101,14 +101,6 @@ public class Piranha extends Mob {
 	}
 	
 	@Override
-	public void die( Object cause ) {
-		super.die( cause );
-		
-		Statistics.piranhasKilled++;
-		Badges.validatePiranhasKilled();
-	}
-	
-	@Override
 	public boolean reset() {
 		return true;
 	}

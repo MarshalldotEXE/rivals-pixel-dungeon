@@ -33,12 +33,12 @@ public class Stamina extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.MOMENTUM;
+		return BuffIndicator.HASTE;
 	}
 	
 	@Override
 	public void tintIcon(Image icon) {
-		icon.tint(1, 1, 0, 0.5f);
+		icon.hardlight(0f, 1f, 0f);
 		if (cooldown() < 5f) greyIcon(icon, 5f, cooldown());
 	}
 	

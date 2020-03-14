@@ -157,8 +157,6 @@ public class Tengu extends Mob {
 		GameScene.bossSlain();
 		super.die( cause );
 		
-		Badges.validateBossSlain();
-		
 		yell( Messages.get(this, "defeated") );
 	}
 

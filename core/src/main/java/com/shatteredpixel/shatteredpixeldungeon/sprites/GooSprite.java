@@ -66,7 +66,7 @@ public class GooSprite extends MobSprite {
 
 		spray = centerEmitter();
 		spray.autoKill = false;
-		spray.pour( GooParticle.FACTORY, 0.04f );
+		spray.pour( GooSprite.GooParticle.FACTORY, 0.04f );
 		spray.on = false;
 	}
 
@@ -99,6 +99,19 @@ public class GooSprite extends MobSprite {
 		spray.visible = visible;
 	}
 
+	@Override
+	public void onComplete( Animation anim ) {
+		super.onComplete(anim);
+
+		if (anim == pumpAttack) {
+
+			idle();
+			ch.onAttackComplete();
+		} else if (anim == die) {
+			spray.killAndErase();
+		}
+	}
+	
 	public static class GooParticle extends PixelParticle.Shrinking {
 
 		public static final Emitter.Factory FACTORY = new Factory() {
@@ -137,16 +150,4 @@ public class GooSprite extends MobSprite {
 		}
 	}
 
-	@Override
-	public void onComplete( Animation anim ) {
-		super.onComplete(anim);
-
-		if (anim == pumpAttack) {
-
-			idle();
-			ch.onAttackComplete();
-		} else if (anim == die) {
-			spray.killAndErase();
-		}
-	}
 }

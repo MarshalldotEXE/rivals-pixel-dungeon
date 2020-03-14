@@ -22,7 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SacrificialParticle;
 import com.watabou.noosa.TextureFilm;
 
 public class GolemSprite extends MobSprite {
@@ -57,7 +57,7 @@ public class GolemSprite extends MobSprite {
 	@Override
 	public void onComplete( Animation anim ) {
 		if (anim == die) {
-			emitter().burst( ElmoParticle.FACTORY, 4 );
+			emitter().burst( SacrificialParticle.FACTORY, 4 );
 		}
 		super.onComplete( anim );
 	}

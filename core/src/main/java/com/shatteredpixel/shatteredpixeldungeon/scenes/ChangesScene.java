@@ -32,12 +32,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.ChangeInfo;
 import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_1_X_Changes;
 import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_2_X_Changes;
-import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_3_X_Changes;
-import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_4_X_Changes;
-import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_5_X_Changes;
-import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_6_X_Changes;
-import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.v0_7_X_Changes;
-import com.shatteredpixel.shatteredpixeldungeon.ui.changelist.Rivalsv0_1_X_Changes;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.RenderedText;
@@ -82,17 +76,9 @@ public class ChangesScene extends PixelScene {
 		
 		switch (changesSelected){
 			case 0: default:
-				Rivalsv0_1_X_Changes.addAllChanges(changeInfos);
+				v0_2_X_Changes.addAllChanges(changeInfos);
 				break;
 			case 1:
-				v0_7_X_Changes.addAllChanges(changeInfos);
-				v0_6_X_Changes.addAllChanges(changeInfos);
-				break;
-			case 2:
-				v0_5_X_Changes.addAllChanges(changeInfos);
-				v0_4_X_Changes.addAllChanges(changeInfos);
-				v0_3_X_Changes.addAllChanges(changeInfos);
-				v0_2_X_Changes.addAllChanges(changeInfos);
 				v0_1_X_Changes.addAllChanges(changeInfos);
 				break;
 		}
@@ -149,7 +135,7 @@ public class ChangesScene extends PixelScene {
 				panel.innerHeight() + 2);
 		list.scrollTo(0, 0);
 		
-		RedButton btn0_7 = new RedButton("Rivals"){
+		RedButton btn0_2 = new RedButton("v0.2.X"){
 			@Override
 			protected void onClick() {
 				super.onClick();
@@ -159,11 +145,11 @@ public class ChangesScene extends PixelScene {
 				}
 			}
 		};
-		if (changesSelected == 0) btn0_7.textColor(Window.TITLE_COLOR);
-		btn0_7.setRect(list.left()-3, list.bottom()+5, 45, 14);
-		add(btn0_7);
+		if (changesSelected == 0) btn0_2.textColor(Window.TITLE_COLOR);
+		btn0_2.setRect(list.left()-3, list.bottom()+5, 69, 14);
+		add(btn0_2);
 		
-		RedButton btn0_6 = new RedButton("v0.7-v0.6"){
+		RedButton btn0_1 = new RedButton("v0.1.X"){
 			@Override
 			protected void onClick() {
 				super.onClick();
@@ -173,23 +159,9 @@ public class ChangesScene extends PixelScene {
 				}
 			}
 		};
-		if (changesSelected == 1) btn0_6.textColor(Window.TITLE_COLOR);
-		btn0_6.setRect(btn0_7.right() + 2, btn0_7.top(), 45, 14);
-		add(btn0_6);
-		
-		RedButton btnOld = new RedButton("v0.5-v0.1"){
-			@Override
-			protected void onClick() {
-				super.onClick();
-				if (changesSelected != 2) {
-					changesSelected = 2;
-					ShatteredPixelDungeon.seamlessResetScene();
-				}
-			}
-		};
-		if (changesSelected == 2) btnOld.textColor(Window.TITLE_COLOR);
-		btnOld.setRect(btn0_6.right() + 2, btn0_7.top(), 45, 14);
-		add(btnOld);
+		if (changesSelected == 1) btn0_1.textColor(Window.TITLE_COLOR);
+		btn0_1.setRect(btn0_2.right() + 2, btn0_2.top(), 69, 14);
+		add(btn0_1);
 
 		Archs archs = new Archs();
 		archs.setSize( Camera.main.width, Camera.main.height );

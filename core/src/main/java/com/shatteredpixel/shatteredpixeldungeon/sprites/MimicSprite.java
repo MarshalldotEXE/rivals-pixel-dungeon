@@ -50,6 +50,6 @@ public class MimicSprite extends MobSprite {
 	
 	@Override
 	public int blood() {
-		return 0xFFcb9700;
+		return 0xFFb57d4f;
 	}
 }

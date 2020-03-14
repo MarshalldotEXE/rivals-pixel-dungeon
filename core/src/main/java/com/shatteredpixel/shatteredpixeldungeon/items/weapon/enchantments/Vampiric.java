@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -31,26 +34,28 @@ import com.watabou.utils.Random;
 
 public class Vampiric extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
+	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660033 );
 	
 	@Override
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
 		
-		//chance to heal scales from 5%-30% based on missing HP
-		float missingPercent = (attacker.HT - attacker.HP) / (float)attacker.HT;
-		float healChance = 0.05f + .25f*missingPercent;
+		int lvl = Math.max( 0, weapon.level() );
 		
-		if (Random.Float() < healChance){
+		float chanceA = (lvl + 1) * LEVEL_SCALING;
+		float numberB = (attacker.HT - attacker.HP) / (float)attacker.HT;
+		
+		//A% chance to heal attacker
+		//B% of damage = heal amount
+		if (Random.Float() < chanceA){
 			
-			//heals for 50% of damage dealt
-			int healAmt = Math.round(damage * 0.5f);
-			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
+			int healAmount = Math.round(damage * numberB);
+			healAmount = Math.min( healAmount, attacker.HT - attacker.HP );
 			
-			if (healAmt > 0 && attacker.isAlive()) {
+			if (healAmount > 0 && attacker.isAlive()) {
 				
-				attacker.HP += healAmt;
+				attacker.HP += healAmount;
 				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmount ) );
 				
 			}
 		}

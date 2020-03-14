@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -34,18 +37,28 @@ public class Elastic extends Weapon.Enchantment {
 	
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
-		// lvl 0 - 20%
-		// lvl 1 - 33%
-		// lvl 2 - 43%
-		int level = Math.max( 0, weapon.level() );
 		
-		if (Random.Int( level + 5 ) >= 4) {
-			//trace a ballistica to our target (which will also extend past them
+		int lvl = Math.max( 0, weapon.level() );
+		
+		float chanceA = (lvl + damage) * ONE_PERCENT;
+		float chanceB = (lvl + 1) * LEVEL_SCALING;
+		
+		//A% chance to knockback defender 2 tiles
+		//B% chance to knockback 1 extra
+		if (Random.Float() < chanceA) {
+			//trace a ballistica to our target (which will also extend past them)
 			Ballistica trajectory = new Ballistica(attacker.pos, defender.pos, Ballistica.STOP_TARGET);
 			//trim it to just be the part that goes past them
 			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 			//knock them back along that ballistica
-			WandOfBlastWave.throwChar(defender, trajectory, 2);
+			
+			int knockback = 2;
+			if (Random.Float() < chanceB) {
+				knockback++;
+			}
+			
+			WandOfBlastWave.throwChar(defender, trajectory, knockback);
+			
 		}
 		
 		return damage;

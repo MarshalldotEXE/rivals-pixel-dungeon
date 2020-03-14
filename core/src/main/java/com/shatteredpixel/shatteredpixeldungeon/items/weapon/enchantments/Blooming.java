@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -37,23 +40,24 @@ import java.util.ArrayList;
 
 public class Blooming extends Weapon.Enchantment {
 	
-	private static ItemSprite.Glowing DARK_GREEN = new ItemSprite.Glowing( 0x008800 );
+	private static ItemSprite.Glowing DARK_GREEN = new ItemSprite.Glowing( 0x009900 );
 	
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 		
-		// lvl 0 - 33%
-		// lvl 1 - 50%
-		// lvl 2 - 60%
-		int level = Math.max( 0, weapon.level() );
+		int lvl = Math.max( 0, weapon.level() );
 		
-		if (Random.Int( level + 3 ) >= 2) {
+		float chanceA = (lvl + damage) * ONE_PERCENT;
+		float chanceB = (lvl + 1) * LEVEL_SCALING;
+		
+		//A% chance to spawn 2 grass
+		//B% chance to spawn 1 extra
+		if (Random.Float() < chanceA) {
 			
-			boolean secondPlant = level > Random.Int(10);
-			if (plantGrass(defender.pos)){
-				if (secondPlant) secondPlant = false;
-				else return damage;
-			}
+			boolean secondGrass = true;
+			boolean thirdGrass = Random.Float() < chanceB;
+			
+			plantGrass(defender.pos, lvl + 1);
 			
 			ArrayList<Integer> positions = new ArrayList<>();
 			for (int i : PathFinder.NEIGHBOURS8){
@@ -61,10 +65,10 @@ public class Blooming extends Weapon.Enchantment {
 			}
 			Random.shuffle( positions );
 			for (int i : positions){
-				if (plantGrass(defender.pos + i)){
-					if (secondPlant) secondPlant = false;
-					else return damage;
-				}
+				if (!thirdGrass && !secondGrass) return damage;
+				if (!thirdGrass && secondGrass) secondGrass = false;
+				if (thirdGrass) thirdGrass = false;
+				plantGrass(defender.pos + i, lvl + 1);
 			}
 			
 		}
@@ -72,16 +76,14 @@ public class Blooming extends Weapon.Enchantment {
 		return damage;
 	}
 	
-	private boolean plantGrass(int cell){
+	private void plantGrass(int cell, int particleAmount){
 		int c = Dungeon.level.map[cell];
 		if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
 				|| c == Terrain.EMBERS || c == Terrain.GRASS){
 			Level.set(cell, Terrain.HIGH_GRASS);
 			GameScene.updateMap(cell);
-			CellEmitter.get( cell ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
-			return true;
+			CellEmitter.get( cell ).burst( LeafParticle.LEVEL_SPECIFIC, particleAmount );
 		}
-		return false;
 	}
 	
 	@Override

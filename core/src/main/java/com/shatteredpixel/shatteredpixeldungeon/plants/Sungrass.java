@@ -121,12 +121,13 @@ public class Sungrass extends Plant {
 		
 		@Override
 		public int icon() {
-			return BuffIndicator.HERB_HEALING;
+			return BuffIndicator.HEALTH;
 		}
 		
 		@Override
 		public void tintIcon(Image icon) {
-			FlavourBuff.greyIcon(icon, target.HT/4f, level);
+			icon.hardlight(0f, 0.9f, 0f);
+			if (level < 5f) FlavourBuff.greyIcon(icon, target.HT/4f, level);
 		}
 		
 		@Override

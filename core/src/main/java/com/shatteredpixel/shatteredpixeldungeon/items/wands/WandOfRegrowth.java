@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Regrowth;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfPower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -70,7 +71,7 @@ public class WandOfRegrowth extends Wand {
 	private int totChrgUsed = 0;
 	
 	@Override
-	protected void onZap( Ballistica bolt ) {
+	public void onZap( Ballistica bolt ) {
 
 		//ignore tiles which can't have anything grow in them.
 		for (Iterator<Integer> i = affectedCells.iterator(); i.hasNext();) {
@@ -132,22 +133,28 @@ public class WandOfRegrowth extends Wand {
 		
 		totChrgUsed += chrgUsed;
 		
-		if (level() >= 9)                                                     image = ItemSpriteSheet.WAND_REGROWTH5;
-		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.2f) image = ItemSpriteSheet.WAND_REGROWTH5;
-		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.4f) image = ItemSpriteSheet.WAND_REGROWTH4;
-		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.6f) image = ItemSpriteSheet.WAND_REGROWTH3;
-		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.8f) image = ItemSpriteSheet.WAND_REGROWTH2;
-		else                                                                  image = ItemSpriteSheet.WAND_REGROWTH1;
+		if (( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) >= 9) //infinite
+			image = ItemSpriteSheet.WAND_REGROWTH5;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.2f) //20% used
+			image = ItemSpriteSheet.WAND_REGROWTH5;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.4f) //40% used
+			image = ItemSpriteSheet.WAND_REGROWTH4;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.6f) //60% used
+			image = ItemSpriteSheet.WAND_REGROWTH3;
+		else if ((double)totChrgUsed / chargeLimit(Dungeon.hero.lvl) <= 0.8f) //80% used
+			image = ItemSpriteSheet.WAND_REGROWTH2;
+		else //100% used
+			image = ItemSpriteSheet.WAND_REGROWTH1;
 		
 		updateQuickslot();
 	}
 	
 	private int chargeLimit( int heroLevel ){
-		if (level() >= 9){
+		if (( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ) >= 9){
 			return Integer.MAX_VALUE;
 		} else {
 			//infinite at +9
-			return Math.round(((4 + 2*level())*heroLevel) * (8f/9f + 1f/(9f-level())));
+			return Math.round(((4 + 2*( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ))*heroLevel) * (8f/9f + 1f/(9f-( level() + RingOfPower.levelDamageBonus(Dungeon.hero) ))));
 		}
 	}
 
@@ -206,7 +213,7 @@ public class WandOfRegrowth extends Wand {
 		new Blooming().proc(staff, attacker, defender, damage);
 	}
 
-	protected void fx( Ballistica bolt, Callback callback ) {
+	public void fx( Ballistica bolt, Char caster, Callback callback ) {
 
 		affectedCells = new HashSet<>();
 		visualCells = new HashSet<>();
@@ -239,16 +246,16 @@ public class WandOfRegrowth extends Wand {
 
 		for (int cell : visualCells){
 			//this way we only get the cells at the tip, much better performance.
-			((MagicMissile)curUser.sprite.parent.recycle( MagicMissile.class )).reset(
+			((MagicMissile)caster.sprite.parent.recycle( MagicMissile.class )).reset(
 					MagicMissile.FOLIAGE_CONE,
-					curUser.sprite,
+					caster.sprite,
 					cell,
 					null
 			);
 		}
-		MagicMissile.boltFromChar( curUser.sprite.parent,
+		MagicMissile.boltFromChar( caster.sprite.parent,
 				MagicMissile.FOLIAGE_CONE,
-				curUser.sprite,
+				caster.sprite,
 				bolt.path.get(dist/2),
 				callback );
 

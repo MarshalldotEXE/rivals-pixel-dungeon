@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFirebolt;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GolemSprite;
 import com.watabou.utils.Random;
 
@@ -53,7 +54,7 @@ public class Golem extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 27;
+		return 54;
 	}
 	
 	@Override
@@ -74,6 +75,7 @@ public class Golem extends Mob {
 	}
 	
 	{
+		resistances.add( WandOfFirebolt.class );
 		immunities.add( Amok.class );
 		immunities.add( Terror.class );
 		immunities.add( Sleep.class );

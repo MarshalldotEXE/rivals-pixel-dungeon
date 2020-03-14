@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
@@ -350,18 +349,13 @@ public class WndJournal extends WndTabbed {
 				}
 			} else {
 				//for first row
-				float buttonWidth = width()/3;
+				float buttonWidth = width()/6;
 				float y = 0;
 				float x = 0;
 				for (int i = 0; i < NUM_BUTTONS; i++) {
 					pageButtons[i].setRect(x, y, buttonWidth, ITEM_HEIGHT);
 					PixelScene.align(pageButtons[i]);
 					x += buttonWidth;
-					if (i == 2){
-						y += ITEM_HEIGHT;
-						x = 0;
-						buttonWidth = width()/3;
-					}
 				}
 			}
 			
@@ -719,13 +713,8 @@ public class WndJournal extends WndTabbed {
 			
 			public boolean onClick( float x, float y ) {
 				if (inside( x, y ) && seen) {
-					if (item instanceof ClassArmor){
-						GameScene.show(new WndTitledMessage(new Image(icon),
-								Messages.titleCase(item.trueName()), item.desc()));
-					} else {
-						GameScene.show(new WndTitledMessage(new Image(icon),
-								Messages.titleCase(item.trueName()), item.info()));
-					}
+					GameScene.show(new WndTitledMessage(new Image(icon),
+						Messages.titleCase(item.trueName()), item.info()));
 					return true;
 				} else {
 					return false;

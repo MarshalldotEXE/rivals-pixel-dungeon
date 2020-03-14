@@ -45,7 +45,7 @@ public class ScrollOfPsionicBlast extends ExoticScroll {
 		GameScene.flash( 0xFFFFFF );
 		
 		Sample.INSTANCE.play( Assets.SND_BLAST );
-		Invisibility.dispel();
+		curUser.dispel();
 		
 		int targets = 0;
 		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {

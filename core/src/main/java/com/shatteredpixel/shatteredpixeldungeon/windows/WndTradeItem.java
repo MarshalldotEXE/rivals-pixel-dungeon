@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
@@ -122,6 +123,7 @@ public class WndTradeItem extends Window {
 				@Override
 				protected void onClick() {
 					hide();
+					Statistics.itemsBought++;
 					buy( heap );
 				}
 			};
@@ -253,7 +255,7 @@ public class WndTradeItem extends Window {
 	}
 	
 	private int price( Item item ) {
-		int price = item.price() * 5 * (Dungeon.depth / 5 + 1);
+		int price = item.price() * 5 * (Dungeon.depth / 4 + 1);
 		return price;
 	}
 	

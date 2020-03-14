@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
  *
+ * Rivals Pixel Dungeon
+ * Copyright (C) 2019-2020 Marshall M.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,76 +24,30 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.PathFinder;
 
-public class RogueArmor extends ClassArmor {
-	
+public class RogueArmor extends Armor {
+
 	{
 		image = ItemSpriteSheet.ARMOR_ROGUE;
+		
+		//Increases stealth, see Armor.class
+		
+		bones = false; //Finding them in bones would be semi-frequent and disappointing.
+	}
+	
+	public RogueArmor() {
+		super( 1 );
+	}
+
+	@Override
+	public int DRMin(int lvl) {
+		return Math.round(0.5f * lvl); //+0.5 per level, down from +1
 	}
 	
 	@Override
-	public void doSpecial() {
-		GameScene.selectCell( teleporter );
+	public int DRMax(int lvl) {
+		return Math.round(0.5f * (tier * 2)) +  //1 base, down from 2
+			   Math.round(0.5f * (tier * lvl)); //+0.5 per level, down from +1
 	}
-	
-	protected static CellSelector.Listener teleporter = new  CellSelector.Listener() {
-		
-		@Override
-		public void onSelect( Integer target ) {
-			if (target != null) {
-				
-				PathFinder.buildDistanceMap(curUser.pos, Dungeon.level.passable, 8);
-				
-				if ( PathFinder.distance[target] == Integer.MAX_VALUE ||
-					!Dungeon.level.heroFOV[target] ||
-					!(Dungeon.level.passable[target] || Dungeon.level.avoid[target]) ||
-					Actor.findChar( target ) != null) {
-					
-					GLog.w( Messages.get(RogueArmor.class, "fov") );
-					return;
-				}
-
-				curUser.HP -= (curUser.HP / 3);
-				
-				for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
-					if (Dungeon.level.heroFOV[mob.pos] && mob.alignment != Char.Alignment.ALLY) {
-						Buff.prolong( mob, Blindness.class, 2 );
-						if (mob.state == mob.HUNTING) mob.state = mob.WANDERING;
-						mob.sprite.emitter().burst( Speck.factory( Speck.LIGHT ), 4 );
-					}
-				}
-				
-				ScrollOfTeleportation.appear( curUser, target );
-				CellEmitter.get( target ).burst( Speck.factory( Speck.WOOL ), 10 );
-				Sample.INSTANCE.play( Assets.SND_PUFF );
-				Dungeon.level.press( target, curUser );
-				Dungeon.observe();
-				GameScene.updateFog();
-				
-				curUser.spendAndNext( Actor.TICK );
-			}
-		}
-		
-		@Override
-		public String prompt() {
-			return Messages.get(RogueArmor.class, "prompt");
-		}
-	};
 }

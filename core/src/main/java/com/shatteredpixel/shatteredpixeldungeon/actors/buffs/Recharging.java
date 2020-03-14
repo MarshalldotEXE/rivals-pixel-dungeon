@@ -33,12 +33,13 @@ public class Recharging extends FlavourBuff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.RECHARGING;
+		return BuffIndicator.RECHARGE;
 	}
 	
 	@Override
 	public void tintIcon(Image icon) {
-		FlavourBuff.greyIcon(icon, 5f, cooldown());
+		icon.hardlight(1f, 1f, 0f);
+		if (cooldown() < 5f) greyIcon(icon, 5f, cooldown());
 	}
 	
 	@Override

@@ -30,8 +30,13 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Nova;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
@@ -47,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAffection;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
@@ -103,39 +109,24 @@ public enum HeroClass {
 	private static void initCommon( Hero hero ) {
 		Item i = new Food();
 		if (!Challenges.isItemBlocked(i)) i.collect();
-
-		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
-			new SmallRation().collect();
-		}
 		
 		new ScrollOfIdentify().identify();
 
 	}
 
-	public Badges.Badge masteryBadge() {
-		switch (this) {
-			case WARRIOR:
-				return Badges.Badge.MASTERY_WARRIOR;
-			case MAGE:
-				return Badges.Badge.MASTERY_MAGE;
-			case ROGUE:
-				return Badges.Badge.MASTERY_ROGUE;
-			case HUNTRESS:
-				return Badges.Badge.MASTERY_HUNTRESS;
-		}
-		return null;
-	}
-
 	private static void initWarrior( Hero hero ) {
 		(hero.belongings.weapon = new Shortsword()).identify();
+		
 		(hero.belongings.armor = new LeatherArmor()).identify();
+		
 		ThrowingClub stones = new ThrowingClub();
 		stones.quantity(3).collect();
-		Dungeon.quickslot.setSlot(0, stones);
 
 		if (hero.belongings.armor != null){
 			hero.belongings.armor.affixSeal(new BrokenSeal());
 		}
+		
+		Dungeon.quickslot.setSlot(0, stones);
 		
 		new VelvetPouch().collect();
 		Dungeon.LimitedDrops.VELVET_POUCH.drop();
@@ -146,13 +137,13 @@ public enum HeroClass {
 
 	private static void initMage( Hero hero ) {
 		MagesStaff staff;
-		
 		staff = new MagesStaff(new WandOfMagicMissile());
-
 		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);
+		
+		(hero.belongings.armor = new MageArmor()).identify();
+		
 		Dungeon.quickslot.setSlot(0, staff);
-		(hero.belongings.armor = new LeatherArmor()).identify();
 
 		new VelvetPouch().collect();
 		Dungeon.LimitedDrops.VELVET_POUCH.drop();
@@ -167,7 +158,8 @@ public enum HeroClass {
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.misc1 = cloak).identify();
 		hero.belongings.misc1.activate( hero );
-		(hero.belongings.armor = new ClothArmor()).identify();
+		
+		(hero.belongings.armor = new RogueArmor()).identify();
 
 		ThrowingKnife knives = new ThrowingKnife();
 		knives.quantity(3).collect();
@@ -183,11 +175,12 @@ public enum HeroClass {
 	}
 
 	private static void initHuntress( Hero hero ) {
-
 		(hero.belongings.weapon = new Gloves()).identify();
+		
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
-		(hero.belongings.armor = new ClothArmor()).identify();
+		
+		(hero.belongings.armor = new HuntressArmor()).identify();
 
 		Dungeon.quickslot.setSlot(0, bow);
 
@@ -264,11 +257,11 @@ public enum HeroClass {
 			case WARRIOR: default:
 				return true;
 			case MAGE:
-				return Badges.isUnlocked(Badges.Badge.UNLOCK_MAGE);
+				return true;
 			case ROGUE:
-				return Badges.isUnlocked(Badges.Badge.UNLOCK_ROGUE);
+				return true;
 			case HUNTRESS:
-				return Badges.isUnlocked(Badges.Badge.UNLOCK_HUNTRESS);
+				return true;
 		}
 	}
 	

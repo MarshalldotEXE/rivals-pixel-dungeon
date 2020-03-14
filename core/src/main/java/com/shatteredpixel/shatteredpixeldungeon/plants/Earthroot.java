@@ -127,7 +127,8 @@ public class Earthroot extends Plant {
 		
 		@Override
 		public void tintIcon(Image icon) {
-			FlavourBuff.greyIcon(icon, target.HT/4f, level);
+			icon.hardlight(1f, 0.4f, 0f);
+			if (level < 5f) FlavourBuff.greyIcon(icon, target.HT/4f, level);
 		}
 		
 		@Override

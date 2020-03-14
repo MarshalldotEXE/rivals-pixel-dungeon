@@ -50,7 +50,7 @@ public class BlobImmunity extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.IMMUNITY;
+		return BuffIndicator.PURITY;
 	}
 	
 	@Override
